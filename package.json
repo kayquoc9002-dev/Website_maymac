@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "start": "json-server --watch ./database/database.json",
+    "start": "json-server --watch ./public/database/database.json",
     "lint": "eslint .",
     "preview": "vite preview"
   },

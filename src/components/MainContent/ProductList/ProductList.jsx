@@ -2,6 +2,7 @@ import { X } from "lucide-react";
 import Product from "./Product/Product";
 import { useEffect, useState, useRef } from "react";
 import TableProduct from "./TableProduct/TableProduct";
+import data from "../../../../public/database/database.json"
 
 function ProductList() {
   const [data, setData] = useState([]);
@@ -9,13 +10,14 @@ function ProductList() {
   // const [index, setIndex] = useState(null);
   const indexRef = useRef(0);
 
+
   // console.log(indexRef.current);
   let i = indexRef.current - 1;
   // console.log(data[i]);
   // console.log(data[indexRef-1]);
   useEffect(() => {
     async function fetchApi() {
-      const res = await fetch("http://localhost:3000/vaiLua");
+      const res = await fetch(`http://localhost:3000/vaiLua`);
       const json = await res.json();
       setData(json);
     }
