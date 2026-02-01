@@ -1,7 +1,7 @@
 {
   "vaiLua": [
     {
-      "id": 1,
+      "id": "1",
       "maSanPham": "AT10001",
       "ten": "Lụa Cotton",
       "hinhAnh": "https://file.hstatic.net/1000284478/file/vai-lua-cotton_bc0ee16ab6e143379b844a25f5900bee.jpg",
@@ -9,23 +9,47 @@
         {
           "kho": "1.2m",
           "bienThe": [
-            { "mau": "Trắng kem", "gia": 160000, "soLuongCon": 50 },
-            { "mau": "Xanh pastel", "gia": 165000, "soLuongCon": 40 },
-            { "mau": "Vàng", "gia": 165000, "soLuongCon": 40 }
+            {
+              "mau": "Trắng kem",
+              "gia": 160000,
+              "soLuongCon": 50
+            },
+            {
+              "mau": "Xanh pastel",
+              "gia": 165000,
+              "soLuongCon": 40
+            },
+            {
+              "mau": "Vàng",
+              "gia": 165000,
+              "soLuongCon": 40
+            }
           ]
         },
         {
           "kho": "1.5m",
           "bienThe": [
-            { "mau": "Hồng nhạt", "gia": 180000, "soLuongCon": 30 },
-            { "mau": "Be", "gia": 175000, "soLuongCon": 25 },
-            { "mau": "Xanh pastel", "gia": 165000, "soLuongCon": 40 }
+            {
+              "mau": "Hồng nhạt",
+              "gia": 180000,
+              "soLuongCon": 30
+            },
+            {
+              "mau": "Be",
+              "gia": 175000,
+              "soLuongCon": 25
+            },
+            {
+              "mau": "Xanh pastel",
+              "gia": 165000,
+              "soLuongCon": 40
+            }
           ]
         }
       ]
     },
     {
-      "id": 2,
+      "id": "2",
       "maSanPham": "AT10002",
       "ten": "Lụa Tơ Tằm",
       "hinhAnh": "https://file.hstatic.net/1000284478/file/vai-lua-to-tam_42cb15f754ff46d78253f8760afef80a.png",
@@ -33,23 +57,47 @@
         {
           "kho": "1.0m",
           "bienThe": [
-            { "mau": "Hồng phấn", "gia": 300000, "soLuongCon": 20 },
-            { "mau": "Đỏ đô", "gia": 320000, "soLuongCon": 15 },
-            { "mau": "Vàng nhạt", "gia": 340000, "soLuongCon": 18 }
+            {
+              "mau": "Hồng phấn",
+              "gia": 300000,
+              "soLuongCon": 20
+            },
+            {
+              "mau": "Đỏ đô",
+              "gia": 320000,
+              "soLuongCon": 15
+            },
+            {
+              "mau": "Vàng nhạt",
+              "gia": 340000,
+              "soLuongCon": 18
+            }
           ]
         },
         {
           "kho": "1.2m",
           "bienThe": [
-            { "mau": "Vàng nhạt", "gia": 340000, "soLuongCon": 18 },
-            { "mau": "Xanh ngọc", "gia": 350000, "soLuongCon": 12 },
-            { "mau": "Hồng phấn", "gia": 300000, "soLuongCon": 20 }
+            {
+              "mau": "Vàng nhạt",
+              "gia": 340000,
+              "soLuongCon": 18
+            },
+            {
+              "mau": "Xanh ngọc",
+              "gia": 350000,
+              "soLuongCon": 12
+            },
+            {
+              "mau": "Hồng phấn",
+              "gia": 300000,
+              "soLuongCon": 20
+            }
           ]
         }
       ]
     },
     {
-      "id": 3,
+      "id": "3",
       "maSanPham": "AT10003",
       "ten": "Lụa Satin",
       "hinhAnh": "https://file.hstatic.net/1000284478/file/vai-lua-satin_cfbf9ff2799441659143c512627aac90.png",
@@ -57,25 +105,57 @@
         {
           "kho": "1.4m",
           "bienThe": [
-            { "mau": "Xanh ngọc", "gia": 230000, "soLuongCon": 40 },
-            { "mau": "Tím pastel", "gia": 240000, "soLuongCon": 35 },
-            { "mau": "Đen", "gia": 260000, "soLuongCon": 28 },
-            { "mau": "Trắng", "gia": 255000, "soLuongCon": 22 }
+            {
+              "mau": "Xanh ngọc",
+              "gia": 230000,
+              "soLuongCon": 40
+            },
+            {
+              "mau": "Tím pastel",
+              "gia": 240000,
+              "soLuongCon": 35
+            },
+            {
+              "mau": "Đen",
+              "gia": 260000,
+              "soLuongCon": 28
+            },
+            {
+              "mau": "Trắng",
+              "gia": 255000,
+              "soLuongCon": 22
+            }
           ]
         },
         {
           "kho": "1.6m",
           "bienThe": [
-            { "mau": "Đen", "gia": 260000, "soLuongCon": 28 },
-            { "mau": "Trắng", "gia": 255000, "soLuongCon": 22 },
-            { "mau": "Xanh ngọc", "gia": 230000, "soLuongCon": 40 },
-            { "mau": "Tím pastel", "gia": 240000, "soLuongCon": 35 }
+            {
+              "mau": "Đen",
+              "gia": 260000,
+              "soLuongCon": 28
+            },
+            {
+              "mau": "Trắng",
+              "gia": 255000,
+              "soLuongCon": 22
+            },
+            {
+              "mau": "Xanh ngọc",
+              "gia": 230000,
+              "soLuongCon": 40
+            },
+            {
+              "mau": "Tím pastel",
+              "gia": 240000,
+              "soLuongCon": 35
+            }
           ]
         }
       ]
     },
     {
-      "id": 4,
+      "id": "4",
       "maSanPham": "AT10004",
       "ten": "Lụa Đũi",
       "hinhAnh": "https://file.hstatic.net/1000284478/file/vai-lua-dui_0dd22255b5fc4c309ab5664bca31da76.jpg",
@@ -83,25 +163,57 @@
         {
           "kho": "1.3m",
           "bienThe": [
-            { "mau": "Nâu đất", "gia": 190000, "soLuongCon": 50 },
-            { "mau": "Xanh rêu", "gia": 200000, "soLuongCon": 45 },
-            { "mau": "Trắng", "gia": 210000, "soLuongCon": 30 },
-            { "mau": "Be nhạt", "gia": 205000, "soLuongCon": 25 }
+            {
+              "mau": "Nâu đất",
+              "gia": 190000,
+              "soLuongCon": 50
+            },
+            {
+              "mau": "Xanh rêu",
+              "gia": 200000,
+              "soLuongCon": 45
+            },
+            {
+              "mau": "Trắng",
+              "gia": 210000,
+              "soLuongCon": 30
+            },
+            {
+              "mau": "Be nhạt",
+              "gia": 205000,
+              "soLuongCon": 25
+            }
           ]
         },
         {
           "kho": "1.5m",
           "bienThe": [
-            { "mau": "Trắng", "gia": 210000, "soLuongCon": 30 },
-            { "mau": "Be nhạt", "gia": 205000, "soLuongCon": 25 },
-            { "mau": "Nâu đất", "gia": 190000, "soLuongCon": 50 },
-            { "mau": "Xanh rêu", "gia": 200000, "soLuongCon": 45 }
+            {
+              "mau": "Trắng",
+              "gia": 210000,
+              "soLuongCon": 30
+            },
+            {
+              "mau": "Be nhạt",
+              "gia": 205000,
+              "soLuongCon": 25
+            },
+            {
+              "mau": "Nâu đất",
+              "gia": 190000,
+              "soLuongCon": 50
+            },
+            {
+              "mau": "Xanh rêu",
+              "gia": 200000,
+              "soLuongCon": 45
+            }
           ]
         }
       ]
     },
     {
-      "id": 5,
+      "id": "5",
       "maSanPham": "AT10001",
       "ten": "Lụa Cotton",
       "hinhAnh": "https://file.hstatic.net/1000284478/file/vai-lua-cotton_bc0ee16ab6e143379b844a25f5900bee.jpg",
@@ -109,23 +221,47 @@
         {
           "kho": "1.2m",
           "bienThe": [
-            { "mau": "Trắng kem", "gia": 160000, "soLuongCon": 50 },
-            { "mau": "Xanh pastel", "gia": 165000, "soLuongCon": 40 },
-            { "mau": "Vàng", "gia": 165000, "soLuongCon": 40 }
+            {
+              "mau": "Trắng kem",
+              "gia": 160000,
+              "soLuongCon": 50
+            },
+            {
+              "mau": "Xanh pastel",
+              "gia": 165000,
+              "soLuongCon": 40
+            },
+            {
+              "mau": "Vàng",
+              "gia": 165000,
+              "soLuongCon": 40
+            }
           ]
         },
         {
           "kho": "1.5m",
           "bienThe": [
-            { "mau": "Hồng nhạt", "gia": 180000, "soLuongCon": 30 },
-            { "mau": "Be", "gia": 175000, "soLuongCon": 25 },
-            { "mau": "Xanh pastel", "gia": 165000, "soLuongCon": 40 }
+            {
+              "mau": "Hồng nhạt",
+              "gia": 180000,
+              "soLuongCon": 30
+            },
+            {
+              "mau": "Be",
+              "gia": 175000,
+              "soLuongCon": 25
+            },
+            {
+              "mau": "Xanh pastel",
+              "gia": 165000,
+              "soLuongCon": 40
+            }
           ]
         }
       ]
     },
     {
-      "id": 6,
+      "id": "6",
       "maSanPham": "AT10001",
       "ten": "Lụa Cotton",
       "hinhAnh": "https://file.hstatic.net/1000284478/file/vai-lua-cotton_bc0ee16ab6e143379b844a25f5900bee.jpg",
@@ -133,23 +269,47 @@
         {
           "kho": "1.2m",
           "bienThe": [
-            { "mau": "Trắng kem", "gia": 160000, "soLuongCon": 50 },
-            { "mau": "Xanh pastel", "gia": 165000, "soLuongCon": 40 },
-            { "mau": "Vàng", "gia": 165000, "soLuongCon": 40 }
+            {
+              "mau": "Trắng kem",
+              "gia": 160000,
+              "soLuongCon": 50
+            },
+            {
+              "mau": "Xanh pastel",
+              "gia": 165000,
+              "soLuongCon": 40
+            },
+            {
+              "mau": "Vàng",
+              "gia": 165000,
+              "soLuongCon": 40
+            }
           ]
         },
         {
           "kho": "1.5m",
           "bienThe": [
-            { "mau": "Hồng nhạt", "gia": 180000, "soLuongCon": 30 },
-            { "mau": "Be", "gia": 175000, "soLuongCon": 25 },
-            { "mau": "Xanh pastel", "gia": 165000, "soLuongCon": 40 }
+            {
+              "mau": "Hồng nhạt",
+              "gia": 180000,
+              "soLuongCon": 30
+            },
+            {
+              "mau": "Be",
+              "gia": 175000,
+              "soLuongCon": 25
+            },
+            {
+              "mau": "Xanh pastel",
+              "gia": 165000,
+              "soLuongCon": 40
+            }
           ]
         }
       ]
     },
     {
-      "id": 7,
+      "id": "7",
       "maSanPham": "AT10001",
       "ten": "Lụa Cotton",
       "hinhAnh": "https://file.hstatic.net/1000284478/file/vai-lua-cotton_bc0ee16ab6e143379b844a25f5900bee.jpg",
@@ -157,23 +317,47 @@
         {
           "kho": "1.2m",
           "bienThe": [
-            { "mau": "Trắng kem", "gia": 160000, "soLuongCon": 50 },
-            { "mau": "Xanh pastel", "gia": 165000, "soLuongCon": 40 },
-            { "mau": "Vàng", "gia": 165000, "soLuongCon": 40 }
+            {
+              "mau": "Trắng kem",
+              "gia": 160000,
+              "soLuongCon": 50
+            },
+            {
+              "mau": "Xanh pastel",
+              "gia": 165000,
+              "soLuongCon": 40
+            },
+            {
+              "mau": "Vàng",
+              "gia": 165000,
+              "soLuongCon": 40
+            }
           ]
         },
         {
           "kho": "1.5m",
           "bienThe": [
-            { "mau": "Hồng nhạt", "gia": 180000, "soLuongCon": 30 },
-            { "mau": "Be", "gia": 175000, "soLuongCon": 25 },
-            { "mau": "Xanh pastel", "gia": 165000, "soLuongCon": 40 }
+            {
+              "mau": "Hồng nhạt",
+              "gia": 180000,
+              "soLuongCon": 30
+            },
+            {
+              "mau": "Be",
+              "gia": 175000,
+              "soLuongCon": 25
+            },
+            {
+              "mau": "Xanh pastel",
+              "gia": 165000,
+              "soLuongCon": 40
+            }
           ]
         }
       ]
     },
     {
-      "id": 8,
+      "id": "8",
       "maSanPham": "AT10001",
       "ten": "Lụa Cotton",
       "hinhAnh": "https://file.hstatic.net/1000284478/file/vai-lua-cotton_bc0ee16ab6e143379b844a25f5900bee.jpg",
@@ -181,20 +365,554 @@
         {
           "kho": "1.2m",
           "bienThe": [
-            { "mau": "Trắng kem", "gia": 160000, "soLuongCon": 50 },
-            { "mau": "Xanh pastel", "gia": 165000, "soLuongCon": 40 },
-            { "mau": "Vàng", "gia": 165000, "soLuongCon": 40 }
+            {
+              "mau": "Trắng kem",
+              "gia": 160000,
+              "soLuongCon": 50
+            },
+            {
+              "mau": "Xanh pastel",
+              "gia": 165000,
+              "soLuongCon": 40
+            },
+            {
+              "mau": "Vàng",
+              "gia": 165000,
+              "soLuongCon": 40
+            }
           ]
         },
         {
           "kho": "1.5m",
           "bienThe": [
-            { "mau": "Hồng nhạt", "gia": 180000, "soLuongCon": 30 },
-            { "mau": "Be", "gia": 175000, "soLuongCon": 25 },
-            { "mau": "Xanh pastel", "gia": 165000, "soLuongCon": 40 }
+            {
+              "mau": "Hồng nhạt",
+              "gia": 180000,
+              "soLuongCon": 30
+            },
+            {
+              "mau": "Be",
+              "gia": 175000,
+              "soLuongCon": 25
+            },
+            {
+              "mau": "Xanh pastel",
+              "gia": 165000,
+              "soLuongCon": 40
+            }
           ]
         }
       ]
+    }
+  ],
+  "orders": [
+    {
+      "id": "1",
+      "FabricType": "Cotton Poly",
+      "Orders": [
+        {
+          "id": 101,
+          "Color": "Đỏ",
+          "Quantity": 10,
+          "FabricWidth": "1.5m",
+          "UnitPrice": 120000,
+          "TotalPrice": 1200000
+        },
+        {
+          "id": 102,
+          "Color": "Xanh dương",
+          "Quantity": 8,
+          "FabricWidth": "1.8m",
+          "UnitPrice": 150000,
+          "TotalPrice": 1200000
+        },
+        {
+          "id": 103,
+          "Color": "Vàng",
+          "Quantity": 5,
+          "FabricWidth": "2.0m",
+          "UnitPrice": 200000,
+          "TotalPrice": 1000000
+        },
+        {
+          "id": 104,
+          "Color": "Trắng",
+          "Quantity": 12,
+          "FabricWidth": "1.6m",
+          "UnitPrice": 100000,
+          "TotalPrice": 1200000
+        },
+        {
+          "id": 105,
+          "Color": "Xanh lá",
+          "Quantity": 7,
+          "FabricWidth": "1.7m",
+          "UnitPrice": 180000,
+          "TotalPrice": 1260000
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "FabricType": "Linen",
+      "Orders": [
+        {
+          "id": 201,
+          "Color": "Beige",
+          "Quantity": 6,
+          "FabricWidth": "1.4m",
+          "UnitPrice": 220000,
+          "TotalPrice": 1320000
+        },
+        {
+          "id": 202,
+          "Color": "Gray",
+          "Quantity": 9,
+          "FabricWidth": "1.6m",
+          "UnitPrice": 210000,
+          "TotalPrice": 1890000
+        },
+        {
+          "id": 203,
+          "Color": "Brown",
+          "Quantity": 4,
+          "FabricWidth": "1.5m",
+          "UnitPrice": 200000,
+          "TotalPrice": 800000
+        },
+        {
+          "id": 204,
+          "Color": "White",
+          "Quantity": 10,
+          "FabricWidth": "1.7m",
+          "UnitPrice": 230000,
+          "TotalPrice": 2300000
+        },
+        {
+          "id": 205,
+          "Color": "Olive",
+          "Quantity": 7,
+          "FabricWidth": "1.8m",
+          "UnitPrice": 240000,
+          "TotalPrice": 1680000
+        }
+      ]
+    },
+    {
+      "id": "3",
+      "FabricType": "Silk",
+      "Orders": [
+        {
+          "id": 301,
+          "Color": "Pink",
+          "Quantity": 3,
+          "FabricWidth": "1.2m",
+          "UnitPrice": 500000,
+          "TotalPrice": 1500000
+        },
+        {
+          "id": 302,
+          "Color": "Purple",
+          "Quantity": 5,
+          "FabricWidth": "1.3m",
+          "UnitPrice": 480000,
+          "TotalPrice": 2400000
+        },
+        {
+          "id": 303,
+          "Color": "Black",
+          "Quantity": 2,
+          "FabricWidth": "1.5m",
+          "UnitPrice": 550000,
+          "TotalPrice": 1100000
+        },
+        {
+          "id": 304,
+          "Color": "Gold",
+          "Quantity": 4,
+          "FabricWidth": "1.4m",
+          "UnitPrice": 600000,
+          "TotalPrice": 2400000
+        },
+        {
+          "id": 305,
+          "Color": "Silver",
+          "Quantity": 6,
+          "FabricWidth": "1.6m",
+          "UnitPrice": 520000,
+          "TotalPrice": 3120000
+        }
+      ]
+    }
+  ],
+  "transaction": [
+    {
+      "id": "fcad",
+      "method": "Nhập",
+      "warehouse": "Kho chờ gia công",
+      "quatity": 3,
+      "code": "heheh",
+      "type": "Vải Lụa",
+      "color": "Vàng",
+      "size": "XL",
+      "unit": "Mét",
+      "note": "",
+      "date": "2026-01-27T07:45:12.326Z"
+    },
+    {
+      "id": "265c",
+      "method": "Nhập",
+      "warehouse": "Kho nguyên liệu",
+      "quatity": 5,
+      "code": "duy",
+      "type": "Vải Lụa",
+      "color": "Vàng",
+      "size": "XL",
+      "unit": "Mét",
+      "note": "",
+      "date": "2026-01-27T07:58:32.224Z"
+    },
+    {
+      "id": "64d2",
+      "method": "Nhập",
+      "warehouse": "Kho chờ gia công",
+      "quatity": 2,
+      "code": "Tung",
+      "type": "Vải Lụa",
+      "color": "Vàng",
+      "size": "XL",
+      "unit": "Mét",
+      "note": "",
+      "date": "2026-01-27T08:03:06.290Z"
+    }
+  ],
+  "customers": [
+    {
+      "customer_id": "Hehehe",
+      "customer_name": "1021312312",
+      "customer_gender": "male",
+      "customer_birthday": "23902112",
+      "customer_email": "emasadsa",
+      "customer_phoneNumber": "01213131",
+      "customer_addressCity": "Tỉnh thành",
+      "customer_addressDistrict": "Quận/Huyện",
+      "customer_addressWard": "Phường/Xã",
+      "customer_addressDetail": "hahaha",
+      "customer_companyName": "Yahooo",
+      "customer_taxId": null,
+      "customer_group": "Khách lâu năm",
+      "customer_isSupplier": true,
+      "customer_debtTerm": "12",
+      "customer_maxDebt": "10101021212",
+      "customer_staff": "saler24h",
+      "customer_note": null,
+      "customer_status": "Đang theo dõi",
+      "id": "f000"
+    },
+    {
+      "customer_id": "KH002",
+      "customer_name": "Nguyen Van A",
+      "customer_gender": "female",
+      "customer_birthday": "19900101",
+      "customer_email": "nguyenvana@example.com",
+      "customer_phoneNumber": "0909123456",
+      "customer_addressCity": "Hà Nội",
+      "customer_addressDistrict": "Ba Đình",
+      "customer_addressWard": "Phúc Xá",
+      "customer_addressDetail": "Số 12, ngõ 34",
+      "customer_companyName": "ABC Corp",
+      "customer_taxId": "123456789",
+      "customer_group": "Khách mới",
+      "customer_isSupplier": false,
+      "customer_debtTerm": "30",
+      "customer_maxDebt": "50000000",
+      "customer_staff": "sales01",
+      "customer_note": "Khách tiềm năng",
+      "customer_status": "Đang theo dõi",
+      "id": "344a"
+    },
+    {
+      "customer_id": "KH003",
+      "customer_name": "Tran Van B",
+      "customer_gender": "male",
+      "customer_birthday": "19851212",
+      "customer_email": "tranvanb@example.com",
+      "customer_phoneNumber": "0987654321",
+      "customer_addressCity": "TP. Hồ Chí Minh",
+      "customer_addressDistrict": "Quận 1",
+      "customer_addressWard": "Bến Nghé",
+      "customer_addressDetail": "45 Lê Lợi",
+      "customer_companyName": "XYZ Ltd",
+      "customer_taxId": "987654321",
+      "customer_group": "Khách lâu năm",
+      "customer_isSupplier": true,
+      "customer_debtTerm": "60",
+      "customer_maxDebt": "100000000",
+      "customer_staff": "sales02",
+      "customer_note": "Khách VIP",
+      "customer_status": "Đang theo dõi",
+      "id": "892f"
+    },
+    {
+      "id": "2c91",
+      "customer_id": "D123231312",
+      "customer_name": "Duy",
+      "customer_ctizenId": "",
+      "customer_phoneNumber": "01213131",
+      "customer_maxDebt": "",
+      "customer_debtTerm": "",
+      "customer_addressCity": "Tỉnh thành",
+      "customer_addressDistrict": "Quận/Huyện",
+      "customer_addressWard": "Phường/Xã",
+      "customer_addressDetail": "",
+      "customer_email": "",
+      "customer_birthday": "",
+      "customer_gender": null,
+      "customer_group": "Nhập để tìm kiếm",
+      "customer_staff": "",
+      "customer_isSupplier": false,
+      "customer_companyName": "",
+      "customer_status": "Ngừng theo dõi",
+      "customer_taxId": ""
+    },
+    {
+      "id": "366b",
+      "customer_id": "K1231312313",
+      "customer_name": "Tùng",
+      "customer_ctizenId": "",
+      "customer_phoneNumber": "01213131",
+      "customer_maxDebt": "",
+      "customer_debtTerm": "",
+      "customer_addressCity": "",
+      "customer_addressDistrict": "Quận/Huyện",
+      "customer_addressWard": "Phường/Xã",
+      "customer_addressDetail": "",
+      "customer_email": "",
+      "customer_birthday": "",
+      "customer_gender": null,
+      "customer_status": null,
+      "customer_group": "Nhập để tìm kiếm",
+      "customer_staff": "",
+      "customer_note": "",
+      "customer_isSupplier": false,
+      "customer_companyName": "",
+      "customer_taxId": ""
+    },
+    {
+      "id": "6ad6",
+      "customer_id": "T2132131",
+      "customer_name": "Khoa",
+      "customer_ctizenId": "",
+      "customer_phoneNumber": "0987644221",
+      "customer_maxDebt": "",
+      "customer_debtTerm": "",
+      "customer_addressCity": "",
+      "customer_addressDistrict": "Quận/Huyện",
+      "customer_addressWard": "Phường/Xã",
+      "customer_addressDetail": "",
+      "customer_email": "",
+      "customer_birthday": "",
+      "customer_gender": null,
+      "customer_status": null,
+      "customer_group": "Nhập để tìm kiếm",
+      "customer_staff": "",
+      "customer_note": "",
+      "customer_isSupplier": false,
+      "customer_companyName": "",
+      "customer_taxId": ""
+    },
+    {
+      "id": "3d1b",
+      "customer_id": "Hehehe",
+      "customer_name": "Khánh",
+      "customer_ctizenId": "",
+      "customer_phoneNumber": "0987644221",
+      "customer_maxDebt": "",
+      "customer_debtTerm": "",
+      "customer_addressCity": "",
+      "customer_addressDistrict": "Quận/Huyện",
+      "customer_addressWard": "Phường/Xã",
+      "customer_addressDetail": "",
+      "customer_email": "",
+      "customer_birthday": "",
+      "customer_gender": null,
+      "customer_status": null,
+      "customer_group": "Nhập để tìm kiếm",
+      "customer_staff": "",
+      "customer_note": "",
+      "customer_isSupplier": false,
+      "customer_companyName": "",
+      "customer_taxId": ""
+    }
+  ],
+  "partners": [
+    {
+      "id": "t8yr",
+      "partner_id": "CT001",
+      "partner_name": "Công ty TNHH May Mặc Minh Phát",
+      "partner_kind": "Công ty",
+      "partner_group": "May áo quần",
+      "partner_phoneNumber": "0909123456",
+      "partner_address": "123 Đường Nguyễn Văn Linh, Quận 7, TP.HCM",
+      "partner_status": "Đang hoạt động",
+      "partner_isCustomer": false
+    },
+    {
+      "id": "m4kp",
+      "partner_id": "CT002",
+      "partner_name": "Công ty Cổ phần An Bình",
+      "partner_kind": "Công ty",
+      "partner_group": "Đồ trang trí",
+      "partner_phoneNumber": "0912345678",
+      "partner_address": "45A Đường Lê Văn Việt, Quận 9, TP.HCM",
+      "partner_status": "Ngừng hoạt động",
+      "partner_isCustomer": true
+    },
+    {
+      "id": "x2wn",
+      "partner_id": "CT003",
+      "partner_name": "Công ty TNHH Thiết kế & Thi công Nam Long",
+      "partner_kind": "Công ty",
+      "partner_group": "In ấn",
+      "partner_phoneNumber": "0987654321",
+      "partner_address": "88 Đường Trường Chinh, Quận Tân Bình, TP.HCM",
+      "partner_status": "Đang hoạt động",
+      "partner_isCustomer": true
+    }
+  ],
+  "suppliers": [
+    {
+      "id": "v1sl",
+      "supplier_id": "CT006",
+      "supplier_name": "Công ty TNHH Vải Lụa Á Đông",
+      "supplier_kind": "Công ty",
+      "supplier_group": "Vải lụa",
+      "supplier_phoneNumber": "0908001122",
+      "supplier_address": "12 Nguyễn Trãi, Quận 5, TP.HCM",
+      "supplier_status": "Đang hoạt động",
+      "supplier_isCustomer": true
+    },
+    {
+      "id": "d3ny",
+      "supplier_id": "CT007",
+      "supplier_name": "Công ty Cổ phần Màu Nhuộm Việt Hoa",
+      "supplier_kind": "Công ty",
+      "supplier_group": "Màu nhuộm",
+      "supplier_phoneNumber": "0912333444",
+      "supplier_address": "45 Trần Phú, Quận 3, TP.HCM",
+      "supplier_status": "Đang hoạt động",
+      "supplier_isCustomer": false
+    },
+    {
+      "id": "s8tk",
+      "supplier_id": "CT008",
+      "supplier_name": "Công ty TNHH Dụng cụ May Minh Tâm",
+      "supplier_kind": "Công ty",
+      "supplier_group": "Dụng cụ may",
+      "supplier_phoneNumber": "0933556677",
+      "supplier_address": "101 Cách Mạng Tháng 8, Quận 10, TP.HCM",
+      "supplier_status": "Đang hoạt động",
+      "supplier_isCustomer": true
+    }
+  ],
+  "catalogGoods": [
+    {
+      "id": "a9b3",
+      "good_barcode": "8938505970011",
+      "good_brand": "Coolmate",
+      "good_group": "Áo thun",
+      "good_initialStock": 100,
+      "good_name": "Áo thun cotton",
+      "good_price": 120000,
+      "good_sku": "AT001",
+      "good_supplierId": "CT006",
+      "good_supplierName": "Công ty TNHH Vải Lụa Á Đông",
+      "good_tax": 10,
+      "good_unit": "cái"
+    },
+    {
+      "id": "x7y2",
+      "good_barcode": "8938505970028",
+      "good_brand": "Levi's",
+      "good_group": "Quần jean",
+      "good_initialStock": 50,
+      "good_name": "Quần jean nam",
+      "good_price": 350000,
+      "good_sku": "QJ002",
+      "good_supplierId": "CT006",
+      "good_supplierName": "Công ty TNHH Vải Lụa Á Đông",
+      "good_tax": 10,
+      "good_unit": "cái"
+    },
+    {
+      "id": "m4q8",
+      "good_barcode": "8938505970035",
+      "good_brand": "An Phước",
+      "good_group": "Áo sơ mi",
+      "good_initialStock": 70,
+      "good_name": "Áo sơ mi trắng",
+      "good_price": 250000,
+      "good_sku": "ASM003",
+      "good_supplierId": "CT006",
+      "good_supplierName": "Công ty TNHH Vải Lụa Á Đông",
+      "good_tax": 10,
+      "good_unit": "cái"
+    },
+    {
+      "id": "z5n1",
+      "good_barcode": "8938505970042",
+      "good_brand": "IVY Moda",
+      "good_group": "Váy",
+      "good_initialStock": 40,
+      "good_name": "Váy công sở",
+      "good_price": 400000,
+      "good_sku": "VC004",
+      "good_supplierId": "CT006",
+      "good_supplierName": "Công ty TNHH Vải Lụa Á Đông",
+      "good_tax": 10,
+      "good_unit": "cái"
+    },
+    {
+      "id": "k2d9",
+      "good_barcode": "8938505970059",
+      "good_brand": "Canifa",
+      "good_group": "Áo khoác",
+      "good_initialStock": 30,
+      "good_name": "Áo khoác gió",
+      "good_price": 500000,
+      "good_sku": "AK005",
+      "good_supplierId": "CT006",
+      "good_supplierName": "Công ty TNHH Vải Lụa Á Đông",
+      "good_tax": 10,
+      "good_unit": "cái"
+    },
+    {
+      "id": "26de",
+      "good_name": "Khẩu trang",
+      "good_group": "Quần áo",
+      "good_brand": "Thương hiệu A",
+      "good_sku": "hee",
+      "good_barcode": "9999999999999",
+      "good_unit": "",
+      "good_supplierId": "CT006",
+      "good_supplierName": "Công ty TNHH Vải Lụa Á Đông",
+      "good_tax": 0,
+      "good_price": 0,
+      "good_initialStock": 0
+    },
+    {
+      "id": "4423",
+      "good_name": "Áo thể thao",
+      "good_group": "",
+      "good_brand": "",
+      "good_sku": "",
+      "good_barcode": "",
+      "good_unit": "",
+      "good_supplierId": "CT007",
+      "good_supplierName": "Công ty Cổ phần Màu Nhuộm Việt Hoa",
+      "good_tax": 0,
+      "good_price": 0,
+      "good_initialStock": 0
     }
   ]
 }

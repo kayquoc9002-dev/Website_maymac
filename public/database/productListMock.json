@@ -1,0 +1,180 @@
+{
+  "data": {
+    "products": {
+      "products": [
+        {
+          "product_id": 1,
+          "product_code": "TSHIRT-001",
+          "product_name": "Áo Thun Cotton 4 Chiều Basic",
+          "image_url": "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500",
+          "description": "Chất liệu cotton co giãn, phù hợp cho in lụa và in chuyển nhiệt.",
+          "base_price": 85000,
+          "gender": "Unisex",
+          "brand": "GarmentFlow",
+          "category_name": "Áo thun trơn",
+          "variant_count": 12,
+          "is_active": true
+        },
+        {
+          "product_id": 2,
+          "product_code": "POLO-PREMIUM-02",
+          "product_name": "Áo Polo Nam Vải Cá Sấu CVC",
+          "image_url": "https://images.unsplash.com/photo-1581655353564-df123a1eb820?w=500",
+          "description": "Vải cá sấu CVC không xù lông, giữ form tốt.",
+          "base_price": 145000,
+          "gender": "Male",
+          "brand": "UniformPro",
+          "category_name": "Áo Polo",
+          "variant_count": 8,
+          "is_active": true
+        },
+        {
+          "product_id": 3,
+          "product_code": "SHIRT-LBN-03",
+          "product_name": "Áo Sơ Mi Vải Linen Bột",
+          "image_url": "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=500",
+          "description": "Vải linen tự nhiên, thoáng mát.",
+          "base_price": 220000,
+          "gender": "Female",
+          "brand": "EcoWear",
+          "category_name": "Áo sơ mi",
+          "variant_count": 4,
+          "is_active": true
+        },
+        {
+          "product_id": 4,
+          "product_code": "VAI-LINEN-04",
+          "product_name": "Sấp Vải Linen Hàn Quốc",
+          "image_url": "https://images.unsplash.com/photo-1620733723572-11c53f73a2ad?w=500",
+          "description": "Vải cuộn phục vụ in ấn thiết kế riêng.",
+          "base_price": 95000,
+          "gender": "Unisex",
+          "brand": "FabricWorld",
+          "category_name": "Vải cuộn",
+          "variant_count": 10,
+          "is_active": true
+        },
+        {
+          "product_id": 5,
+          "product_code": "JACKET-WIND-05",
+          "product_name": "Áo Khoác Gió 2 Lớp",
+          "image_url": "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=500",
+          "description": "Vải dù chéo cao cấp, lót lưới thông hơi.",
+          "base_price": 310000,
+          "gender": "Unisex",
+          "brand": "TechWear",
+          "category_name": "Áo khoác",
+          "variant_count": 3,
+          "is_active": true
+        },
+        {
+          "product_id": 6,
+          "product_code": "TSHIRT-001",
+          "product_name": "Áo Thun Cotton 4 Chiều Basic",
+          "image_url": "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500",
+          "description": "Chất liệu cotton co giãn, phù hợp cho in lụa và in chuyển nhiệt.",
+          "base_price": 85000,
+          "gender": "Unisex",
+          "brand": "GarmentFlow",
+          "category_name": "Áo thun trơn",
+          "variant_count": 12,
+          "is_active": true
+        },
+        {
+          "product_id": 7,
+          "product_code": "TSHIRT-001",
+          "product_name": "Áo Thun Cotton 4 Chiều Basic",
+          "image_url": "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500",
+          "description": "Chất liệu cotton co giãn, phù hợp cho in lụa và in chuyển nhiệt.",
+          "base_price": 85000,
+          "gender": "Unisex",
+          "brand": "GarmentFlow",
+          "category_name": "Áo thun trơn",
+          "variant_count": 12,
+          "is_active": true
+        },
+        {
+          "product_id": 8,
+          "product_code": "TSHIRT-001",
+          "product_name": "Áo Thun Cotton 4 Chiều Basic",
+          "image_url": "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500",
+          "description": "Chất liệu cotton co giãn, phù hợp cho in lụa và in chuyển nhiệt.",
+          "base_price": 85000,
+          "gender": "Unisex",
+          "brand": "GarmentFlow",
+          "category_name": "Áo thun trơn",
+          "variant_count": 12,
+          "is_active": true
+        },
+        {
+          "product_id": 9,
+          "product_code": "TSHIRT-001",
+          "product_name": "Áo Thun Cotton 4 Chiều Basic",
+          "image_url": "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500",
+          "description": "Chất liệu cotton co giãn, phù hợp cho in lụa và in chuyển nhiệt.",
+          "base_price": 85000,
+          "gender": "Unisex",
+          "brand": "GarmentFlow",
+          "category_name": "Áo thun trơn",
+          "variant_count": 12,
+          "is_active": true
+        },
+        {
+          "product_id": 10,
+          "product_code": "TSHIRT-001",
+          "product_name": "Áo Thun Cotton 4 Chiều Basic",
+          "image_url": "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500",
+          "description": "Chất liệu cotton co giãn, phù hợp cho in lụa và in chuyển nhiệt.",
+          "base_price": 85000,
+          "gender": "Unisex",
+          "brand": "GarmentFlow",
+          "category_name": "Áo thun trơn",
+          "variant_count": 12,
+          "is_active": true
+        },
+        {
+          "product_id": 11,
+          "product_code": "TSHIRT-001",
+          "product_name": "Áo Thun Cotton 4 Chiều Basic",
+          "image_url": "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500",
+          "description": "Chất liệu cotton co giãn, phù hợp cho in lụa và in chuyển nhiệt.",
+          "base_price": 85000,
+          "gender": "Unisex",
+          "brand": "GarmentFlow",
+          "category_name": "Áo thun trơn",
+          "variant_count": 12,
+          "is_active": true
+        },
+        {
+          "product_id": 12,
+          "product_code": "TSHIRT-001",
+          "product_name": "Áo Thun Cotton 4 Chiều Basic",
+          "image_url": "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500",
+          "description": "Chất liệu cotton co giãn, phù hợp cho in lụa và in chuyển nhiệt.",
+          "base_price": 85000,
+          "gender": "Unisex",
+          "brand": "GarmentFlow",
+          "category_name": "Áo thun trơn",
+          "variant_count": 12,
+          "is_active": true
+        },
+        {
+          "product_id": 13,
+          "product_code": "TSHIRT-001",
+          "product_name": "Áo Thun Cotton 4 Chiều Basic",
+          "image_url": "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500",
+          "description": "Chất liệu cotton co giãn, phù hợp cho in lụa và in chuyển nhiệt.",
+          "base_price": 85000,
+          "gender": "Unisex",
+          "brand": "GarmentFlow",
+          "category_name": "Áo thun trơn",
+          "variant_count": 12,
+          "is_active": true
+        }
+      ],
+      "total": 5,
+      "limit": 20,
+      "offset": 0
+    }
+  }
+}

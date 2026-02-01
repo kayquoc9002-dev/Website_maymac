@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generated Preview</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style></style>
+</head>
+
+<body class="bg-gray-50 min-h-screen">
+    <div class="min-h-screen bg-gray-500 flex items-center justify-center p-4 font-sans">
+        <!-- Modal Container -->
+        <div class="bg-white w-full max-w-5xl rounded shadow-lg overflow-hidden flex flex-col max-h-[90vh]">
+        
+         <!-- Header --> 
+        <div class="flex justify-between items-center px-5 py-3 bg-gray-100 border-b border-gray-200">
+            <h2 class="font-bold text-gray-800 text-lg">Thêm mới khách hàng</h2>
+            <button class="text-gray-400 hover:text-gray-600">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+
+         <!-- Body (Scrollable) --> 
+        <div class="flex-1 overflow-y-auto p-6">
+            
+             <!-- Section 1: Basic Info --> 
+            <h3 class="text-gray-600 font-bold uppercase text-sm mb-4">Thông tin cơ bản</h3>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-x-8 gap-y-4">
+                 <!-- Row 1 --> 
+                <div class="flex flex-col md:flex-row md:items-center">
+                    <label class="w-full md:w-1/3 text-sm text-gray-700 mb-1 md:mb-0">Mã khách hàng <span class="text-red-500">*</span></label>
+                    <input type="text" value="DL - 1203480990" class="w-full md:w-2/3 border border-blue-400 rounded px-3 py-2 text-sm focus:outline-none focus:border-blue-600 text-gray-700"/>
+                </div>
+                <div class="flex flex-col md:flex-row md:items-center">
+                    <label class="w-full md:w-1/3 text-sm text-gray-700 mb-1 md:mb-0">Tên khách hàng <span class="text-red-500">*</span></label>
+                    <input type="text" class="w-full md:w-2/3 border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:border-blue-500"/>
+                </div>
+
+                 <!-- Row 2 --> 
+                <div class="flex flex-col md:flex-row md:items-center">
+                    <label class="w-full md:w-1/3 text-sm text-gray-700 mb-1 md:mb-0">Nhóm khách hàng</label>
+                    <div class="w-full md:w-2/3 flex">
+                        <div class="relative w-full">
+                            <select class="w-full border border-gray-300 rounded-l px-3 py-2 text-sm appearance-none focus:outline-none focus:border-blue-500 bg-white text-gray-500">
+                                <option>Nhập để tìm kiếm</option>
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                            </div>
+                        </div>
+                        <button class="bg-gray-100 border border-l-0 border-gray-300 rounded-r px-3 text-blue-800 hover:bg-gray-200">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                <div class="flex flex-col md:flex-row md:items-center">
+                    <label class="w-full md:w-1/3 text-sm text-gray-700 mb-1 md:mb-0">Điện thoại <span class="text-red-500">*</span></label>
+                    <input type="text" class="w-full md:w-2/3 border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:border-blue-5000"/>
+                </div>
+
+                 <!-- Row 3 --> 
+                <div class="flex flex-col md:flex-row md:items-center">
+                    <label class="w-full md:w-1/3 text-sm text-gray-700 mb-1 md:mb-0">Số nợ tối đa</label>
+                    <input type="text" class="w-full md:w-2/3 border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:border-blue-500"/>
+                </div>
+                <div class="flex flex-col md:flex-row md:items-center">
+                    <label class="w-full md:w-1/3 text-sm text-gray-700 mb-1 md:mb-0">Hạn nợ (ngày)</label>
+                    <input type="text" class="w-full md:w-2/3 border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:border-blue-500"/>
+                </div>
+
+                 <!-- Row 4: Address (Full Width Logic) --> 
+                <div class="col-span-1 lg:col-span-2 flex flex-col md:flex-row md:items-start">
+                    <label class="w-full md:w-[16.66%] text-sm text-gray-700 mb-1 md:mt-2">Địa chỉ</label>
+                    <div class="w-full md:w-[83.34%] space-y-2">
+                        <div class="grid grid-cols-3 gap-2">
+                            <select class="border border-gray-300 rounded px-2 py-2 text-sm text-gray-500 bg-white focus:outline-none focus:border-blue-500">
+                                <option>Tỉnh thành</option>
+                            </select>
+                            <select class="border border-gray-300 rounded px-2 py-2 text-sm text-gray-500 bg-white focus:outline-none focus:border-blue-500">
+                                <option>Quận/Huyện</option>
+                            </select>
+                            <select class="border border-gray-300 rounded px-2 py-2 text-sm text-gray-500 bg-white focus:outline-none focus:border-blue-500">
+                                <option>Phường/Xã</option>
+                            </select>
+                        </div>
+                        <input type="text" placeholder="Số nhà, đường phố" class="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:border-blue-500"/>
+                    </div>
+                </div>
+
+                 <!-- Row 5 --> 
+                <div class="flex flex-col md:flex-row md:items-center">
+                    <label class="w-full md:w-1/3 text-sm text-gray-700 mb-1 md:mb-0">Email</label>
+                    <input type="text" class="w-full md:w-2/3 border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:border-blue-500"/>
+                </div>
+                <div class="flex flex-col md:flex-row md:items-center">
+                    <label class="w-full md:w-1/3 text-sm text-gray-700 mb-1 md:mb-0">Ngày sinh</label>
+                    <div class="relative w-full md:w-2/3">
+                        <input type="text" placeholder="DD / MM / YYYY" class="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:border-blue-500"/>
+                        <div class="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none text-gray-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                 <!-- Row 6: Gender --> 
+                <div class="flex flex-col md:flex-row md:items-center">
+                    <label class="w-full md:w-1/3 text-sm text-gray-700 mb-1 md:mb-0">Giới tính</label>
+                    <div class="w-full md:w-2/3 flex items-center space-x-6">
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="gender" class="form-radio text-blue-600 h-4 w-4 border-gray-300"/>
+                            <span class="ml-2 text-sm text-gray-700">Nam</span>
+                        </label>
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="gender" class="form-radio text-blue-600 h-4 w-4 border-gray-300"/>
+                            <span class="ml-2 text-sm text-gray-700">Nữ</span>
+                        </label>
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="gender" class="form-radio text-blue-800 h-4 w-4 border-gray-300" checked/>
+                            <span class="ml-2 text-sm text-gray-700 font-medium">Không xác định</span>
+                        </label>
+                    </div>
+                </div>
+                
+                 <!-- Empty cell for alignment if needed, or just flow naturally --> 
+                <div class="hidden lg:block"></div>
+
+                 <!-- Row 7: Staff --> 
+                <div class="flex flex-col md:flex-row md:items-center">
+                    <label class="w-full md:w-1/3 text-sm text-gray-700 mb-1 md:mb-0">Nhân viên phụ trách</label>
+                    <div class="relative w-full md:w-2/3">
+                        <select class="w-full border border-gray-300 rounded px-3 py-2 text-sm appearance-none focus:outline-none focus:border-blue-500 bg-white">
+                            <option></option>
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                            <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="hidden lg:block"></div>
+
+                 <!-- Row 8: Note (Full Width) --> 
+                <div class="col-span-1 lg:col-span-2 flex flex-col md:flex-row md:items-start">
+                    <label class="w-full md:w-[16.66%] text-sm text-gray-700 mb-1 md:mt-2">Ghi chú</label>
+                    <textarea class="w-full md:w-[83.34%] border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:border-blue-500 h-24"></textarea>
+                </div>
+
+                 <!-- Row 9: Checkbox --> 
+                <div class="col-span-1 lg:col-span-2 flex flex-col md:flex-row md:items-center">
+                    <div class="w-full md:w-[16.66%]"></div>
+                    <label class="inline-flex items-center">
+                        <input type="checkbox" class="form-checkbox h-4 w-4 text-blue-600 border-gray-300 rounded"/>
+                        <span class="ml-2 text-sm text-gray-700">Là nhà cung cấp</span>
+                    </label>
+                </div>
+            </div>
+
+             <!-- Section 2: Member Card  -->
+            <h3 class="text-gray-600 font-bold uppercase text-sm mb-4 mt-6">Thẻ thành viên</h3>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-x-8 gap-y-4">
+                <div class="flex flex-col md:flex-row md:items-center">
+                    <label class="w-full md:w-1/3 text-sm text-gray-700 mb-1 md:mb-0">Mã thẻ thành viên</label>
+                    <input type="text" class="w-full md:w-2/3 border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:border-blue-500"/>
+                </div>
+                <div class="hidden lg:block"></div>
+
+                <div class="flex flex-col md:flex-row md:items-center">
+                    <label class="w-full md:w-1/3 text-sm text-gray-700 mb-1 md:mb-0">Mã thẻ thành viên Lomas</label>
+                    <input type="text" disabled class="w-full md:w-2/3 border border-gray-300 bg-gray-200 rounded px-3 py-2 text-sm cursor-not-allowed"/>
+                </div>
+                <div class="flex flex-col md:flex-row md:items-center">
+                    <label class="w-full md:w-1/3 text-sm text-gray-700 mb-1 md:mb-0">Hạng thẻ</label>
+                    <input type="text" disabled class="w-full md:w-2/3 border border-gray-300 bg-gray-200 rounded px-3 py-2 text-sm cursor-not-allowed"/>
+                </div>
+
+                <div class="col-span-1 lg:col-span-2 flex flex-col md:flex-row md:items-center">
+                    <label class="w-full md:w-[16.66%] text-sm text-gray-700 mb-1 md:mb-0">Số CCCD/Hộ chiếu</label>
+                    <input type="text" class="w-full md:w-[83.34%] border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:border-blue-500"/>
+                </div>
+            </div>
+
+             <!-- Section 3: Company Info  -->
+            <h3 class="text-gray-600 font-bold uppercase text-sm mb-4 mt-6">Thông tin công ty</h3>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-x-8 gap-y-4">
+                <div class="flex flex-col md:flex-row md:items-center">
+                    <label class="w-full md:w-1/3 text-sm text-gray-700 mb-1 md:mb-0">Tên công ty</label>
+                    <input type="text" class="w-full md:w-2/3 border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:border-blue-500"/>
+                </div>
+                <div class="flex flex-col md:flex-row md:items-center">
+                    <label class="w-full md:w-1/3 text-sm text-gray-700 mb-1 md:mb-0">Mã số thuế/CCCD</label>
+                    <input type="text" class="w-full md:w-2/3 border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:border-blue-500"/>
+                </div>
+            </div>
+
+        </div>
+
+         <!-- Footer  -->
+        <div class="flex flex-col md:flex-row justify-between items-center px-6 py-4 border-t border-gray-200 bg-white">
+            <button class="flex items-center text-blue-900 font-bold text-sm hover:underline mb-3 md:mb-0">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
+                </svg>
+                Trợ giúp
+            </button>
+            
+            <div class="flex space-x-3">
+                <button class="flex items-center bg-[#313a66] text-white px-4 py-2 rounded shadow hover:bg-blue-900 text-sm font-medium">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M7.707 10.293a1 1 0 10-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 11.586V6h5a2 2 0 012 2v7a2 2 0 01-2 2H4a2 2 0 01-2-2V8a2 2 0 012-2h5v5.586l-1.293-1.293zM9 4a1 1 0 012 0v2H9V4z" />
+                    </svg>
+                    Lưu
+                </button>
+                <button class="flex items-center bg-white text-[#313a66] border border-[#313a66] px-4 py-2 rounded shadow hover:bg-gray-50 text-sm font-medium">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                    </svg>
+                    Lưu và thêm mới
+                </button>
+                <button class="flex items-center text-[#313a66] px-4 py-2 rounded hover:bg-gray-100 text-sm font-medium">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                    Hủy bỏ
+                </button>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,349 @@
+import React from "react";
+import { useEffect, useState, useRef } from "react";
+import fetchData from "../../../../../Helpers/fetchData";
+import RowSupplier from "./RowSupplier/RowSupplier";
+function TableSupplier({openFormSupplier, setSelectedInfoSupplier}) {
+    const [data, setData] = useState([]);
+    const infoSelectedSupplier = useRef({});
+    useEffect(() => {
+        const getData = async () => {
+            const result = await fetchData('http://localhost:3000/suppliers')
+            setData(result)
+        }
+        getData()
+    }, [])
+    const handleSelectSupplier = (e, infoSupplier) => {
+    console.log(e.target.checked);
+    console.log("infoSupplier:", infoSupplier);
+    if(e.target.checked){
+      console.log("Selected supplier:", infoSupplier.supplier_name);
+      infoSelectedSupplier.current = {
+        supplier_id: infoSupplier.supplier_id,
+        supplier_name: infoSupplier.supplier_name,
+      }
+    }
+  }
+    const handleSubmitSupplier = () => {
+      openFormSupplier();
+      setSelectedInfoSupplier(infoSelectedSupplier.current);
+    }
+  return (
+    <>
+      {/* <div class="bg-gray-50 min-h-screen">
+        <div class="font-sans bg-gray-200 min-h-screen flex items-center justify-center p-4"> */}
+          {/* <!-- Modal Container --> */}
+          <div class="bg-white w-full max-w-6xl shadow-xl rounded-sm flex flex-col border border-gray-300 z-10">
+            {/* <!-- Header --> */}
+            <div class="flex justify-between items-center bg-gray-100 px-4 py-2 border-b border-gray-300">
+              <h2 class="font-bold text-gray-800 text-lg">Chọn đối tượng</h2>
+              <button class="text-gray-400 hover:text-gray-600" onClick={openFormSupplier}>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-5 w-5"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </button>
+            </div>
+
+            {/* <!-- Filter Section --> */}
+            <div class="p-3 flex flex-wrap items-center gap-3">
+              <div class="flex items-center gap-2">
+                <span class="text-gray-400 text-sm whitespace-nowrap">
+                  Loại đối tượng
+                </span>
+                <div class="relative">
+                  <select
+                    disabled
+                    class="bg-gray-50 border border-gray-200 text-gray-400 text-sm rounded-sm px-3 py-1.5 w-40 appearance-none cursor-not-allowed"
+                  >
+                    <option>Nhà cung cấp</option>
+                  </select>
+                  <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+                    <svg
+                      class="w-4 h-4 text-gray-300"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M19 9l-7 7-7-7"
+                      ></path>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+
+              <input
+                type="text"
+                placeholder="Nhập mã đối tượng, tên đối tượng"
+                class="flex-1 border border-blue-300 rounded-sm px-3 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 placeholder-gray-400 text-gray-700"
+              />
+
+              <button class="border border-blue-800 text-blue-900 bg-white hover:bg-blue-50 px-4 py-1.5 rounded-sm text-sm font-semibold flex items-center gap-1">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-4 w-4"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                  />
+                </svg>
+                Tìm kiếm
+              </button>
+            </div>
+
+            {/* <!-- Table Section --> */}
+            <div class="px-3">
+              <div class="border border-gray-300 h-80 overflow-y-auto relative">
+                <table class="w-full text-sm text-left border-collapse">
+                  <thead class="bg-gray-100 text-gray-800 font-bold sticky top-0 z-10 shadow-sm">
+                    <tr>
+                      <th class="border-r border-b border-gray-300 p-2 w-10 text-center"></th>
+                      <th class="border-r border-b border-gray-300 p-2 text-center w-40">
+                        Mã đối tượng
+                      </th>
+                      <th class="border-r border-b border-gray-300 p-2 text-center w-64">
+                        Tên đối tượng
+                      </th>
+                      <th class="border-r border-b border-gray-300 p-2 text-center w-32">
+                        Loại đối tượng
+                      </th>
+                      <th class="border-r border-b border-gray-300 p-2 text-center w-32">
+                        Điện thoại
+                      </th>
+                      <th class="border-b border-gray-300 p-2 text-center">
+                        Địa chỉ
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody class="text-gray-700">
+                    {/* <!-- Row 1 (Selected) --> */}
+                    {data.map(item => (
+                        <RowSupplier infoSupplier={item} handleSelectSupplier={handleSelectSupplier}/>
+                    ))}
+                    {/* <!-- Row 2 --> */}
+                    {/* <tr class="hover:bg-gray-50">
+                      <td class="border-r border-b border-gray-300 p-2 text-center">
+                        <input type="radio" name="obj" class="cursor-pointer" />
+                      </td>
+                      <td class="border-r border-b border-gray-300 p-2">
+                        000168119-1708
+                      </td>
+                      <td class="border-r border-b border-gray-300 p-2">HLN</td>
+                      <td class="border-r border-b border-gray-300 p-2">
+                        Nhà cung cấp
+                      </td>
+                      <td class="border-r border-b border-gray-300 p-2">
+                        121212121212
+                      </td>
+                      <td class="border-b border-gray-300 p-2"></td>
+                    </tr> */}
+                    {/* <!-- Row 3 --> */}
+                    {/* <tr class="hover:bg-gray-50">
+                      <td class="border-r border-b border-gray-300 p-2 text-center">
+                        <input type="radio" name="obj" class="cursor-pointer" />
+                      </td>
+                      <td class="border-r border-b border-gray-300 p-2">
+                        000168119-1709
+                      </td>
+                      <td class="border-r border-b border-gray-300 p-2">
+                        ZZZZ
+                      </td>
+                      <td class="border-r border-b border-gray-300 p-2">
+                        Nhà cung cấp
+                      </td>
+                      <td class="border-r border-b border-gray-300 p-2">
+                        011111111112
+                      </td>
+                      <td class="border-b border-gray-300 p-2"></td>
+                    </tr> */}
+                    {/* <!-- Row 4 --> */}
+                    {/* <tr class="hover:bg-gray-50">
+                      <td class="border-r border-b border-gray-300 p-2 text-center">
+                        <input type="radio" name="obj" class="cursor-pointer" />
+                      </td>
+                      <td class="border-r border-b border-gray-300 p-2">
+                        000168119-1713
+                      </td>
+                      <td class="border-r border-b border-gray-300 p-2">QAZ</td>
+                      <td class="border-r border-b border-gray-300 p-2">
+                        Nhà cung cấp
+                      </td>
+                      <td class="border-r border-b border-gray-300 p-2">
+                        11223344556
+                      </td>
+                      <td class="border-b border-gray-300 p-2"></td>
+                    </tr> */}
+                    {/* <!-- Row 5 --> */}
+                    {/* <tr class="hover:bg-gray-50">
+                      <td class="border-r border-b border-gray-300 p-2 text-center">
+                        <input type="radio" name="obj" class="cursor-pointer" />
+                      </td>
+                      <td class="border-r border-b border-gray-300 p-2">
+                        000168119-1764
+                      </td>
+                      <td class="border-r border-b border-gray-300 p-2">
+                        01320132
+                      </td>
+                      <td class="border-r border-b border-gray-300 p-2">
+                        Nhà cung cấp
+                      </td>
+                      <td class="border-r border-b border-gray-300 p-2">
+                        0555442233
+                      </td>
+                      <td class="border-b border-gray-300 p-2"></td>
+                    </tr> */}
+                    {/* <!-- Row 6 --> */}
+                    {/* <tr class="hover:bg-gray-50">
+                      <td class="border-r border-b border-gray-300 p-2 text-center">
+                        <input type="radio" name="obj" class="cursor-pointer" />
+                      </td>
+                      <td class="border-r border-b border-gray-300 p-2">
+                        000168119-1765
+                      </td>
+                      <td class="border-r border-b border-gray-300 p-2">
+                        111222333
+                      </td>
+                      <td class="border-r border-b border-gray-300 p-2">
+                        Nhà cung cấp
+                      </td>
+                      <td class="border-r border-b border-gray-300 p-2">
+                        222555444
+                      </td>
+                      <td class="border-b border-gray-300 p-2"></td>
+                    </tr> */}
+                    {/* <!-- Row 7 --> */}
+                    {/* <tr class="hover:bg-gray-50">
+                      <td class="border-r border-b border-gray-300 p-2 text-center">
+                        <input type="radio" name="obj" class="cursor-pointer" />
+                      </td>
+                      <td class="border-r border-b border-gray-300 p-2">
+                        000168119-1885
+                      </td>
+                      <td class="border-r border-b border-gray-300 p-2">
+                        Lợi test
+                      </td>
+                      <td class="border-r border-b border-gray-300 p-2">
+                        Nhà cung cấp
+                      </td>
+                      <td class="border-r border-b border-gray-300 p-2">
+                        9017567000
+                      </td>
+                      <td class="border-b border-gray-300 p-2"></td>
+                    </tr> */}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            {/* <!-- Pagination --> */}
+            <div class="px-3 py-2 flex flex-wrap justify-between items-center text-sm text-gray-600">
+              <div class="flex items-center gap-1">
+                <button class="w-7 h-7 flex items-center justify-center border border-blue-300 rounded-sm text-blue-800 hover:bg-blue-50 disabled:opacity-50">
+                  <span class="text-xs">&laquo;</span>
+                </button>
+                <button class="w-7 h-7 flex items-center justify-center border border-blue-300 rounded-sm text-blue-800 hover:bg-blue-50 disabled:opacity-50">
+                  <span class="text-xs">&lsaquo;</span>
+                </button>
+
+                <span class="mx-1">Trang</span>
+                <input
+                  type="text"
+                  value="1"
+                  class="w-10 h-7 border border-gray-300 text-center rounded-sm focus:outline-none focus:border-blue-500"
+                />
+                <span class="mx-1">trên 10</span>
+
+                <button class="w-7 h-7 flex items-center justify-center border border-blue-300 rounded-sm text-blue-800 hover:bg-blue-50">
+                  <span class="text-xs">&rsaquo;</span>
+                </button>
+                <button class="w-7 h-7 flex items-center justify-center border border-blue-300 rounded-sm text-blue-800 hover:bg-blue-50">
+                  <span class="text-xs">&raquo;</span>
+                </button>
+
+                <button class="w-7 h-7 flex items-center justify-center border border-blue-300 rounded-sm text-blue-800 hover:bg-blue-50 ml-1">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-4 w-4"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                    />
+                  </svg>
+                </button>
+
+                <select class="h-7 border border-gray-300 rounded-sm ml-1 px-1 bg-white">
+                  <option>50</option>
+                  <option>100</option>
+                </select>
+              </div>
+              <div>Hiển thị 1 - 50 trên 471 kết quả</div>
+            </div>
+
+            {/* <!-- Footer Actions --> */}
+            <div class="border-t border-gray-200 p-3 flex justify-end items-center gap-4 bg-white rounded-b-sm">
+              <button onClick={handleSubmitSupplier} class="bg-[#2A388F] hover:bg-blue-900 text-white px-4 py-2 rounded-sm text-sm font-semibold flex items-center gap-2 shadow-sm">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-4 w-4"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="3"
+                    d="M5 13l4 4L19 7"
+                  />
+                </svg>
+                Đồng ý
+              </button>
+              <button class="text-[#2A388F] hover:text-blue-900 font-bold text-sm flex items-center gap-1">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-5 w-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="3"
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+                Hủy bỏ
+              </button>
+            </div>
+          </div>
+        {/* </div>
+      </div> */}
+    </>
+  );
+}
+
+export default TableSupplier;
