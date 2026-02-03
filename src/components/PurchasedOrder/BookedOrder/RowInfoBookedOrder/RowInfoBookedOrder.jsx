@@ -1,6 +1,7 @@
 import React from 'react'
+import {formatCurrency} from '../../../../Helpers/formatCurrency'
 
-function RowInfoBookedOrder() {
+function RowInfoBookedOrder({bookedOrder}) {
   return (
     <>
         {/* <tr class="hover:bg-gray-50">
@@ -24,16 +25,16 @@ function RowInfoBookedOrder() {
         <td class="border border-gray-300 p-2 text-center">
           <input type="checkbox" class="rounded border-gray-400"/>
         </td>
-        <td class="border border-gray-300 px-2 py-1.5">27/01/2026</td>
+        <td class="border border-gray-300 px-2 py-1.5">{bookedOrder.order_date}</td>
         <td class="border border-gray-300 px-2 py-1.5 text-blue-600 cursor-pointer hover:underline">
-          ABCD-PDH000025
+          {bookedOrder.order_code}
         </td>
-        <td class="border border-gray-300 px-2 py-1.5">testdemo</td>
-        <td class="border border-gray-300 px-2 py-1.5">Anh Sang</td>
-        <td class="border border-gray-300 px-2 py-1.5">1.080.000,00</td>
-        <td class="border border-gray-300 px-2 py-1.5">Chưa thực hiện</td>
+        <td class="border border-gray-300 px-2 py-1.5">{bookedOrder.orderer_name}</td>
+        <td class="border border-gray-300 px-2 py-1.5">{bookedOrder.supplier.name}</td>
+        <td class="border border-gray-300 px-2 py-1.5">{formatCurrency(bookedOrder.totalPrice)}</td>
+        <td class="border border-gray-300 px-2 py-1.5">{bookedOrder.order_status}</td>
         <td class="border border-gray-300 px-2 py-1.5">
-          Đặt hàng nhà cung cấp
+          {bookedOrder.order_note}
         </td>
       </tr>
       {/* <tr class="hover:bg-blue-50 bg-[#eef4ff]">

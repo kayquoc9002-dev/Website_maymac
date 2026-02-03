@@ -1,18 +1,51 @@
 import React from "react";
 import DetailImportedGood from "./DetailImportedGood/DetailImportedGood";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
+import { useState } from "react";
+import Order from "./Order/Order";
+import postData from "../../../../Helpers/postData";
+import { receivedNote } from "../../../../Helpers/urlAPI";
 function FormImportShipment({ openForm }) {
-  const { register, handleSubmit, reset } = useForm();
+  const { register, handleSubmit, reset, control, formState: {errors} } = useForm();
+  const [selectedOrder, setSelectedOrder] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const now = new Date();
 
   const onSubmit = (data) => {
-    console.log(data);
+    data = { ...data, importedGood: order.bookedGoods, status: "Đã giao" };
+    setLoading(true);
+    postData(data, setLoading, receivedNote);
+    
     reset();
-  }
+    setOrder({});
+  };
+
+  const openTableOrder = () => {
+    setSelectedOrder(!selectedOrder);
+  };
+
+  const [order, setOrder] = useState({});
   return (
     <>
+      {selectedOrder && (
+        <div className="fixed inset-0 z-20 flex justify-center items-center">
+          <div
+            className={`absolute inset-0 bg-black transition-opacity duration-300   ${
+              selectedOrder
+                ? "opacity-60 pointer-events-auto"
+                : "opacity-0 pointer-events-none"
+            }`}
+          >
+            // {/* Overlay */}
+          </div>
+          <Order openTableOrder={openTableOrder} setOrder={setOrder} />
+          {/* edittedData={edittedData} setData={setData} */}
+        </div>
+      )}
+
       {/* <div class="bg-gray-50 min-h-screen"> */}
       {/* <div class="font-sans text-sm text-gray-700 bg-gray-100 min-h-screen flex flex-col"> */}
-      <div class="rounded w-full max-w-[1200px] bg-white shadow-xl border border-gray-400 flex flex-col z-30 max-h-[90vh]">
+      <div class="rounded w-full max-w-[1200px] bg-white shadow-xl border border-gray-400 flex flex-col z-10 max-h-[90vh]">
         {/* <!-- Window Header --> */}
         <div class="rounded-t flex justify-between items-center px-5 py-3 bg-gray-100 border-b border-gray-200 sticky top-0">
           <span class="font-bold text-gray-800 text-lg">
@@ -50,653 +83,588 @@ function FormImportShipment({ openForm }) {
         </div>
 
         {/* <!-- Toolbar --> */}
-        {/* <div class="bg-[#2e3192] text-white flex items-center px-1 py-1 space-x-1 overflow-x-auto whitespace-nowrap">
-          <button class="flex items-center px-2 py-1 hover:bg-blue-800 space-x-1">
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <path d="M19 12H5M12 19l-7-7 7-7" />
-            </svg>
-            <span>Trước</span>
-          </button>
-          <button class="flex items-center px-2 py-1 hover:bg-blue-800 space-x-1 border-r border-blue-700">
-            <span>Sau</span>
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <path d="M5 12h14M12 5l7 7-7 7" />
-            </svg>
-          </button>
-
-          <button class="flex items-center px-2 py-1 hover:bg-blue-800 space-x-1">
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <path d="M12 5v14M5 12h14" />
-            </svg>
-            <span>Thêm mới</span>
-          </button>
-          <button class="flex items-center px-2 py-1 hover:bg-blue-800 space-x-1">
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
-              <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
-            </svg>
-            <span>Sửa</span>
-          </button>
-          <button class="flex items-center px-2 py-1 hover:bg-blue-800 space-x-1 font-bold">
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" />
-              <polyline points="17 21 17 13 7 13 7 21" />
-              <polyline points="7 3 7 8 15 8" />
-            </svg>
-            <span>Lưu</span>
-          </button>
-          <button class="flex items-center px-2 py-1 hover:bg-blue-800 space-x-1">
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <polyline points="3 6 5 6 21 6" />
-              <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
-            </svg>
-            <span>Xóa</span>
-          </button>
-          <button class="flex items-center px-2 py-1 hover:bg-blue-800 space-x-1 border-r border-blue-700">
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <polyline points="9 14 4 9 9 4" />
-              <path d="M20 20v-7a4 4 0 0 0-4-4H4" />
-            </svg>
-            <span>Hoãn</span>
-          </button>
-
-          <button class="flex items-center px-2 py-1 hover:bg-blue-800 space-x-1">
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <polyline points="6 9 6 2 18 2 18 9" />
-              <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" />
-              <rect x="6" y="14" width="12" height="8" />
-            </svg>
-            <span>In</span>
-          </button>
-          <button class="flex items-center px-2 py-1 hover:bg-blue-800 space-x-1 border-r border-blue-700">
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-              <polyline points="7 10 12 15 17 10" />
-              <line x1="12" y1="15" x2="12" y2="3" />
-            </svg>
-            <span>Xuất khẩu</span>
-          </button>
-
-          <button class="flex items-center px-2 py-1 hover:bg-blue-800 space-x-1 ml-auto">
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <circle cx="12" cy="12" r="10" />
-              <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
-              <line x1="12" y1="17" x2="12.01" y2="17" />
-            </svg>
-            <span>Trợ giúp</span>
-          </button>
-          <button class="flex items-center px-2 py-1 hover:bg-blue-800 space-x-1">
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <line x1="18" y1="6" x2="6" y2="18" />
-              <line x1="6" y1="6" x2="18" y2="18" />
-            </svg>
-            <span>Đóng</span>
-          </button>
-        </div> */}
 
         {/* <!-- Main Content --> */}
-        <form onSubmit={handleSubmit(onSubmit)} class="flex-1 flex flex-col overflow-hidden">
-        <div className="pt-2 px-2 bg-white">
-          {/* <!-- Top Options --> */}
-          <div class=" flex flex-wrap items-center gap-4 mb-3">
-            <label class="flex items-center space-x-1 font-semibold text-[#2e3192]">
-              <input
-                type="radio"
-                name="payment"
-                class="text-[#2e3192] focus:ring-[#2e3192]"
-              />
-              <span>Ghi nợ nhà cung cấp</span>
-            </label>
-            <label class="flex items-center space-x-1">
-              <input
-                type="radio"
-                name="payment"
-                class="text-[#2e3192] focus:ring-[#2e3192]"
-              />
-              <span>Thanh toán ngay</span>
-            </label>
-            <select name="" id="" className="bg-gray-200 text-left border border-gray-300 pr-5 py-0.5 text-gray-700 rounded-sm">
-              <option value=""></option>
-              <option value="Chuyển khoản">Chuyển khoản</option>
-              <option value="Tiền mặt">Tiền mặt</option>
-            </select>
-            <div class="ml-auto flex items-center space-x-3">
-              <button class="border border-[#2e3192] text-[#2e3192] px-3 py-0.5 rounded-sm hover:bg-blue-50 font-medium">
-                Chọn phiếu đặt hàng
-              </button>
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          class="flex-1 flex flex-col overflow-hidden"
+        >
+          <div className="pt-2 px-2 bg-white">
+            {/* <!-- Top Options --> */}
+            <div class=" flex flex-wrap items-center gap-4 mb-3">
+              <label class="flex items-center space-x-1 font-semibold text-[#2e3192]">
+                <input
+                  type="radio"
+                  name="payment"
+                  class="text-[#2e3192] focus:ring-[#2e3192]"
+                />
+                <span>Ghi nợ nhà cung cấp</span>
+              </label>
               <label class="flex items-center space-x-1">
                 <input
-                  type="checkbox"
-                  class="rounded-sm border-gray-300 text-[#2e3192] focus:ring-[#2e3192]"
+                  type="radio"
+                  name="payment"
+                  class="text-[#2e3192] focus:ring-[#2e3192]"
                 />
-                <span>Nhận kèm hóa đơn</span>
+                <span>Thanh toán ngay</span>
               </label>
+              <select
+                name=""
+                id=""
+                className="bg-gray-200 text-left border border-gray-300 pr-5 py-0.5 text-gray-700 rounded-sm"
+              >
+                <option value=""></option>
+                <option value="Chuyển khoản">Chuyển khoản</option>
+                <option value="Tiền mặt">Tiền mặt</option>
+              </select>
+              <div class="ml-auto flex items-center space-x-3">
+                <button
+                  class="border border-[#2e3192] text-[#2e3192] px-3 py-0.5 rounded-sm hover:bg-blue-50 font-medium"
+                  type="button"
+                  onClick={openTableOrder}
+                >
+                  Chọn phiếu đặt hàng
+                </button>
+                <label class="flex items-center space-x-1">
+                  <input
+                    type="checkbox"
+                    class="rounded-sm border-gray-300 text-[#2e3192] focus:ring-[#2e3192]"
+                  />
+                  <span>Nhận kèm hóa đơn</span>
+                </label>
+              </div>
+            </div>
+
+            {/* <!-- Tabs --> */}
+            <div class=" border-b border-gray-300 mb-3">
+              <button
+                type="button"
+                class="px-4 py-1 border-b-2 border-[#2e3192] text-[#2e3192] font-bold bg-blue-50"
+              >
+                Phiếu nhập
+              </button>
             </div>
           </div>
 
-          {/* <!-- Tabs --> */}
-          <div class=" border-b border-gray-300 mb-3">
-            <button class="px-4 py-1 border-b-2 border-[#2e3192] text-[#2e3192] font-bold bg-blue-50">
-              Phiếu nhập
-            </button>
-          </div>
-        </div>
-
           <div class="flex-1 flex flex-col bg-white px-2 pb-2 overflow-y-auto">
-          {/* <!-- Form Grid --> */}
-          <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-4">
-            {/* <!-- Left Column: General Info --> */}
-            <div class="lg:col-span-8">
-              <h3 class="text-gray-600 font-bold uppercase text-sm mb-4">
-                Thông tin chung
-              </h3>
+            {/* <!-- Form Grid --> */}
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-4">
+              {/* <!-- Left Column: General Info --> */}
+              <div class="lg:col-span-8">
+                <h3 class="text-gray-600 font-bold uppercase text-sm mb-4">
+                  Thông tin chung
+                </h3>
 
-              <div class="grid grid-cols-12 gap-y-2 items-center">
-                {/* <!-- Row 1 --> */}
-                <label class="col-span-3 text-sm text-gray-700">
-                  Nhà cung cấp
-                </label>
-                <div class="col-span-9 flex space-x-1">
-                  <div class="relative flex-none w-1/3">
+                <div class="grid grid-cols-12 gap-y-2 items-center">
+                  {/* <!-- Row 1 --> */}
+                  <label class="col-span-3 text-sm text-gray-700">
+                    Nhà cung cấp
+                  </label>
+                  <div class="col-span-9 flex space-x-1">
+                    <div class={"relative flex-none w-1/3"}>
+                      <input
+                      type="text"
+                      value = {order.supplier ? order.supplier.id : ""}
+                      {...register("supplier_id", { required: true })}
+                      class={"w-full border border-gray-300 rounded-sm px-2 py-1 pr-12 focus:outline-none focus:border-blue-500" + (errors.supplier_id ? " border-red-500" : "")}
+                    />
+                      {/* <Controller
+                        name="supplier_id"
+                        control={control}
+                        render={({ field }) => (
+                          <input
+                            {...field}
+                            type="text"
+                            class="w-full border border-gray-300 rounded-sm px-2 py-1 pr-12 focus:outline-none focus:border-blue-500"
+                            value={order.supplier ? order.supplier.id : ""}
+                          />
+                        )}
+                      /> */}
+                      <div class="absolute right-0 top-0 h-full flex items-center">
+                        <button
+                          type="button"
+                          class="px-1 text-gray-500 hover:text-blue-600"
+                        >
+                          <svg
+                            width="12"
+                            height="12"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                          >
+                            <polyline points="6 9 12 15 18 9" />
+                          </svg>
+                        </button>
+                        <button
+                          type="button"
+                          class="px-1 text-gray-500 hover:text-blue-600"
+                        >
+                          <svg
+                            width="12"
+                            height="12"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                          >
+                            <circle cx="11" cy="11" r="8" />
+                            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                          </svg>
+                        </button>
+                        <button
+                          type="button"
+                          class="px-1 text-[#2e3192] hover:text-blue-800 bg-blue-100 h-full border-l border-gray-300"
+                        >
+                          <svg
+                            width="14"
+                            height="14"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                          >
+                            <line x1="12" y1="5" x2="12" y2="19" />
+                            <line x1="5" y1="12" x2="19" y2="12" />
+                          </svg>
+                        </button>
+                      </div>
+                    </div>
                     <input
                       type="text"
-                      class="w-full border border-gray-300 rounded-sm px-2 py-1 pr-12 focus:outline-none focus:border-blue-500"
+                      {...register("supplier_name", { required: true })}
+                      value={order.supplier ? order.supplier.name : ""}
+                      class={"flex-1 border border-gray-300 rounded-sm px-2 py-1 focus:outline-none focus:border-blue-500" + (errors.supplier_name ? " border-red-500" : "")}
                     />
-                    <div class="absolute right-0 top-0 h-full flex items-center">
-                      <button class="px-1 text-gray-500 hover:text-blue-600">
-                        <svg
-                          width="12"
-                          height="12"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-width="2"
-                        >
-                          <polyline points="6 9 12 15 18 9" />
-                        </svg>
-                      </button>
-                      <button class="px-1 text-gray-500 hover:text-blue-600">
-                        <svg
-                          width="12"
-                          height="12"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-width="2"
-                        >
-                          <circle cx="11" cy="11" r="8" />
-                          <line x1="21" y1="21" x2="16.65" y2="16.65" />
-                        </svg>
-                      </button>
-                      <button class="px-1 text-[#2e3192] hover:text-blue-800 bg-blue-100 h-full border-l border-gray-300">
-                        <svg
-                          width="14"
-                          height="14"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-width="2"
-                        >
-                          <line x1="12" y1="5" x2="12" y2="19" />
-                          <line x1="5" y1="12" x2="19" y2="12" />
-                        </svg>
-                      </button>
-                    </div>
+                    {/* <Controller
+                        name="supplier_name"
+                        control={control}
+                        render={({ field }) => (
+                          <input
+                            {...field}
+                            type="text"
+                            class="w-full border border-gray-300 rounded-sm px-2 py-1 pr-12 focus:outline-none focus:border-blue-500"
+                            value={order.supplier ? order.supplier.name : ""}
+                          />
+                        )}
+                      /> */}
                   </div>
-                  <input
-                    type="text"
-                    class="flex-1 border border-gray-300 rounded-sm px-2 py-1 focus:outline-none focus:border-blue-500"
-                  />
-                </div>
 
-                {/* <!-- Row 2 --> */}
-                <label class="col-span-3 text-sm text-gray-700">
-                  Người giao
-                </label>
-                <div class="col-span-9">
-                  <input
-                    {...register("importshipment_deliverer")}
-                    type="text"
-                    class="w-full border border-gray-300 rounded-sm px-2 py-1 focus:outline-none focus:border-blue-500"
-                  />
-                </div>
+                  {/* <!-- Row 2 --> */}
+                  <label class="col-span-3 text-sm text-gray-700">
+                    Người giao
+                  </label>
+                  <div class="col-span-9">
+                    <input
+                      {...register("importshipment_deliverer")}
+                      type="text"
+                      class="w-full border border-gray-300 rounded-sm px-2 py-1 focus:outline-none focus:border-blue-500"
+                    />
+                  </div>
 
-                {/* <!-- Row 3 --> */}
-                <label class="col-span-3 text-sm text-gray-700">Ghi chú</label>
-                <div class="col-span-9">
-                  <input
-                  {...register("importshipment_note")}
-                    type="text"
-                    class="w-full border border-gray-300 rounded-sm px-2 py-1 focus:outline-none focus:border-blue-500"
-                  />
-                </div>
+                  {/* <!-- Row 3 --> */}
+                  <label class="col-span-3 text-sm text-gray-700">
+                    Ghi chú
+                  </label>
+                  <div class="col-span-9">
+                    <input
+                      {...register("importshipment_note")}
+                      type="text"
+                      class="w-full border border-gray-300 rounded-sm px-2 py-1 focus:outline-none focus:border-blue-500"
+                    />
+                  </div>
 
-                {/* <!-- Row 4 --> */}
-                <label class="col-span-3 text-sm text-gray-700">
-                  NV mua hàng
-                </label>
-                <div class="col-span-9 flex space-x-1">
-                  <div class="relative flex-none w-1/3">
+                  {/* <!-- Row 4 --> */}
+                  <label class="col-span-3 text-sm text-gray-700">
+                    NV nhận hàng
+                  </label>
+                  <div class="col-span-9 flex space-x-1">
+                    <div class="relative flex-none w-1/3">
+                      <input
+                        type="text"
+                        {...register("received_employeeId")}
+                        class="w-full border border-gray-300 rounded-sm px-2 py-1 pr-12 focus:outline-none focus:border-blue-500"
+                      />
+                      <div class="absolute right-0 top-0 h-full flex items-center">
+                        <button
+                          type="button"
+                          class="px-1 text-gray-500 hover:text-blue-600"
+                        >
+                          <svg
+                            width="12"
+                            height="12"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                          >
+                            <polyline points="6 9 12 15 18 9" />
+                          </svg>
+                        </button>
+                        <button
+                          type="button"
+                          class="px-1 text-gray-500 hover:text-blue-600"
+                        >
+                          <svg
+                            width="12"
+                            height="12"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                          >
+                            <circle cx="11" cy="11" r="8" />
+                            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                          </svg>
+                        </button>
+                        <button
+                          type="button"
+                          class="px-1 text-[#2e3192] hover:text-blue-800 bg-blue-100 h-full border-l border-gray-300"
+                        >
+                          <svg
+                            width="14"
+                            height="14"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                          >
+                            <line x1="12" y1="5" x2="12" y2="19" />
+                            <line x1="5" y1="12" x2="19" y2="12" />
+                          </svg>
+                        </button>
+                      </div>
+                    </div>
                     <input
                       type="text"
-                      class="w-full border border-gray-300 rounded-sm px-2 py-1 pr-12 focus:outline-none focus:border-blue-500"
+                      {...register("received_employeeName")}
+                      class="flex-1 bg-gray-200 border border-gray-300 rounded-sm px-2 py-1"
                     />
-                    <div class="absolute right-0 top-0 h-full flex items-center">
-                      <button class="px-1 text-gray-500 hover:text-blue-600">
-                        <svg
-                          width="12"
-                          height="12"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-width="2"
-                        >
-                          <polyline points="6 9 12 15 18 9" />
-                        </svg>
-                      </button>
-                      <button class="px-1 text-gray-500 hover:text-blue-600">
-                        <svg
-                          width="12"
-                          height="12"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-width="2"
-                        >
-                          <circle cx="11" cy="11" r="8" />
-                          <line x1="21" y1="21" x2="16.65" y2="16.65" />
-                        </svg>
-                      </button>
-                      <button class="px-1 text-[#2e3192] hover:text-blue-800 bg-blue-100 h-full border-l border-gray-300">
-                        <svg
-                          width="14"
-                          height="14"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-width="2"
-                        >
-                          <line x1="12" y1="5" x2="12" y2="19" />
-                          <line x1="5" y1="12" x2="19" y2="12" />
-                        </svg>
-                      </button>
-                    </div>
                   </div>
-                  <input
-                    type="text"
-                    disabled
-                    class="flex-1 bg-gray-200 border border-gray-300 rounded-sm px-2 py-1"
-                  />
-                </div>
 
-                
-                <div class="col-span-12">
-                  {/* <!-- Empty space as per image --> */}
-                </div>
+                  <div class="col-span-12">
+                    {/* <!-- Empty space as per image --> */}
+                  </div>
 
-                {/* <!-- Row 6 --> */}
-                <label class="col-span-3 text-[#2e3192] cursor-pointer hover:underline text-sm">
-                  Tài liệu đính kèm
-                </label>
-                <div class="col-span-9">
-                  <button class="border border-gray-400 px-2 py-0.5 rounded-sm text-xs bg-white hover:bg-gray-200">
-                    Tải tệp ...
+                  {/* <!-- Row 6 --> */}
+                  <label class="col-span-3 text-[#2e3192] cursor-pointer hover:underline text-sm">
+                    Tài liệu đính kèm
+                  </label>
+                  <div class="col-span-9">
+                    <button
+                      type="button"
+                      class="border border-gray-400 px-2 py-0.5 rounded-sm text-xs bg-white hover:bg-gray-200"
+                    >
+                      Tải tệp ...
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              {/* <!-- Right Column: Voucher Info --> */}
+              <div class="lg:col-span-4">
+                <h3 class="font-bold text-gray-500 uppercase text-sm mb-4">
+                  Chứng từ
+                </h3>
+                <div class="grid grid-cols-12 gap-y-2 items-center">
+                  <label class="col-span-4 text-sm text-gray-700">
+                    Số phiếu nhập
+                  </label>
+                  <div class="col-span-8">
+                    <input
+                      type="text"
+                      {...register("importshipment_id")}
+                      value="ABCD-NK000273"
+                      readOnly
+                      class="w-full border border-gray-300 rounded-sm px-2 py-1 text-right focus:outline-none focus:border-blue-500"
+                    />
+                  </div>
+
+                  <label class="col-span-4 text-sm text-gray-700">
+                    Ngày nhập
+                  </label>
+                  <div class="col-span-8 relative">
+                    <svg
+                      class="absolute left-2 top-1.5 text-gray-500 w-4 h-4"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                      <line x1="16" y1="2" x2="16" y2="6" />
+                      <line x1="8" y1="2" x2="8" y2="6" />
+                      <line x1="3" y1="10" x2="21" y2="10" />
+                    </svg>
+                    <input
+                      {...register("importshipment_date")}
+                      type="text"
+                      value={now.toLocaleDateString()}
+                      readOnly
+                      class="w-full border border-gray-300 rounded-sm px-2 py-1 text-right focus:outline-none focus:border-blue-500"
+                    />
+                  </div>
+
+                  <label class="col-span-4 text-sm text-gray-700">
+                    Giờ nhập
+                  </label>
+                  <div class="col-span-8 relative">
+                    <svg
+                      class="absolute left-2 top-1.5 text-gray-500 w-4 h-4"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle cx="12" cy="12" r="10" />
+                      <polyline points="12 6 12 12 16 14" />
+                    </svg>
+                    <input
+                      {...register("importshipment_time")}
+                      type="text"
+                      value={now.toLocaleTimeString()}
+                      readOnly
+                      class="w-full border border-gray-300 rounded-sm px-2 py-1 text-right focus:outline-none focus:border-blue-500"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* <!-- Collapse Toggle --> */}
+            <div class="flex justify-center mb-2">
+              <button
+                type="button"
+                class="text-[#2e3192] text-xs font-bold hover:underline flex items-center"
+              >
+                Xem thêm
+                <svg
+                  class="ml-1 w-3 h-3"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M5 15l7-7 7 7"
+                  ></path>
+                </svg>
+              </button>
+            </div>
+
+            {/* <!-- Details Section --> */}
+            <div class="border-t border-gray-300 pt-2">
+              <div class="flex justify-between items-center mb-2">
+                <h3 class="font-bold text-gray-600 uppercase text-sm mb-4">
+                  Chi tiết
+                </h3>
+                <div class="flex space-x-4 text-sm">
+                  <label class="flex items-center space-x-1">
+                    <input
+                      type="checkbox"
+                      checked
+                      class="rounded-sm text-[#2e3192] focus:ring-[#2e3192]"
+                    />
+                    <span>Gợi ý thuế suất theo DM hàng hóa</span>
+                  </label>
+                  <label class="flex items-center space-x-1">
+                    <input
+                      type="checkbox"
+                      class="rounded-sm text-[#2e3192] focus:ring-[#2e3192]"
+                    />
+                    <span>Quét mã vạch</span>
+                  </label>
+                  <button
+                    type="button"
+                    class="flex items-center text-[#2e3192] font-semibold hover:underline"
+                  >
+                    <svg
+                      class="w-4 h-4 mr-1"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path d="M3 21h18M5 21V7l8-4 8 4v14" />
+                    </svg>
+                    Chọn kho
+                  </button>
+                  <button
+                    type="button"
+                    class="flex items-center text-[#2e3192] font-semibold hover:underline"
+                  >
+                    <svg
+                      class="w-4 h-4 mr-1"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                      <polyline points="7 10 12 15 17 10" />
+                      <line x1="12" y1="15" x2="12" y2="3" />
+                    </svg>
+                    Nhập khẩu
+                  </button>
+                  <button
+                    type="button"
+                    class="flex items-center text-gray-400 cursor-not-allowed"
+                  >
+                    <svg
+                      class="w-4 h-4 mr-1"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path d="M4 21v-7" />
+                      <path d="M4 10V3" />
+                      <path d="M12 21v-9" />
+                      <path d="M12 8V3" />
+                      <path d="M20 21v-5" />
+                      <path d="M20 12V3" />
+                      <path d="M1 14h6" />
+                      <path d="M9 8h6" />
+                      <path d="M17 16h6" />
+                    </svg>
+                    Phân bổ chiết khấu
                   </button>
                 </div>
               </div>
+
+              {/* <!-- Table --> */}
+              <DetailImportedGood order={order} />
             </div>
+          </div>
+          {/* </div> */}
 
-            {/* <!-- Right Column: Voucher Info --> */}
-            <div class="lg:col-span-4">
-              <h3 class="font-bold text-gray-500 uppercase text-sm mb-4">
-                Chứng từ
-              </h3>
-              <div class="grid grid-cols-12 gap-y-2 items-center">
-                <label class="col-span-4 text-sm text-gray-700">
-                  Số phiếu nhập
-                </label>
-                <div class="col-span-8">
-                  <input
-                    type="text"
-                    {...register("importshipment_id")}
-                    placeholder="ABCD-NK000273"
-                    class="w-full border border-gray-300 rounded-sm px-2 py-1 text-right focus:outline-none focus:border-blue-500"
-                  />
-                </div>
-
-                <label class="col-span-4 text-sm text-gray-700">
-                  Ngày nhập
-                </label>
-                <div class="col-span-8 relative">
-                  <svg
-                    class="absolute left-2 top-1.5 text-gray-500 w-4 h-4"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
-                    <line x1="16" y1="2" x2="16" y2="6" />
-                    <line x1="8" y1="2" x2="8" y2="6" />
-                    <line x1="3" y1="10" x2="21" y2="10" />
-                  </svg>
-                  <input
-                    {...register("importshipment_date")}
-                    type="text"
-                    placeholder="27/01/2026"
-                    class="w-full border border-gray-300 rounded-sm px-2 py-1 text-right focus:outline-none focus:border-blue-500"
-                  />
-                </div>
-
-                <label class="col-span-4 text-sm text-gray-700">Giờ nhập</label>
-                <div class="col-span-8 relative">
-                  <svg
-                    class="absolute left-2 top-1.5 text-gray-500 w-4 h-4"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <circle cx="12" cy="12" r="10" />
-                    <polyline points="12 6 12 12 16 14" />
-                  </svg>
-                  <input
-                  {...register("importshipment_time")}
-                    type="text"
-                    placeholder="15:50"
-                    class="w-full border border-gray-300 rounded-sm px-2 py-1 text-right focus:outline-none focus:border-blue-500"
-                  />
-                </div>
+          {/* <!-- Footer Totals --> */}
+          <div class="bg-gray-200 border-t border-gray-300 p-2 flex flex-wrap items-center justify-between text-sm font-bold text-gray-700">
+            <div class="flex space-x-6">
+              <div class="flex items-center space-x-2">
+                <span>Tổng số lượng</span>
+                <span class="text-black">0,00</span>
               </div>
-            </div>
-          </div>
-
-          {/* <!-- Collapse Toggle --> */}
-          <div class="flex justify-center mb-2">
-            <button class="text-[#2e3192] text-xs font-bold hover:underline flex items-center">
-              Xem thêm
-              <svg
-                class="ml-1 w-3 h-3"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M5 15l7-7 7 7"
-                ></path>
-              </svg>
-            </button>
-          </div>
-
-          {/* <!-- Details Section --> */}
-          <div class="border-t border-gray-300 pt-2">
-            <div class="flex justify-between items-center mb-2">
-              <h3 class="font-bold text-gray-600 uppercase text-sm mb-4">
-                Chi tiết
-              </h3>
-              <div class="flex space-x-4 text-sm">
-                <label class="flex items-center space-x-1">
-                  <input
-                    type="checkbox"
-                    checked
-                    class="rounded-sm text-[#2e3192] focus:ring-[#2e3192]"
-                  />
-                  <span>Gợi ý thuế suất theo DM hàng hóa</span>
-                </label>
-                <label class="flex items-center space-x-1">
-                  <input
-                    type="checkbox"
-                    class="rounded-sm text-[#2e3192] focus:ring-[#2e3192]"
-                  />
-                  <span>Quét mã vạch</span>
-                </label>
-                <button class="flex items-center text-[#2e3192] font-semibold hover:underline">
-                  <svg
-                    class="w-4 h-4 mr-1"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M3 21h18M5 21V7l8-4 8 4v14" />
-                  </svg>
-                  Chọn kho
-                </button>
-                <button class="flex items-center text-[#2e3192] font-semibold hover:underline">
-                  <svg
-                    class="w-4 h-4 mr-1"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                    <polyline points="7 10 12 15 17 10" />
-                    <line x1="12" y1="15" x2="12" y2="3" />
-                  </svg>
-                  Nhập khẩu
-                </button>
-                <button class="flex items-center text-gray-400 cursor-not-allowed">
-                  <svg
-                    class="w-4 h-4 mr-1"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M4 21v-7" />
-                    <path d="M4 10V3" />
-                    <path d="M12 21v-9" />
-                    <path d="M12 8V3" />
-                    <path d="M20 21v-5" />
-                    <path d="M20 12V3" />
-                    <path d="M1 14h6" />
-                    <path d="M9 8h6" />
-                    <path d="M17 16h6" />
-                  </svg>
-                  Phân bổ chiết khấu
-                </button>
+              <div class="flex items-center space-x-2">
+                <span>Tổng thành tiền</span>
+                <span class="text-black">0,00</span>
               </div>
             </div>
 
-            {/* <!-- Table --> */}
-            <DetailImportedGood />
-          </div>
-          </div>
-        {/* </div> */}
-        
-        
-        {/* <!-- Footer Totals --> */}
-        <div class="bg-gray-200 border-t border-gray-300 p-2 flex flex-wrap items-center justify-between text-sm font-bold text-gray-700">
-          <div class="flex space-x-6">
-            <div class="flex items-center space-x-2">
-              <span>Tổng số lượng</span>
-              <span class="text-black">0,00</span>
-            </div>
-            <div class="flex items-center space-x-2">
-              <span>Tổng thành tiền</span>
-              <span class="text-black">0,00</span>
+            <div class="flex space-x-6">
+              <div class="flex items-center space-x-2">
+                <span>Tiền CK</span>
+                <span class="text-black">0,00</span>
+              </div>
+              <div class="flex items-center space-x-2">
+                <span>Tiền thuế</span>
+                <span class="text-black">0,00</span>
+              </div>
+              <div class="flex items-center space-x-2 bg-gray-300 px-2 py-1 rounded">
+                <span>Tổng tiền thanh toán</span>
+                <span class="text-black">0,00</span>
+              </div>
             </div>
           </div>
-
-          <div class="flex space-x-6">
-            <div class="flex items-center space-x-2">
-              <span>Tiền CK</span>
-              <span class="text-black">0,00</span>
-            </div>
-            <div class="flex items-center space-x-2">
-              <span>Tiền thuế</span>
-              <span class="text-black">0,00</span>
-            </div>
-            <div class="flex items-center space-x-2 bg-gray-300 px-2 py-1 rounded">
-              <span>Tổng tiền thanh toán</span>
-              <span class="text-black">0,00</span>
-            </div>
-          </div>
-        </div>
-        {/* <!-- Footer --> */}
-        <div class="rounded-bl rounded-br flex flex-col md:flex-row justify-between items-center px-6 border-t border-gray-200 bg-white py-4">
-          <button class="flex items-center text-blue-900 font-bold text-sm hover:underline mb-3 md:mb-0">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-5 w-5 mr-1"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z"
-                clip-rule="evenodd"
-              />
-            </svg>
-            Trợ giúp
-          </button>
-
-          <div class="flex space-x-3">
-            <button class="flex items-center bg-[#313a66] text-white px-4 py-2 rounded shadow hover:bg-blue-900 text-sm font-medium" type="button">
-              <svg
-                width="14"
-                height="14"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                class="h-4 w-4 mr-2"
-              >
-                <polyline points="6 9 6 2 18 2 18 9" />
-                <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" />
-                <rect x="6" y="14" width="12" height="8" />
-              </svg>In
-            </button>
-            <button class="flex items-center bg-[#313a66] text-white px-4 py-2 rounded shadow hover:bg-blue-900 text-sm font-medium" type="button">
-              <svg
-                width="14"
-                height="14"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                class="h-4 w-4 mr-2"
-              >
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                <polyline points="7 10 12 15 17 10" />
-                <line x1="12" y1="15" x2="12" y2="3" />
-              </svg>Xuất khẩu
-            </button>
-
+          {/* <!-- Footer --> */}
+          <div class="rounded-bl rounded-br flex flex-col md:flex-row justify-between items-center px-6 border-t border-gray-200 bg-white py-4">
             <button
-              class="flex items-center bg-[#313a66] text-white px-4 py-2 rounded shadow hover:bg-blue-900 text-sm font-medium"
-              type="submit"
-              // disabled={loading}
+              type="button"
+              class="flex items-center text-blue-900 font-bold text-sm hover:underline mb-3 md:mb-0"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                class="h-4 w-4 mr-2"
+                class="h-5 w-5 mr-1"
                 viewBox="0 0 20 20"
                 fill="currentColor"
               >
-                <path d="M7.707 10.293a1 1 0 10-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 11.586V6h5a2 2 0 012 2v7a2 2 0 01-2 2H4a2 2 0 01-2-2V8a2 2 0 012-2h5v5.586l-1.293-1.293zM9 4a1 1 0 012 0v2H9V4z" />
-              </svg>
-              Lưu
-            </button>
-            <button
-              class="flex items-center text-[#313a66] px-4 py-2 rounded hover:bg-gray-300 text-sm font-medium"
-              type="reset"
-              // disabled={loading}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-4 w-4 mr-1"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
                 <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M6 18L18 6M6 6l12 12"
+                  fill-rule="evenodd"
+                  d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z"
+                  clip-rule="evenodd"
                 />
               </svg>
-              Hủy bỏ
+              Trợ giúp
             </button>
+
+            <div class="flex space-x-3">
+              <button
+                class="flex items-center bg-[#313a66] text-white px-4 py-2 rounded shadow hover:bg-blue-900 text-sm font-medium"
+                type="button"
+              >
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  class="h-4 w-4 mr-2"
+                >
+                  <polyline points="6 9 6 2 18 2 18 9" />
+                  <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" />
+                  <rect x="6" y="14" width="12" height="8" />
+                </svg>
+                In
+              </button>
+              <button
+                class="flex items-center bg-[#313a66] text-white px-4 py-2 rounded shadow hover:bg-blue-900 text-sm font-medium"
+                type="button"
+              >
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  class="h-4 w-4 mr-2"
+                >
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                  <polyline points="7 10 12 15 17 10" />
+                  <line x1="12" y1="15" x2="12" y2="3" />
+                </svg>
+                Xuất khẩu
+              </button>
+
+              <button
+                class="flex items-center bg-[#313a66] text-white px-4 py-2 rounded shadow hover:bg-blue-900 text-sm font-medium"
+                type="submit"
+                disabled={loading}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-4 w-4 mr-2"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path d="M7.707 10.293a1 1 0 10-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 11.586V6h5a2 2 0 012 2v7a2 2 0 01-2 2H4a2 2 0 01-2-2V8a2 2 0 012-2h5v5.586l-1.293-1.293zM9 4a1 1 0 012 0v2H9V4z" />
+                </svg>
+                Lưu
+              </button>
+              <button
+                class="flex items-center text-[#313a66] px-4 py-2 rounded hover:bg-gray-300 text-sm font-medium"
+                type="reset"
+                disabled={loading}
+                onClick={() => {
+                  setOrder({});
+                }}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-4 w-4 mr-1"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+                Hủy bỏ
+              </button>
+            </div>
           </div>
-        </div>
         </form>
       </div>
     </>

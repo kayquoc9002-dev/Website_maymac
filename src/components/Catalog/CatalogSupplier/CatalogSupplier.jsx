@@ -6,7 +6,7 @@ import Toolbar from "../Toolbar/Toolbar";
 import { useEffect, useState } from "react";
 import fetchData from "../../../Helpers/fetchData";
 import FormSupplier from "./FormSupplier/FormSupplier"
-
+import { suppliers } from "../../../Helpers/urlAPI";
 
 function CatalogSupplier() {
   const [data, setData] = useState([]);
@@ -17,7 +17,7 @@ function CatalogSupplier() {
 
   useEffect(() => {
     const getData = async () => {
-      const result = await fetchData("http://localhost:3000/suppliers");
+      const result = await fetchData(suppliers);
       setData(result);
     };
     getData();

@@ -2,22 +2,30 @@ import React from "react";
 import { LuTextSearch } from "react-icons/lu";
 import { FaSearchPlus } from "react-icons/fa";
 import { TbListSearch } from "react-icons/tb";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import TableSupplier from "./TableSupplier/TableSupplier";
 import TableGood from "./TableGood/TableGood";
 import DetailBookedGood from "../DetailBookedGood/DetailBookedGood";
-function FormInfoBookedOrder({ openForm }) {
+import { useForm } from "react-hook-form";
+import postData from "../../../../Helpers/postData";
+import { purchaseOrder } from "../../../../Helpers/urlAPI";
+function FormInfoBookedOrder({ openForm, dataOrder, setData }) {
   const [selectedSupplier, setselectedSupplier] = useState(false);
   const [selectedGood, setSelectedGood] = useState(false);
   const now = new Date();
-  const [infoSelectedSupplier, setSelectedInfoSupplier] = useState({});
-
-  const [quantity, setQuatity] = useState(0);
-  const [totalPrice, setTotalPrice] = useState(0);
-  const [taxAmount, setTaxAmount] = useState(0);
+  const [infoSelectedSupplier, setSelectedInfoSupplier] = useState({
+    id: "",
+    name: ""
+  });
+  const detailBookedGoods = useRef([]);
+  const { register, handleSubmit, reset } = useForm();
+  const [loading, setLoading] = useState(false);
+  // const [quantity, setQuatity] = useState(0);
+  // const [totalPrice, setTotalPrice] = useState(0);
+  // const [taxAmount, setTaxAmount] = useState(0);
 
   
-
+console.log(detailBookedGoods.current);
   console.log(now.toLocaleDateString()); // hiển thị ngày giờ theo locale
   console.log(now.toLocaleTimeString());
   const openFormSupplier = () => {
@@ -26,6 +34,20 @@ function FormInfoBookedOrder({ openForm }) {
   const openFormGood = () => {
     setSelectedGood(!selectedGood);
   };
+
+  const onSubmit = (data) =>{
+    data = {...data, supplier: {
+      id: infoSelectedSupplier.supplier_id,
+      name: infoSelectedSupplier.supplier_name
+    }, bookedGoods: detailBookedGoods.current, totalPrice: 10000000}
+    console.log(data);
+    console.log(detailBookedGoods.current);
+    postData(data, setLoading, purchaseOrder)
+    reset();
+    setData([...dataOrder, data]);
+    openForm();
+
+  }
   return (
     <>
       {selectedSupplier && (
@@ -100,9 +122,11 @@ function FormInfoBookedOrder({ openForm }) {
           </div>
         </div>
 
+      
         {/* <!-- Content Area --> */}
-        <div class="p-4 flex-grow overflow-y-auto">
+        <form id="myForm" class="p-4 flex-grow overflow-y-auto" onSubmit={handleSubmit(onSubmit)}>
           <button
+          type="button"
             onClick={openFormGood}
             class="border border-gray-400 text-gray-600 px-4 py-1.5 rounded bg-white hover:bg-gray-200 mb-5 text-sm font-medium shadow-sm"
           >
@@ -141,12 +165,14 @@ function FormInfoBookedOrder({ openForm }) {
                 <label class="text-sm text-gray-700">Người đặt</label>
                 <div class="flex gap-2">
                   <input
+                  {...register("orderer_phone")}
                     type="text"
                     placeholder="0901779913"
                     class="rounded border border-gray-300 px-2 py-1 w-1/3 focus:outline-none focus:border-blue-500 text-sm"
                     readonly
                   />
                   <input
+                  {...register("orderer_name")}
                     type="text"
                     placeholder="testdemo"
                     readonly
@@ -156,6 +182,7 @@ function FormInfoBookedOrder({ openForm }) {
 
                 <label class="text-sm text-gray-700">Ghi chú</label>
                 <input
+                {...register("order_note")}
                   type="text"
                   placeholder="Đặt hàng nhà cung cấp"
                   class="rounded border border-gray-300 px-2 py-1 w-full focus:outline-none focus:border-blue-500 text-sm"
@@ -172,7 +199,7 @@ function FormInfoBookedOrder({ openForm }) {
                   Tài liệu đính kèm
                 </label>
                 <div class="flex">
-                  <button class="border border-gray-300 px-2 py-0.5 text-gray-500 bg-gray-50 text-xs">
+                  <button class="border border-gray-300 px-2 py-0.5 text-gray-500 bg-gray-50 text-xs" type="button">
                     Tải tệp ...
                   </button>
                 </div>
@@ -188,6 +215,7 @@ function FormInfoBookedOrder({ openForm }) {
               <div class="grid grid-cols-[100px_1fr] gap-y-3 items-center">
                 <label class="text-sm text-gray-700">Số phiếu</label>
                 <input
+                  {...register("order_code")}
                   type="text"
                   value="ABCD-PDH000025"
                   readonly
@@ -196,6 +224,7 @@ function FormInfoBookedOrder({ openForm }) {
 
                 <label class="text-sm text-gray-700">Ngày đặt hàng</label>
                 <input
+                {...register("order_date")}
                   type="text"
                   // placeholder="27/01/2026"
                   value={now.toLocaleDateString()}
@@ -205,6 +234,7 @@ function FormInfoBookedOrder({ openForm }) {
 
                 <label class="text-sm text-gray-700">Thời gian đặt</label>
                 <input
+                {...register("order_time")}
                   type="text"
                   // placeholder="11:42:20"
                   value={now.toLocaleTimeString()}
@@ -214,6 +244,7 @@ function FormInfoBookedOrder({ openForm }) {
 
                 <label class="text-sm text-gray-700">Trạng thái</label>
                 <input
+                {...register("order_status")}
                   type="text"
                   value="Chưa thực hiện"
                   readonly
@@ -253,7 +284,7 @@ function FormInfoBookedOrder({ openForm }) {
                   />
                   Quét mã vạch
                 </label>
-                <button class="flex items-center gap-1 text-gray-500 hover:text-blue-600">
+                <button type="button" class="flex items-center gap-1 text-gray-500 hover:text-blue-600">
                   <svg
                     class="w-4 h-4"
                     fill="none"
@@ -269,7 +300,7 @@ function FormInfoBookedOrder({ openForm }) {
                   </svg>
                   Nhập khẩu
                 </button>
-                <button class="flex items-center gap-1 text-gray-500 hover:text-blue-600">
+                <button type="button" class="flex items-center gap-1 text-gray-500 hover:text-blue-600">
                   <svg
                     class="w-4 h-4"
                     fill="none"
@@ -291,9 +322,9 @@ function FormInfoBookedOrder({ openForm }) {
             {/* <!-- Table --> */}
 
             {/* <!-- Main Content / Table --> */}
-            <DetailBookedGood />
+            <DetailBookedGood detailBookedGoods={detailBookedGoods}/>
           </div>
-        </div>
+        </form>
 
         {/* <!-- Footer Summary --> */}
         <div class="bg-[#e0e0e0] border-t border-gray-400 p-2 flex flex-wrap gap-6 text-sm font-bold text-gray-800 items-center justify-end">
@@ -318,7 +349,7 @@ function FormInfoBookedOrder({ openForm }) {
             <span class="text-blue-900">1.080.000,00</span>
           </div>
         </div>
-
+        
         
         {/* <!-- Footer --> */}
         <div class="rounded-bl rounded-br flex flex-col md:flex-row justify-between items-center px-6 border-t border-gray-200 bg-white py-4">
@@ -342,6 +373,7 @@ function FormInfoBookedOrder({ openForm }) {
             <button
               class="flex items-center bg-[#313a66] text-white px-4 py-2 rounded shadow hover:bg-blue-900 text-sm font-medium"
               type="submit"
+              form="myForm"
               // disabled={loading}
             >
               <svg

@@ -10,6 +10,7 @@ import TableSupplier from "../../../PurchasedOrder/BookedOrder/FormInfoBookedOrd
 import { useNavigate } from "react-router-dom";
 import postData from "../../../../Helpers/postData";
 import GoodCatalog from "../../../PurchasedOrder/BookedOrder/DetailBookedGood/TableGoodCatalog/TableGoodCatalog";
+import { catalogGoods } from "../../../../Helpers/urlAPI";
 function FormInfoGood() {
   const [selectedSupplier, setselectedSupplier] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -26,7 +27,7 @@ function FormInfoGood() {
   const onSubmit = (data) => {
     data.good_tax = parseInt(data.good_tax, 10);
     const sendData = async (data) => {
-      await postData(data, setLoading, 'http://localhost:3000/catalogGoods');
+      await postData(data, setLoading, catalogGoods);
       navigate('/catalog/good');
     } 
     sendData(data);

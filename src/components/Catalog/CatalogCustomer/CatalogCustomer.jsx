@@ -5,6 +5,7 @@ import FormCustomer from "./FormCustomer/FormCustomer";
 import fetchData from "../../../Helpers/fetchData"
 import Sidebar from "../Sidebar/Sidebar";
 import Toolbar from "../Toolbar/Toolbar";
+import { customers } from "../../../Helpers/urlAPI";
 function CatalogCustomer() {
   const [selected, setSelected] = useState(false);
   const [data, setData] = useState([]);
@@ -22,7 +23,7 @@ function CatalogCustomer() {
   console.log(edittedData);
   useEffect(() => {
     const getData = async () => {
-      const result = await fetchData('http://localhost:3000/customers');
+      const result = await fetchData(customers);
       setData(result);
     }
     getData();

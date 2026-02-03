@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import postData from "../../../../Helpers/postData";
 import fetchData from "../../../../Helpers/fetchData";
+import { customers } from "../../../../Helpers/urlAPI";
 function FormCustomer({ openForm, edittedData, setData }) {
   const [loading, setLoading] = useState(false);
   const {
@@ -13,7 +14,7 @@ function FormCustomer({ openForm, edittedData, setData }) {
 
   const onSubmit = async (data) => {
     setLoading(true);
-    await postData(data, setLoading, "http://localhost:3000/customers");
+    await postData(data, setLoading, customers);
     // if(edittedData == []){
       
     // }else{
@@ -23,7 +24,7 @@ function FormCustomer({ openForm, edittedData, setData }) {
   
     //Sau khi submit thì gán lại data mới
     const getData = async () => {
-      const result = await fetchData('http://localhost:3000/customers');
+      const result = await fetchData(customers);
       setData(result);
     }
     getData();

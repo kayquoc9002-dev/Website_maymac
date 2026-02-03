@@ -1,42 +1,34 @@
-import React from "react";
-import RowGoodCatalog from "./RowGoodCatalog/RowGoodCatalog";
-import { useEffect, useState, useRef } from "react";
-import fetchData from "../../../../../Helpers/fetchData";
-function TableGoodCatalog({ openTableGoodCatalog, updateSelectedGood }) {
-  const [data, setData] = useState([]);
-  const [count, setCount] = useState(0);
-  const selectedGoodId = useRef([]);
-  // console.log(selectedGoodId.current)
-  useEffect(() => {
+import React, { useState, useEffect, useRef } from 'react'
+import fetchData  from '../../../../../Helpers/fetchData'
+import RowOrder from './RowOrder/RowOrder';
+import {purchaseOrder} from '../../../../../Helpers/urlAPI';
+function Order({openTableOrder, setOrder}) {
+    const [data, setData] = useState([]);
+const order = useRef({});
+    useEffect(() => {
     const getData = async () => {
       // Fetch data from API or perform any side effects here
-      const result = await fetchData('http://localhost:3000/catalogGoods');  
+      const result = await fetchData(purchaseOrder);  
       // console.log(result);
       setData(result);
     }  
     getData();
   }, [])
 
-  const handleChangeSelectedGood = (id) => {
-    if(selectedGoodId.current.includes(id)){
-      selectedGoodId.current = selectedGoodId.current.filter(item => item != id)
-    } else{
-      selectedGoodId.current = [ ...selectedGoodId.current, id];
-    }
-    setCount(selectedGoodId.current.length);
-    // console.log(selectedGoodId.current);
+  const handleSelectOrder = (e, item) => {
+   if(e.target.checked){
+    order.current = item
+   } 
   }
-  const handleSubmit = () => {
-    const result = data.filter(item => {
-      if(selectedGoodId.current.includes(item.id)){
-        return item;
-      }
-    })
-    updateSelectedGood(result);
+
+  const submitOrder = () => {
+    console.log(order.current);
+    openTableOrder();
+    setOrder(order.current);
   }
+
   return (
-    <>
-      <div class="bg-white w-[900px] h-[600px] rounded-lg  shadow-lg z-30 flex flex-col">
+    <div class="bg-white w-[900px] h-[600px] rounded-lg  shadow-lg z-10 flex flex-col">
         {/* <!-- Header --> */}
         <div class="bg-gray-100 px-4 py-2 flex justify-between items-center border-b border-gray-300">
           <h2 class="font-bold text-base text-gray-800">Chọn hàng hóa</h2>
@@ -59,7 +51,7 @@ function TableGoodCatalog({ openTableGoodCatalog, updateSelectedGood }) {
                 <line x1="3" y1="21" x2="10" y2="14"></line>
               </svg>
             </button>
-            <button class="hover:text-gray-600" onClick={openTableGoodCatalog}>
+            <button class="hover:text-gray-600" onClick={openTableOrder}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
@@ -85,7 +77,7 @@ function TableGoodCatalog({ openTableGoodCatalog, updateSelectedGood }) {
               {/* <!-- Filter Group 1 --> */}
               <div class="flex items-center gap-2">
                 <label class="whitespace-nowrap font-medium">
-                  Nhóm hàng hóa
+                  Đơn đặt hàng
                 </label>
                 <div class="relative">
                   <select class="border border-gray-300 rounded px-2 py-1.5 w-48 text-gray-500  bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-none appearance-none pr-8">
@@ -169,14 +161,14 @@ function TableGoodCatalog({ openTableGoodCatalog, updateSelectedGood }) {
             </div>
 
             <div class="text-blue-600 text-sm italic">
-              {count} mẫu mã ({count} hàng hóa) đã chọn
+              {/* {count} mẫu mã ({count} hàng hóa) đã chọn */}
             </div>
           </div>
         </div>
         {/* <!-- Table Section --> */}
         <div className="px-2 flex-1 flex flex-col overflow-y-auto">
-          <div class="flex-grow flex-1 bg-white relative">
-            <table class="w-full  border-collapse text-sm ">
+          {/* <div class="flex-grow flex-1 bg-white relative">
+            <table class="w-full  border-collapse text-sm w-[50px] overflow-y-auto overflow-x-auto">
               <thead class="bg-gray-100 sticky top-0 z-10 shadow-sm">
                 <tr>
                   <th class="border border-gray-300 p-2 w-10 text-center">
@@ -185,7 +177,7 @@ function TableGoodCatalog({ openTableGoodCatalog, updateSelectedGood }) {
                   <th class="border border-gray-300 p-2 text-left font-semibold text-gray-700 w-48">
                     Mã SKU
                   </th>
-                  <th class="border border-gray-300 p-2 text-left font-semibold text-gray-700">
+                  <th class="border border-gray-300 p-2 text-left font-semibold text-gray-700 w-40">
                     Tên hàng hóa
                   </th>
                   <th class="border border-gray-300 p-2 text-left font-semibold text-gray-700 w-40">
@@ -197,15 +189,140 @@ function TableGoodCatalog({ openTableGoodCatalog, updateSelectedGood }) {
                   <th class="border border-gray-300 p-2 text-left font-semibold text-gray-700 w-24">
                     Số lượng
                   </th>
+                  <th class="border border-gray-300 p-2 text-left font-semibold text-gray-700 w-24">
+                    Số lượng
+                  </th>
+                  <th class="border border-gray-300 p-2 text-left font-semibold text-gray-700 w-24">
+                    Số lượng
+                  </th>
                 </tr>
               </thead>
               <tbody class="divide-y divide-gray-200 h-full overflow-y-auto">
-                {data.map((item) => (
-                  <RowGoodCatalog key={item.id} infoGoodCatalog={item} handleChangeSelectedGood={handleChangeSelectedGood}/>
-                ))}
+                
               </tbody>
             </table>
-          </div>
+          </div> */}
+          <div class="overflow-x-auto w-full border border-gray-300">
+        <table class="w-full min-w-[600px]  border-collapse text-xs">
+          <thead>
+            <tr class="bg-gray-100 text-gray-700 font-bold h-8">
+              <th class="border border-gray-300 p-1 px-4 whitespace-nowrap">
+                  <div class="flex items-center justify-center gap-2">
+                    <input type="checkbox" class="rounded border-gray-400"/>
+                  </div>
+                </th>
+              <th class="border border-gray-300 p-1 px-12 whitespace-nowrap">Ngày đặt hàng</th>
+              <th class="border border-gray-300 p-1 px-12 whitespace-nowrap">Số phiếu</th>
+              <th class="border border-gray-300 p-1 px-12 whitespace-nowrap">Nhà cung cấp</th>
+              <th class="border border-gray-300 p-1 px-12 whitespace-nowrap">Mã sku</th>
+              <th class="border border-gray-300 p-1 px-12 whitespace-nowrap">Tên hàng hóa</th>
+              <th class="border border-gray-300 p-1 px-12 whitespace-nowrap">Số lượng đặt</th>
+              <th class="border border-gray-300 p-1 px-12 whitespace-nowrap">Đã nhập</th>
+              <th class="border border-gray-300 p-1 px-12 whitespace-nowrap">Số lượng nhập</th>
+            </tr>
+          </thead>
+          <tbody>
+            {/* <!-- Row 1 --> */}
+            <tr class="bg-white">
+              <td class="border border-gray-300 p-0 relative">
+                <div class="flex h-8">
+                  <div class="w-6 flex items-center justify-center border-r border-gray-200 text-gray-400">
+                    *
+                  </div>
+                  <input type="text" class="w-full h-full px-1 outline-none" />
+                </div>
+              </td>
+              <td class="border border-gray-300 p-0">
+                <div class="flex h-8">
+                  <div class="w-6 flex items-center justify-center border-r border-gray-200 text-gray-400">
+                    *
+                  </div>
+                  <input type="text" class="w-full h-full px-1 outline-none" />
+                </div>
+              </td>
+              <td class="border border-gray-300 p-0">
+                <div class="flex h-8">
+                  <div class="w-6 flex items-center justify-center border-r border-gray-200 text-gray-400">
+                    *
+                  </div>
+                  <input type="text" class="w-full h-full px-1 outline-none" />
+                </div>
+              </td>
+              <td class="border border-gray-300 p-0">
+                <div class="flex h-8">
+                  <div class="w-6 flex items-center justify-center border-r border-gray-200 text-gray-400">
+                    *
+                  </div>
+                  <input type="text" class="w-full h-full px-1 outline-none" />
+                </div>
+              </td>
+              <td class="border border-gray-300 p-0">
+                <div class="flex h-8">
+                  <div class="w-6 flex items-center justify-center border-r border-gray-200 text-gray-400">
+                    *
+                  </div>
+                  <input type="text" class="w-full h-full px-1 outline-none" />
+                </div>
+              </td>
+              <td class="border border-gray-300 p-0">
+                <div class="flex h-8">
+                  <div class="w-6 flex items-center justify-center border-r border-gray-200 text-gray-400">
+                    *
+                  </div>
+                  <input type="text" class="w-full h-full px-1 outline-none" />
+                </div>
+              </td>
+              <td class="border border-gray-300 p-0">
+                <div class="flex h-8">
+                  <div class="w-6 flex items-center justify-center border-r border-gray-200 text-gray-400">
+                    *
+                  </div>
+                  <input type="text" class="w-full h-full px-1 outline-none" />
+                </div>
+              </td>
+              <td class="border border-gray-300 p-0">
+                <div class="flex h-8">
+                  <div class="w-6 flex items-center justify-center border-r border-gray-200 text-gray-400">
+                    *
+                  </div>
+                  <input type="text" class="w-full h-full px-1 outline-none" />
+                </div>
+              </td>
+              
+            </tr>
+            
+            {/* <!-- Empty Rows for visual height --> */}
+            {/* <tr class="h-8 border border-gray-300">
+              <td colspan="6" class = "border border-gray-300"></td>
+            </tr>
+            <tr class="h-8 border border-gray-300">
+              <td colspan="6"></td>
+            </tr>
+            <tr class="h-8 border border-gray-300">
+              <td colspan="6"></td>
+            </tr> */}
+            {data.map(item => (
+                <RowOrder infoOrder={item} handleSelectOrder={handleSelectOrder}/>
+            ))}
+            <tr class="hover:bg-gray-50 h-8">
+                <td class="border border-gray-300 p-2 text-center">
+                  <div class="flex items-center justify-center gap-2">
+                    
+                  </div>
+                </td>
+                <td class="border border-gray-300 p-2 font-medium"></td>
+                <td class="border border-gray-300 p-2 font-bold text-gray-800">
+                 
+                </td>
+                <td class="border border-gray-300 p-2"></td>
+                <td class="border border-gray-300 p-2"></td>
+                <td class="border border-gray-300 p-2"></td>
+                <td class="border border-gray-300 p-2"></td>
+                <td class="border border-gray-300 p-2"></td>
+        </tr>
+          </tbody>
+        </table>
+      </div>
 
           {/* <!-- Pagination --> */}
           <div class="bg-white p-2 border-t border-gray-300 flex items-center gap-1 text-sm sticky bottom-0">
@@ -324,7 +441,8 @@ function TableGoodCatalog({ openTableGoodCatalog, updateSelectedGood }) {
               </svg>
               Xuất khẩu
             </button>
-            <button class="px-6 py-2 bg-[#2A3255] hover:bg-[#1e2440] text-white rounded font-medium flex items-center gap-2" onClick={handleSubmit}>
+            <button class="px-6 py-2 bg-[#2A3255] hover:bg-[#1e2440] text-white rounded font-medium flex items-center gap-2" onClick={submitOrder}>
+              
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
@@ -360,8 +478,7 @@ function TableGoodCatalog({ openTableGoodCatalog, updateSelectedGood }) {
           </div>
         </div>
       </div>
-    </>
-  );
+  )
 }
 
-export default TableGoodCatalog;
+export default Order

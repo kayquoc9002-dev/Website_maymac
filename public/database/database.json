@@ -914,5 +914,165 @@
       "good_price": 0,
       "good_initialStock": 0
     }
+  ],
+  "purchaseOrder": [
+    {
+      "id": "603b",
+      "orderer_phone": "0987654321",
+      "orderer_name": "Duy",
+      "order_note": "Tuyệt vời",
+      "order_code": "ABCD-PDH000025",
+      "order_date": "3/2/2026",
+      "order_time": "00:51:06",
+      "order_status": "Chưa thực hiện",
+      "supplier": {
+        "id": "CT007",
+        "name": "Công ty Cổ phần Màu Nhuộm Việt Hoa"
+      },
+      "bookedGoods": [
+        {
+          "id": "a9b3",
+          "good_barcode": "8938505970011",
+          "good_brand": "Coolmate",
+          "good_group": "Áo thun",
+          "good_initialStock": 100,
+          "good_name": "Áo thun cotton",
+          "good_price": 120000,
+          "good_sku": "AT001",
+          "good_supplierId": "CT006",
+          "good_supplierName": "Công ty TNHH Vải Lụa Á Đông",
+          "good_tax": 10,
+          "good_unit": "cái",
+          "quatity": "123"
+        }
+      ],
+      "totalPrice": 10000000
+    },
+    {
+      "id": "f59d",
+      "orderer_phone": "",
+      "orderer_name": "",
+      "order_note": "",
+      "order_code": "ABCD-PDH000025",
+      "order_date": "3/2/2026",
+      "order_time": "01:07:53",
+      "order_status": "Chưa thực hiện",
+      "supplier": {
+        "id": "CT007",
+        "name": "Công ty Cổ phần Màu Nhuộm Việt Hoa"
+      },
+      "bookedGoods": [
+        {
+          "id": "a9b3",
+          "good_barcode": "8938505970011",
+          "good_brand": "Coolmate",
+          "good_group": "Áo thun",
+          "good_initialStock": 100,
+          "good_name": "Áo thun cotton",
+          "good_price": 120000,
+          "good_sku": "AT001",
+          "good_supplierId": "CT006",
+          "good_supplierName": "Công ty TNHH Vải Lụa Á Đông",
+          "good_tax": 10,
+          "good_unit": "cái",
+          "quatity": "234"
+        },
+        {
+          "id": "x7y2",
+          "good_barcode": "8938505970028",
+          "good_brand": "Levi's",
+          "good_group": "Quần jean",
+          "good_initialStock": 50,
+          "good_name": "Quần jean nam",
+          "good_price": 350000,
+          "good_sku": "QJ002",
+          "good_supplierId": "CT006",
+          "good_supplierName": "Công ty TNHH Vải Lụa Á Đông",
+          "good_tax": 10,
+          "good_unit": "cái",
+          "quatity": "345"
+        }
+      ],
+      "totalPrice": 10000000
+    },
+    {
+      "id": "a085",
+      "orderer_phone": "0987654321",
+      "orderer_name": "Khoa",
+      "order_note": "Tuyệt vời",
+      "order_code": "ABCD-PDH000025",
+      "order_date": "3/2/2026",
+      "order_time": "10:05:40",
+      "order_status": "Chưa thực hiện",
+      "supplier": {
+        "id": "CT006",
+        "name": "Công ty TNHH Vải Lụa Á Đông"
+      },
+      "bookedGoods": [
+        {
+          "id": "a9b3",
+          "good_barcode": "8938505970011",
+          "good_brand": "Coolmate",
+          "good_group": "Áo thun",
+          "good_initialStock": 100,
+          "good_name": "Áo thun cotton",
+          "good_price": 120000,
+          "good_sku": "AT001",
+          "good_supplierId": "CT006",
+          "good_supplierName": "Công ty TNHH Vải Lụa Á Đông",
+          "good_tax": 10,
+          "good_unit": "cái",
+          "quatity": "6"
+        },
+        {
+          "id": "x7y2",
+          "good_barcode": "8938505970028",
+          "good_brand": "Levi's",
+          "good_group": "Quần jean",
+          "good_initialStock": 50,
+          "good_name": "Quần jean nam",
+          "good_price": 350000,
+          "good_sku": "QJ002",
+          "good_supplierId": "CT006",
+          "good_supplierName": "Công ty TNHH Vải Lụa Á Đông",
+          "good_tax": 10,
+          "good_unit": "cái",
+          "quatity": "4"
+        }
+      ],
+      "totalPrice": 10000000
+    }
+  ],
+  "receivedNote": [
+    {
+      "id": "1235",
+      "supplier_id": "CT007",
+      "supplier_name": "Công ty Cổ phần Màu Nhuộm Việt Hoa",
+      "importshipment_deliverer": "",
+      "importshipment_note": "",
+      "received_employeeId": "HEHE",
+      "received_employeeName": "Duy",
+      "importshipment_id": "ABCD-NK000273",
+      "importshipment_date": "3/2/2026",
+      "importshipment_time": "16:35:43",
+      "importedGood": [
+        {
+          "id": "a9b3",
+          "good_barcode": "8938505970011",
+          "good_brand": "Coolmate",
+          "good_group": "Áo thun",
+          "good_initialStock": 100,
+          "good_name": "Áo thun cotton",
+          "good_price": 120000,
+          "good_sku": "AT001",
+          "good_supplierId": "CT006",
+          "good_supplierName": "Công ty TNHH Vải Lụa Á Đông",
+          "good_tax": 10,
+          "good_unit": "cái",
+          "quatity": "123"
+        }
+      ],
+      "status": "Đã giao"
+    }
   ]
 }

@@ -1,12 +1,14 @@
 import React from "react";
+import RowImportedGood from "./RowImportedGood/RowImportedGood";
 
-function DetailImportedGood() {
+function DetailImportedGood({order}) {
+  // console.log("Detail: ", order.bookedGoods)
   return (
     <>
-      <div class="overflow-x-auto w-full border border-gray-300">
-        <table class="w-full min-w-[600px]  border-collapse text-xs">
-          <thead>
-            <tr class="bg-gray-100 text-gray-700 font-bold">
+      <div class="overflow-x-auto w-full h-[150px] border border-gray-300 overflow-y-auto">
+        <table class="w-full min-w-[600px] border-collapse text-xs ">
+          <thead class="bg-gray-200">
+            <tr class="bg-gray-200 text-gray-700  font-bold z-10 sticky top-0 sticky top-0">
               <th class="border border-gray-300 p-1 px-12 whitespace-nowrap">Mã SKU</th>
               <th class="border border-gray-300 p-1 px-12 whitespace-nowrap">Tên hàng hóa</th>
               <th class="border border-gray-300 p-1 px-12 whitespace-nowrap">Số lô</th>
@@ -24,7 +26,7 @@ function DetailImportedGood() {
                 <th class="border border-gray-300 p-1 px-12 whitespace-nowrap">Ghi chú</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="h-[50px] overflow-y-auto">
             {/* <!-- Row 1 --> */}
             <tr class="bg-white">
               <td class="border border-gray-300 p-0 relative">
@@ -148,7 +150,10 @@ function DetailImportedGood() {
                 </div>
               </td>
             </tr>
-            
+            {order.bookedGoods ? order.bookedGoods.map(item => (
+              <RowImportedGood detailGood={item}/>
+            )) : <></>}
+
             {/* <!-- Empty Rows for visual height --> */}
             {/* <tr class="h-8 border border-gray-300">
               <td colspan="6"></td>

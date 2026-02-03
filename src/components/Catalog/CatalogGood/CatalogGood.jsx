@@ -4,6 +4,7 @@ import SideBar from '../Sidebar/Sidebar'
 import { useEffect, useState } from 'react'
 import fetchData from '../../../Helpers/fetchData'
 import { useNavigate } from 'react-router-dom'
+import { catalogGoods } from '../../../Helpers/urlAPI'
 function CatalogGood() {
    const [data, setData] = useState([]);
    const navigate = useNavigate();
@@ -12,7 +13,7 @@ function CatalogGood() {
   };
   useEffect(() => {
     const getData = async () => {
-      const result = await fetchData('http://localhost:3000/catalogGoods');
+      const result = await fetchData(catalogGoods);
       setData(result);
     }
     getData();

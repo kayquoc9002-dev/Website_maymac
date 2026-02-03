@@ -1,20 +1,20 @@
 import React from 'react'
 
-function RowImportShipment() {
+function RowImportShipment({importedShipment}) {
   return (
     <>
         <tr class="hover:bg-gray-50">
         <td class="border border-gray-300 p-2 text-center">
           <input type="checkbox" class="rounded border-gray-400"/>
         </td>
-        <td class="border border-gray-300 px-2 py-1.5">27/01/2026</td>
+        <td class="border border-gray-300 px-2 py-1.5">{importedShipment.importshipment_date}</td>
         <td class="border border-gray-300 px-2 py-1.5 text-blue-600 cursor-pointer hover:underline">
-          ABCD-PDH000025
+          {importedShipment.importshipment_id}
         </td>
-        <td class="border border-gray-300 px-2 py-1.5">testdemo</td>
-        <td class="border border-gray-300 px-2 py-1.5">Anh Sang</td>
+        <td class="border border-gray-300 px-2 py-1.5">{importedShipment.received_employeeName}</td>
+        <td class="border border-gray-300 px-2 py-1.5">{importedShipment.supplier_name}</td>
         <td class="border border-gray-300 px-2 py-1.5">1.080.000,00</td>
-        <td class="border border-gray-300 px-2 py-1.5 text-orange-500">Chưa thực hiện</td>
+        <td class="border border-gray-300 px-2 py-1.5 text-green-600">{importedShipment.status}</td>
         <td class="border border-gray-300 px-2 py-1.5">
           Đặt hàng nhà cung cấp
         </td>
@@ -22,5 +22,5 @@ function RowImportShipment() {
     </>
   )
 }
-
+// text-orange-500
 export default RowImportShipment

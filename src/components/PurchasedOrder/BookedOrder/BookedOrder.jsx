@@ -1,12 +1,22 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Sidebar from "../../Catalog/Sidebar/Sidebar.jsx";
 import Toolbar from "../../Catalog/Toolbar/Toolbar.jsx";
 import RowInfoBookedOrder from "./RowInfoBookedOrder/RowInfoBookedOrder.jsx";
 import { useState } from "react";
 import FormInfoBookedOrder from "./FormInfoBookedOrder/FormInfoBookedOrder.jsx";
+import fetchData from "../../../Helpers/fetchData.js";
+import { purchaseOrder } from "../../../Helpers/urlAPI.js";
 
 function BookedOrder() {
   const [selected, setSelected] = useState(false);
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    const getData = async () => {
+      const result = await fetchData(purchaseOrder);
+      setData(result);
+    }
+    getData();
+   }, [])
   const openForm = () => {
     setSelected(!selected);
   };
@@ -24,7 +34,7 @@ function BookedOrder() {
           >
             // {/* Overlay */}
           </div>
-          <FormInfoBookedOrder openForm={openForm} />
+          <FormInfoBookedOrder openForm={openForm} dataOrder={data} setData={setData}/>
           {/* edittedData={edittedData} setData={setData} */}
         </div>
       )}
@@ -273,7 +283,9 @@ function BookedOrder() {
                   </thead>
                   <tbody class="bg-white text-gray-800">
                     {/* <!-- Row 1 (Selected) --> */}
-                    <RowInfoBookedOrder />
+                    {data.map((item) => (
+                      <RowInfoBookedOrder bookedOrder={item}/>
+                    ))}
                     {/* <!-- Row 2 --> */}
                     {/* {data.map((item) => (
                       <RowInfoCustomer handleSelect={handleSelect} inforCustomer={item} selectedId={selectedId} edittedId={edittedId}/>

@@ -5,7 +5,8 @@ import Sidebar from "../Sidebar/Sidebar";
 import Toolbar from "../Toolbar/Toolbar";
 import { useEffect, useState } from "react";
 import fetchData from "../../../Helpers/fetchData";
-import FormPartner from "./FormPartner/FormPartner"
+import FormPartner from "./FormPartner/FormPartner";
+import { partners } from "../../../Helpers/urlAPI";
 function CatalogPartner() {
   const [data, setData] = useState([]);
   const [selected, setSelected] = useState(false);
@@ -15,7 +16,7 @@ function CatalogPartner() {
 
   useEffect(() => {
     const getData = async () => {
-      const result = await fetchData("http://localhost:3000/partners");
+      const result = await fetchData(partners);
       setData(result);
     };
     getData();

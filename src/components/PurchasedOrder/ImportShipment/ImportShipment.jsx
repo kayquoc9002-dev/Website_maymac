@@ -3,12 +3,23 @@ import Sidebar from "../../Catalog/Sidebar/Sidebar";
 import Toolbar from "../../Catalog/Toolbar/Toolbar";
 import FormImportShipment from "./FormImportShipment/FormImportShipment.jsx";
 import RowImportShipment from "./RowImportShipment/RowImportShipment.jsx";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { receivedNote } from "../../../Helpers/urlAPI.js";
+import fetchData from "../../../Helpers/fetchData.js";
 function ImportShipment() {
   const [selected, setSelected] = useState(false);
+  const [data, setData] = useState([]);
   const openForm = () => {
     setSelected(!selected);
   };
+useEffect(() => {
+    const getData = async () => {
+      const result = await fetchData(receivedNote);
+      setData(result);
+    }
+    getData();
+   }, [])
+
 
   return (
     <>
@@ -272,7 +283,10 @@ function ImportShipment() {
                   </thead>
                   <tbody class="bg-white text-gray-800">
                     {/* <!-- Row 1 (Selected) --> */}
-                    <RowImportShipment />
+                    {data.map(item => (
+                      <RowImportShipment importedShipment={item}/>
+                    ))}
+                    
                     {/* <!-- Row 2 --> */}
                     {/* {data.map((item) => (
                       <RowInfoCustomer handleSelect={handleSelect} inforCustomer={item} selectedId={selectedId} edittedId={edittedId}/>

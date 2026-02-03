@@ -3,23 +3,54 @@ import { MdLibraryAdd } from "react-icons/md";
 import RowDetailBookedGood from "./RowDetailBookedGood/RowDetailBookedGood";
 import TableGoodCatalog from "./TableGoodCatalog/TableGoodCatalog";
 import { useState } from "react";
-function DetailBookedGood() {
+function DetailBookedGood({detailBookedGoods}) {
   const [selected, setSelected] = useState(false);
   const [selectedGood, setSelectedGood] = useState([]);
-  console.log(selectedGood);
-  const updateSelectedGood = (data, listSelectedId) => {
+  const [quatity, setQuatity] = useState(0);
+
+  // console.log(selectedGood);
+  const updateSelectedGood = (data) => {
     //Khi user chọn trùng data thì nó sẽ ghi đè lên nhau
-    const flag = selectedGood.filter(item => {
+    // const flag = selectedGood.filter((item) => {
+    //   if (!listSelectedId.includes(item.id)) {
+    //     return item;
+    //   }
+    // });
+    const listSelectedId = selectedGood.filter(item => {
+      return item.id;
+    })
+    const flag = data.filter(item => {
       if(!listSelectedId.includes(item.id)){
         return item;
       }
     })
-    setSelectedGood([...flag, ...data]);
+
+    detailBookedGoods.current = [...selectedGood, ...flag].map(item => {return {...item, quatity: 0}});
+    // console.log(detailBookedGoods);
+    setSelectedGood([...selectedGood, ...flag].map(item => {return {...item, quatity: 0}}));
     openTableGoodCatalog();
-  }
+  };
   const openTableGoodCatalog = () => {
     setSelected(!selected);
+  };
+
+  const handleDeleteItem = (good) => {
+    const flag = selectedGood.filter((item) => item.id != good.id);
+    setSelectedGood(flag);
+  };
+
+  const handleChangeQuatity = (id, count) => {
+    const flag = selectedGood.map(item => {
+      if(item.id != id){
+        return item;
+      } else{
+        return {...item, quatity: count}
+      }
+    })
+    setSelectedGood(flag);
+    detailBookedGoods.current = flag;
   }
+  
   return (
     <>
       {selected && (
@@ -35,7 +66,7 @@ function DetailBookedGood() {
           </div>
           <TableGoodCatalog
             openTableGoodCatalog={openTableGoodCatalog}
-            updateSelectedGood = {updateSelectedGood}
+            updateSelectedGood={updateSelectedGood}
           />
         </div>
       )}
@@ -45,7 +76,10 @@ function DetailBookedGood() {
           <thead class="bg-gray-200">
             <tr class="bg-gray-200 text-gray-700  font-bold z-10 sticky top-0 sticky top-0">
               <th class="border border-gray-300 p-1 px-6 whitespace-nowrap ">
-                <MdLibraryAdd class="w-6 h-6 text-gray-900 hover:text-gray-600 inline-block" onClick={openTableGoodCatalog}/>
+                <MdLibraryAdd
+                  class="w-6 h-6 text-gray-900 hover:text-gray-600 inline-block"
+                  onClick={openTableGoodCatalog}
+                />
               </th>
               <th class="border border-gray-300 p-1 px-12 whitespace-nowrap">
                 Mã SKU
@@ -96,26 +130,13 @@ function DetailBookedGood() {
           </thead>
           <tbody>
             {/* <!-- Row 1 --> */}
-            {selectedGood.map(item => (
-              <RowDetailBookedGood infoGood={item}/>
+            {selectedGood.map((item) => (
+              <RowDetailBookedGood
+                infoGood={item}
+                handleDeleteItem={handleDeleteItem}
+                handleChangeQuatity={handleChangeQuatity}
+              />
             ))}
-{/*             
-            <RowDetailBookedGood />
-            <RowDetailBookedGood />
-            <RowDetailBookedGood />
-            <RowDetailBookedGood />
-            <RowDetailBookedGood /> */}
-
-            {/* <!-- Empty Rows for visual height --> */}
-            {/* <tr class="h-8 border border-gray-300">
-              <td colspan="6"></td>
-            </tr>
-            <tr class="h-8 border border-gray-300">
-              <td colspan="6"></td>
-            </tr>
-            <tr class="h-8 border border-gray-300">
-              <td colspan="6"></td>
-            </tr> */}
           </tbody>
         </table>
       </div>
