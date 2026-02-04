@@ -1,42 +1,39 @@
 import React from "react";
+import Header from "../../PartsOfPage/Header";
 import Sidebar from "../../Catalog/Sidebar/Sidebar";
 import Toolbar from "../../Catalog/Toolbar/Toolbar";
-import FormImportShipment from "./FormImportShipment/FormImportShipment.jsx";
-import RowImportShipment from "./RowImportShipment/RowImportShipment.jsx";
+import FormImport from "./FormImport/FormImport";
 import { useState, useEffect } from "react";
-import { receivedNote } from "../../../Helpers/urlAPI.js";
-import fetchData from "../../../Helpers/fetchData.js";
-import Header from "../../PartsOfPage/Header.jsx";
-function ImportShipment() {
-  const [selected, setSelected] = useState(false);
+
+function ImportWarehouse() {
+  const [selectedForm, setSelectedForm] = useState(false);
   const [data, setData] = useState([]);
   const openForm = () => {
-    setSelected(!selected);
+    setSelectedForm(!selectedForm);
   };
-useEffect(() => {
+
+  useEffect(() => {
     const getData = async () => {
-      const result = await fetchData(receivedNote);
+      // const result = await fetchData(exportWarehouse);
       setData(result);
-    }
+    };
     getData();
-   }, [])
-
-
+  }, []);
+  
   return (
     <>
-      {selected && (
-        <div className="fixed inset-0 z-40 flex justify-center items-center">
+      {selectedForm && (
+        <div className="fixed inset-0 z-20 flex justify-center items-center">
           <div
             className={`absolute inset-0 bg-black transition-opacity duration-300   ${
-              selected
+              selectedForm
                 ? "opacity-60 pointer-events-auto"
                 : "opacity-0 pointer-events-none"
             }`}
           >
             // {/* Overlay */}
           </div>
-          <FormImportShipment openForm={openForm} />
-          {/* edittedData={edittedData} setData={setData} */}
+          <FormImport openForm={openForm} />
         </div>
       )}
       <div class=" bg-gray-50 min-h-screen">
@@ -46,7 +43,7 @@ useEffect(() => {
 
           <div class=" flex-1 w-[100px] flex flex-col h-screen bg-gray-50 font-sans text-sm">
             {/* <!-- Top Header --> */}
-            <Header title="Nhập hàng" />
+            <Header title="Nhập kho" />
 
             <div class="p-2 flex-1 flex flex-col overflow-hidden bg-gray-300">
               {/* <!-- Toolbar --> */}
@@ -169,10 +166,11 @@ useEffect(() => {
                   </thead>
                   <tbody class="bg-white text-gray-800">
                     {/* <!-- Row 1 (Selected) --> */}
-                    {data.map(item => (
-                      <RowImportShipment importedShipment={item}/>
-                    ))}
-                    
+
+                    {/* {data.map((item) => (
+                      <RowInfoBookedOrder bookedOrder={item}/>
+                    ))} */}
+
                     {/* <!-- Row 2 --> */}
                     {/* {data.map((item) => (
                       <RowInfoCustomer handleSelect={handleSelect} inforCustomer={item} selectedId={selectedId} edittedId={edittedId}/>
@@ -293,4 +291,4 @@ useEffect(() => {
   );
 }
 
-export default ImportShipment;
+export default ImportWarehouse;

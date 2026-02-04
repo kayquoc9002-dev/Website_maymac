@@ -1,5 +1,4 @@
 import React from "react";
-import RowInfoCustomer from "../CatalogCustomer/RowInfoCustomer/RowInfoCustomer";
 import RowInfoSupplier from "./RowInfoSupplier/RowInfoSupplier";
 import Sidebar from "../Sidebar/Sidebar";
 import Toolbar from "../Toolbar/Toolbar";

@@ -1,9 +1,3 @@
-
-// const fetchApi = async (url) => {
-//   let result = await fetch(url);
-//   return result.json
-// }
-
 function Product({code, image, title, price, id, toggleCart}) {
   
   return (

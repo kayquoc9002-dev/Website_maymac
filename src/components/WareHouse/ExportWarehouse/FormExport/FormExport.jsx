@@ -1,58 +1,66 @@
 import React from "react";
-import DetailImportedGood from "./DetailImportedGood/DetailImportedGood";
-import { useForm, Controller } from "react-hook-form";
-import { useState } from "react";
-import Order from "./Order/Order";
+import { useForm } from "react-hook-form";
+import DetailBookedGood from "../../../PurchasedOrder/BookedOrder/DetailBookedGood/DetailBookedGood";
+import { TbListSearch } from "react-icons/tb";
+import { transactionRecord } from "../../../../Helpers/urlAPI";
 import postData from "../../../../Helpers/postData";
-import { receivedNote } from "../../../../Helpers/urlAPI";
-function FormImportShipment({ openForm }) {
+import { useState, useRef } from "react";
+import TableObject from "./DetailExportedGood/TableObject/TableObject";
+import DetailExportedGood from "./DetailExportedGood/DetailExportedGood";
+function FormExport({ openForm }) {
+  const [selectedObject, setSelectedObject] = useState(false);
+  const [infoSelectedObject, setSelectedInfoObject] = useState({});
+  const detailExportedGoods = useRef([]);
+  const [selectedGood, setSelectedGood] = useState([]);
+const [loading, setLoading] = useState(false)
+  console.log(infoSelectedObject);
 
-  const { register, handleSubmit, reset, control, formState: {errors} } = useForm();
-  const [selectedOrder, setSelectedOrder] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [order, setOrder] = useState({});
+  // console.log(detailExportedGoods.current);
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    control,
+    formState: { errors },
+  } = useForm();
   const now = new Date();
 
   const onSubmit = (data) => {
-    data = { ...data, importedGood: order.bookedGoods, status: "Đã giao" };
-    setLoading(true);
-    postData(data, setLoading, receivedNote);
-    
+    data = { ...data, goods: detailExportedGoods.current, status: "Xuất" };
+    postData(data, setLoading, transactionRecord);
+    // console.log(data);
+    setSelectedGood([]);
+    setSelectedInfoObject({});
     reset();
-    setOrder({});
   };
 
-  const openTableOrder = () => {
-    setSelectedOrder(!selectedOrder);
+  const openTableObject = () => {
+    setSelectedObject(!selectedObject);
   };
-
-
   return (
     <>
-      {selectedOrder && (
+      {selectedObject && (
         <div className="fixed inset-0 z-20 flex justify-center items-center">
           <div
             className={`absolute inset-0 bg-black transition-opacity duration-300   ${
-              selectedOrder
+              selectedObject
                 ? "opacity-60 pointer-events-auto"
                 : "opacity-0 pointer-events-none"
             }`}
           >
             // {/* Overlay */}
           </div>
-          <Order openTableOrder={openTableOrder} setOrder={setOrder} />
-          {/* edittedData={edittedData} setData={setData} */}
+          <TableObject
+            openTableObject={openTableObject}
+            setSelectedInfoObject={setSelectedInfoObject}
+          />
         </div>
       )}
-
-      {/* <div class="bg-gray-50 min-h-screen"> */}
-      {/* <div class="font-sans text-sm text-gray-700 bg-gray-100 min-h-screen flex flex-col"> */}
       <div class="rounded w-full max-w-[1200px] bg-white shadow-xl border border-gray-400 flex flex-col z-10 max-h-[90vh]">
         {/* <!-- Window Header --> */}
-        <div class="rounded-t flex justify-between items-center px-5 py-3 bg-gray-100 border-b border-gray-200 sticky top-0">
-          <span class="font-bold text-gray-800 text-lg">
-            Thêm mới Phiếu nhập hàng
-          </span>
+        <div class="rounded-t flex justify-between items-center px-5 py-3 bg-gray-100 border-b border-gray-200 sticky top-0 mb-2">
+          <span class="font-bold text-gray-800 text-lg">Phiếu xuất kho</span>
           <div class="flex space-x-2">
             <button class="text-gray-500 hover:text-gray-700">
               <svg
@@ -91,63 +99,6 @@ function FormImportShipment({ openForm }) {
           onSubmit={handleSubmit(onSubmit)}
           class="flex-1 flex flex-col overflow-hidden"
         >
-          <div className="pt-2 px-2 bg-white">
-            {/* <!-- Top Options --> */}
-            <div class=" flex flex-wrap items-center gap-4 mb-3">
-              <label class="flex items-center space-x-1 font-semibold text-[#2e3192]">
-                <input
-                  type="radio"
-                  name="payment"
-                  class="text-[#2e3192] focus:ring-[#2e3192]"
-                />
-                <span>Ghi nợ nhà cung cấp</span>
-              </label>
-              <label class="flex items-center space-x-1">
-                <input
-                  type="radio"
-                  name="payment"
-                  class="text-[#2e3192] focus:ring-[#2e3192]"
-                />
-                <span>Thanh toán ngay</span>
-              </label>
-              <select
-                name=""
-                id=""
-                className="bg-gray-200 text-left border border-gray-300 pr-5 py-0.5 text-gray-700 rounded-sm"
-              >
-                <option value=""></option>
-                <option value="Chuyển khoản">Chuyển khoản</option>
-                <option value="Tiền mặt">Tiền mặt</option>
-              </select>
-              <div class="ml-auto flex items-center space-x-3">
-                <button
-                  class="border border-[#2e3192] text-[#2e3192] px-3 py-0.5 rounded-sm hover:bg-blue-50 font-medium"
-                  type="button"
-                  onClick={openTableOrder}
-                >
-                  Chọn phiếu đặt hàng
-                </button>
-                <label class="flex items-center space-x-1">
-                  <input
-                    type="checkbox"
-                    class="rounded-sm border-gray-300 text-[#2e3192] focus:ring-[#2e3192]"
-                  />
-                  <span>Nhận kèm hóa đơn</span>
-                </label>
-              </div>
-            </div>
-
-            {/* <!-- Tabs --> */}
-            <div class=" border-b border-gray-300 mb-3">
-              <button
-                type="button"
-                class="px-4 py-1 border-b-2 border-[#2e3192] text-[#2e3192] font-bold bg-blue-50"
-              >
-                Phiếu nhập
-              </button>
-            </div>
-          </div>
-
           <div class="flex-1 flex flex-col bg-white px-2 pb-2 overflow-y-auto">
             {/* <!-- Form Grid --> */}
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-4">
@@ -158,62 +109,20 @@ function FormImportShipment({ openForm }) {
                 </h3>
 
                 <div class="grid grid-cols-12 gap-y-2 items-center">
-                  {/* <!-- Row 1 --> */}
+                  {/* <!-- Row 4 --> */}
                   <label class="col-span-3 text-sm text-gray-700">
-                    Nhà cung cấp
+                    NV xuất hàng
                   </label>
                   <div class="col-span-9 flex space-x-1">
-                    <div class={"relative flex-none w-1/3"}>
+                    <div class="relative flex-none w-1/3">
                       <input
-                      type="text"
-                      value = {order.supplier ? order.supplier.id : ""}
-                      {...register("supplier_id", { required: true })}
-                      class={"w-full border border-gray-300 rounded-sm px-2 py-1 pr-12 focus:outline-none focus:border-blue-500" + (errors.supplier_id ? " border-red-500" : "")}
-                    />
-                      {/* <Controller
-                        name="supplier_id"
-                        control={control}
-                        render={({ field }) => (
-                          <input
-                            {...field}
-                            type="text"
-                            class="w-full border border-gray-300 rounded-sm px-2 py-1 pr-12 focus:outline-none focus:border-blue-500"
-                            value={order.supplier ? order.supplier.id : ""}
-                          />
-                        )}
-                      /> */}
+                        type="text"
+                        // readOnly
+                        {...register("employee_id")}
+                        class="w-full border border-gray-300 rounded-sm px-2 py-1 pr-12 focus:outline-none focus:border-blue-500"
+                      />
+                      <TbListSearch className=" w-5 h-5 absolute top-1/2 -translate-y-1/2 right-7 z-5 hover:text-blue-500" />
                       <div class="absolute right-0 top-0 h-full flex items-center">
-                        <button
-                          type="button"
-                          class="px-1 text-gray-500 hover:text-blue-600"
-                        >
-                          <svg
-                            width="12"
-                            height="12"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                          >
-                            <polyline points="6 9 12 15 18 9" />
-                          </svg>
-                        </button>
-                        <button
-                          type="button"
-                          class="px-1 text-gray-500 hover:text-blue-600"
-                        >
-                          <svg
-                            width="12"
-                            height="12"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                          >
-                            <circle cx="11" cy="11" r="8" />
-                            <line x1="21" y1="21" x2="16.65" y2="16.65" />
-                          </svg>
-                        </button>
                         <button
                           type="button"
                           class="px-1 text-[#2e3192] hover:text-blue-800 bg-blue-100 h-full border-l border-gray-300"
@@ -234,9 +143,81 @@ function FormImportShipment({ openForm }) {
                     </div>
                     <input
                       type="text"
-                      {...register("supplier_name", { required: true })}
-                      value={order.supplier ? order.supplier.name : ""}
-                      class={"flex-1 border border-gray-300 rounded-sm px-2 py-1 focus:outline-none focus:border-blue-500" + (errors.supplier_name ? " border-red-500" : "")}
+                      // readOnly
+                      {...register("employee_name")}
+                      class="flex-1 bg-gray-200 border border-gray-300 rounded-sm px-2 py-1"
+                    />
+                  </div>
+
+                  {/* <!-- Row 1 --> */}
+                  <label class="col-span-3 text-sm text-gray-700">
+                    Mục đích xuất kho
+                  </label>
+                  <div class="col-span-9">
+                    <input
+                      {...register("reason")}
+                      type="text"
+                      class="w-full border border-gray-300 rounded-sm px-2 py-1 focus:outline-none focus:border-blue-500"
+                    />
+                  </div>
+
+                  <label class="col-span-3 text-sm text-gray-700">
+                    Đối tượng
+                  </label>
+                  <div class="col-span-9 flex space-x-1">
+                    <div class={"relative flex-none w-1/3 relative"}>
+                      <input
+                        readOnly
+                        type="text"
+                        // value = {order.supplier ? order.supplier.id : ""}
+                        value={
+                          infoSelectedObject.object_id
+                            ? infoSelectedObject.object_id
+                            : ""
+                        }
+                        {...register("object_id", { required: true })}
+                        class={
+                          "w-full border border-gray-300 rounded-sm px-2 py-1 pr-12 focus:outline-none focus:border-blue-500 " +
+                          (errors.supplier_id ? " border-red-500" : "")
+                        }
+                      />
+                      <TbListSearch
+                        className=" w-5 h-5 absolute top-1/2 -translate-y-1/2 right-7 z-5 hover:text-blue-500"
+                        onClick={openTableObject}
+                      />
+                      <div class="absolute right-0 top-0 h-full flex items-center">
+                        <button
+                          type="button"
+                          class="px-1 text-[#2e3192] hover:text-blue-800 bg-blue-100 h-full border-l border-gray-300"
+                        >
+                          <svg
+                            width="14"
+                            height="14"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                          >
+                            <line x1="12" y1="5" x2="12" y2="19" />
+                            <line x1="5" y1="12" x2="19" y2="12" />
+                          </svg>
+                        </button>
+                      </div>
+                    </div>
+                    <input
+                      type="text"
+                      readOnly
+                      value={
+                        infoSelectedObject.object_name
+                          ? infoSelectedObject.object_name
+                          : ""
+                      }
+                      {...register("object_name", { required: true })}
+                      //   value={order.supplier ? order.supplier.name : ""}
+                      class={
+                        "flex-1 border border-gray-300 rounded-sm px-2 py-1 focus:outline-none focus:border-blue-500 bg-gray-200 " +
+                        (errors.supplier_name ? " border-red-500" : "")
+                      }
                     />
                     {/* <Controller
                         name="supplier_name"
@@ -252,13 +233,18 @@ function FormImportShipment({ openForm }) {
                       /> */}
                   </div>
 
-                  {/* <!-- Row 2 --> */}
                   <label class="col-span-3 text-sm text-gray-700">
-                    Người giao
+                    Loại đối tượng
                   </label>
-                  <div class="col-span-9">
+                  <div class="col-span-9 w-1/3">
                     <input
-                      {...register("importshipment_deliverer")}
+                      readOnly
+                      value={
+                          infoSelectedObject.object_
+                            ? infoSelectedObject.object_id
+                            : ""
+                        }
+                      {...register("object_type")}
                       type="text"
                       class="w-full border border-gray-300 rounded-sm px-2 py-1 focus:outline-none focus:border-blue-500"
                     />
@@ -270,77 +256,9 @@ function FormImportShipment({ openForm }) {
                   </label>
                   <div class="col-span-9">
                     <input
-                      {...register("importshipment_note")}
+                      {...register("note")}
                       type="text"
                       class="w-full border border-gray-300 rounded-sm px-2 py-1 focus:outline-none focus:border-blue-500"
-                    />
-                  </div>
-
-                  {/* <!-- Row 4 --> */}
-                  <label class="col-span-3 text-sm text-gray-700">
-                    NV nhận hàng
-                  </label>
-                  <div class="col-span-9 flex space-x-1">
-                    <div class="relative flex-none w-1/3">
-                      <input
-                        type="text"
-                        {...register("received_employeeId")}
-                        class="w-full border border-gray-300 rounded-sm px-2 py-1 pr-12 focus:outline-none focus:border-blue-500"
-                      />
-                      <div class="absolute right-0 top-0 h-full flex items-center">
-                        <button
-                          type="button"
-                          class="px-1 text-gray-500 hover:text-blue-600"
-                        >
-                          <svg
-                            width="12"
-                            height="12"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                          >
-                            <polyline points="6 9 12 15 18 9" />
-                          </svg>
-                        </button>
-                        <button
-                          type="button"
-                          class="px-1 text-gray-500 hover:text-blue-600"
-                        >
-                          <svg
-                            width="12"
-                            height="12"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                          >
-                            <circle cx="11" cy="11" r="8" />
-                            <line x1="21" y1="21" x2="16.65" y2="16.65" />
-                          </svg>
-                        </button>
-                        <button
-                          type="button"
-                          class="px-1 text-[#2e3192] hover:text-blue-800 bg-blue-100 h-full border-l border-gray-300"
-                        >
-                          <svg
-                            width="14"
-                            height="14"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                          >
-                            <line x1="12" y1="5" x2="12" y2="19" />
-                            <line x1="5" y1="12" x2="19" y2="12" />
-                          </svg>
-                        </button>
-                      </div>
-                    </div>
-                    <input
-                      type="text"
-                      {...register("received_employeeName")}
-                      class="flex-1 bg-gray-200 border border-gray-300 rounded-sm px-2 py-1"
                     />
                   </div>
 
@@ -375,7 +293,7 @@ function FormImportShipment({ openForm }) {
                   <div class="col-span-8">
                     <input
                       type="text"
-                      {...register("importshipment_id")}
+                      {...register("record_id")}
                       value="ABCD-NK000273"
                       readOnly
                       class="w-full border border-gray-300 rounded-sm px-2 py-1 text-right focus:outline-none focus:border-blue-500"
@@ -398,7 +316,7 @@ function FormImportShipment({ openForm }) {
                       <line x1="3" y1="10" x2="21" y2="10" />
                     </svg>
                     <input
-                      {...register("importshipment_date")}
+                      {...register("record_date")}
                       type="text"
                       value={now.toLocaleDateString()}
                       readOnly
@@ -420,7 +338,7 @@ function FormImportShipment({ openForm }) {
                       <polyline points="12 6 12 12 16 14" />
                     </svg>
                     <input
-                      {...register("importshipment_time")}
+                      {...register("record_time")}
                       type="text"
                       value={now.toLocaleTimeString()}
                       readOnly
@@ -532,7 +450,14 @@ function FormImportShipment({ openForm }) {
               </div>
 
               {/* <!-- Table --> */}
-              <DetailImportedGood order={order} />
+
+              <DetailExportedGood
+                selectedGood={selectedGood}
+                setSelectedGood={setSelectedGood}
+                detailExportedGoods={detailExportedGoods}
+              />
+
+              {/* order={order} */}
             </div>
           </div>
           {/* </div> */}
@@ -645,9 +570,9 @@ function FormImportShipment({ openForm }) {
                 class="flex items-center text-[#313a66] px-4 py-2 rounded hover:bg-gray-300 text-sm font-medium"
                 type="reset"
                 disabled={loading}
-                onClick={() => {
-                  setOrder({});
-                }}
+                // onClick={() => {
+                //   setOrder({});
+                // }}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -673,4 +598,4 @@ function FormImportShipment({ openForm }) {
   );
 }
 
-export default FormImportShipment;
+export default FormExport;

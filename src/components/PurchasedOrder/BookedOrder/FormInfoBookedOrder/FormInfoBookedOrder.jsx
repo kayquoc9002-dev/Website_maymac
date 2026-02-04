@@ -28,6 +28,7 @@ function FormInfoBookedOrder({ openForm, dataOrder, setData }) {
 console.log(detailBookedGoods.current);
   console.log(now.toLocaleDateString()); // hiển thị ngày giờ theo locale
   console.log(now.toLocaleTimeString());
+  
   const openFormSupplier = () => {
     setselectedSupplier(!selectedSupplier);
   };
@@ -40,8 +41,8 @@ console.log(detailBookedGoods.current);
       id: infoSelectedSupplier.supplier_id,
       name: infoSelectedSupplier.supplier_name
     }, bookedGoods: detailBookedGoods.current, totalPrice: 10000000}
-    console.log(data);
-    console.log(detailBookedGoods.current);
+    // console.log(data);
+    // console.log(detailBookedGoods.current);
     postData(data, setLoading, purchaseOrder)
     reset();
     setData([...dataOrder, data]);

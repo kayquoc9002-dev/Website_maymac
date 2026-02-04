@@ -1,11 +1,12 @@
-import React from "react";
-import { useEffect, useState, useRef } from "react";
-import fetchData from "../../../../../Helpers/fetchData";
-import RowSupplier from "./RowSupplier/RowSupplier";
-function TableSupplier({openFormSupplier, setSelectedInfoSupplier}) {
-    const [data, setData] = useState([]);
-    const infoSelectedSupplier = useRef({});
+import React from 'react'
 
+import { useEffect, useState, useRef } from "react";
+import fetchData from "../../../../../../Helpers/fetchData";
+import RowObject from './RowObject/RowObject';
+function TableObject({openTableObject, setSelectedInfoObject}) {
+  const [data, setData] = useState([]);
+  // console.log(data);
+    const infoSelectedObject = useRef({});
     useEffect(() => {
         const getData = async () => {
             const result = await fetchData('http://localhost:3000/suppliers')
@@ -14,29 +15,29 @@ function TableSupplier({openFormSupplier, setSelectedInfoSupplier}) {
         getData()
     }, [])
     
-    const handleSelectSupplier = (e, infoSupplier) => {
-    console.log(e.target.checked);
-    console.log("infoSupplier:", infoSupplier);
+    const handleSelectObject = (e, infoObject) => {
+    // console.log(e.target.checked);
+    // console.log("infoObject:", infoObject);
     if(e.target.checked){
-      console.log("Selected supplier:", infoSupplier.supplier_name);
-      infoSelectedSupplier.current = {
-        supplier_id: infoSupplier.supplier_id,
-        supplier_name: infoSupplier.supplier_name,
+      // console.log("Selected Object:", infoObject.supplier_name);
+      infoSelectedObject.current = {
+        object_id: infoObject.supplier_id,
+        object_name: infoObject.supplier_name,
       }
     }
   }
-    const handleSubmitSupplier = () => {
-      openFormSupplier();
-      setSelectedInfoSupplier(infoSelectedSupplier.current);
+    const handleSubmitObject = () => {
+      openTableObject();
+      setSelectedInfoObject(infoSelectedObject.current);
     }
   return (
     <>
-          {/* <!-- Modal Container --> */}
+        {/* <!-- Modal Container --> */}
           <div class="bg-white w-full max-w-6xl shadow-xl rounded-sm flex flex-col border border-gray-300 z-10">
             {/* <!-- Header --> */}
             <div class="flex justify-between items-center bg-gray-100 px-4 py-2 border-b border-gray-300">
               <h2 class="font-bold text-gray-800 text-lg">Chọn đối tượng</h2>
-              <button class="text-gray-400 hover:text-gray-600" onClick={openFormSupplier}>
+              <button class="text-gray-400 hover:text-gray-600" onClick={openTableObject}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   class="h-5 w-5"
@@ -135,7 +136,7 @@ function TableSupplier({openFormSupplier, setSelectedInfoSupplier}) {
                   <tbody class="text-gray-700">
                     {/* <!-- Row 1 (Selected) --> */}
                     {data.map(item => (
-                        <RowSupplier infoSupplier={item} handleSelectSupplier={handleSelectSupplier}/>
+                      <RowObject infoObject={item} handleSelectObject={handleSelectObject}/>
                     ))}
                     {/* <!-- Row 2 --> */}
                     {/* <tr class="hover:bg-gray-50">
@@ -304,7 +305,7 @@ function TableSupplier({openFormSupplier, setSelectedInfoSupplier}) {
 
             {/* <!-- Footer Actions --> */}
             <div class="border-t border-gray-200 p-3 flex justify-end items-center gap-4 bg-white rounded-b-sm">
-              <button onClick={handleSubmitSupplier} class="bg-[#2A388F] hover:bg-blue-900 text-white px-4 py-2 rounded-sm text-sm font-semibold flex items-center gap-2 shadow-sm">
+              <button  class="bg-[#2A388F] hover:bg-blue-900 text-white px-4 py-2 rounded-sm text-sm font-semibold flex items-center gap-2 shadow-sm" onClick={handleSubmitObject}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   class="h-4 w-4"
@@ -341,7 +342,7 @@ function TableSupplier({openFormSupplier, setSelectedInfoSupplier}) {
             </div>
           </div>
     </>
-  );
+  )
 }
 
-export default TableSupplier;
+export default TableObject

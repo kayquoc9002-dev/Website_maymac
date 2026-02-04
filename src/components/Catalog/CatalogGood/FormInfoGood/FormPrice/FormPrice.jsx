@@ -1,5 +1,4 @@
 import React from 'react'
-
 function FormPrice({ value, onChange, onBlur, ...field }) {
   const formatCurrency = (val) => {
     if (!val) return "";

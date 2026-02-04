@@ -1,9 +1,7 @@
-import React from "react";
-import postData from "../../../../../Helpers/postData";
 import { useState } from "react";
-import { catalogGoods } from "../../../../../Helpers/urlAPI";
 import { MdDeleteForever } from "react-icons/md";
-function RowDetailBookedGood({ infoGood, handleDeleteItem, handleChangeQuatity }) {
+
+function RowDetailImportedGood({ infoGood, handleDeleteItem, handleChangeQuatity }) {
   const [totalPrice, setTotalPrice] = useState(0);
   
 
@@ -79,15 +77,11 @@ function RowDetailBookedGood({ infoGood, handleDeleteItem, handleChangeQuatity }
           <div class="flex h-8">{infoGood.good_sku}</div>
         </td>
         <td class="border border-gray-300 p-0">
-          <div class="flex h-8">{infoGood.good_sku}</div>
-        </td>
-
-        <td class="border border-gray-300 p-0">
           <div class="flex h-8">
             <input
               type="text"
               readOnly
-              defaultValue={infoGood.good_unit}
+              value={infoGood.good_unit}
               class="w-full h-full px-1 outline-none"
             />
           </div>
@@ -116,52 +110,9 @@ function RowDetailBookedGood({ infoGood, handleDeleteItem, handleChangeQuatity }
           <div class="flex h-8">
             <input
               type="text"
-              readOnly
-              value={formatCurrency(totalPrice)}
               class="w-full h-full px-1 outline-none"
             />
           </div>
-        </td>
-        <td class="border border-gray-300 p-0">
-          <div class="flex h-8">{infoGood.good_sku}</div>
-        </td>
-        <td class="border border-gray-300 p-0">
-          <div class="flex h-8">{infoGood.good_tax}</div>
-        </td>
-        <td class="border border-gray-300 p-0">
-          <div class="flex h-8">
-            <input
-              type="text"
-              readOnly
-              value={infoGood.good_tax + "%"}
-              class="w-full h-full px-1 outline-none"
-            />
-          </div>
-        </td>
-        <td class="border border-gray-300 p-0">
-          <div class="flex h-8">
-            <input
-              type="text"
-              readOnly
-              value={formatCurrency((infoGood.good_tax * totalPrice) / 100)}
-              class="w-full h-full px-1 outline-none"
-            />
-          </div>
-        </td>
-        <td class="border border-gray-300 p-0">
-          <div class="flex h-8">
-            <input
-              type="text"
-              readOnly
-              value={formatCurrency(
-                (infoGood.good_tax * totalPrice) / 100 + totalPrice,
-              )}
-              class="w-full h-full px-1 outline-none"
-            />
-          </div>
-        </td>
-        <td class="border border-gray-300 p-0">
-          <div class="flex h-8">{infoGood.good_sku}</div>
         </td>
         <td class="border border-gray-300 border-r-0 p-0" onClick={() => {handleDeleteItem(infoGood)}}>
           <div class="flex h-8">
@@ -173,4 +124,4 @@ function RowDetailBookedGood({ infoGood, handleDeleteItem, handleChangeQuatity }
   );
 }
 
-export default RowDetailBookedGood;
+export default RowDetailImportedGood;

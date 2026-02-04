@@ -19,6 +19,10 @@ import BookedOrder from './components/PurchasedOrder/BookedOrder/BookedOrder.jsx
 import OrderStatus from './components/PurchasedOrder/OrderStatus/OrderStatus.jsx';
 import ImportShipment from './components/PurchasedOrder/ImportShipment/ImportShipment.jsx';
 import FormInfoGood from './components/Catalog/CatalogGood/FormInfoGood/FormInfoGood.jsx';
+import WarehouseManagement from './components/WareHouse/WarehouseManagement/WarehouseManagement.jsx';
+import ImportWarehouse from './components/WareHouse/ImportWarehouse/ImportWarehouse.jsx';
+import ExportWarehouse from './components/WareHouse/ExportWarehouse/ExportWarehouse.jsx';
+import TransactionHistory from './components/WareHouse/TransactionHistory/TransactionHistory.jsx';
 function App() {
 
   return (
@@ -65,6 +69,10 @@ function App() {
         <Route path="/orderstatus" element={<OrderStatus />} />
         <Route path="/importshipment" element={<ImportShipment />} />
 
+        <Route path="/warehouse" element={<WarehouseManagement/>}/>
+        <Route path="/warehouse/import" element={<ImportWarehouse/>}/>
+        <Route path="/warehouse/export" element={<ExportWarehouse/>}/>
+        <Route path="/warehouse/transactionhistory" element={<TransactionHistory/>}/>
       </Routes>
     </BrowserRouter>
     </>

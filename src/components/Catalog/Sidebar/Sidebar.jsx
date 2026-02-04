@@ -17,21 +17,7 @@ function Sidebar() {
   const openItem = (nameItem) => {
     navigate(nameItem);
   }
-  // const openCatalogCustomer = () => {
-  //   navigate("/catalog/customer");
-  // };
-  //   const openOpenWarehouse = () => {
-  //   navigate("/test");
-  // };
-  //   const openBookedOrder = () => {
-  //   navigate("/bookedorder");
-  // };
-  // const openOrderStatus = () => {
-  //   navigate("/orderstatus");
-  // };
-  // const openImportShipment = () => {
-  //   navigate("/importshipment");
-  // };
+  
   return (
     <>
       <aside class="w-52 flex-shrink-0 bg-[#0f1c3f] text-gray-300 flex flex-col transition-all duration-300">
@@ -100,7 +86,7 @@ function Sidebar() {
             </li>
             <button class= {"w-full px-4 py-2 hover:bg-[#1e2d55] cursor-pointer flex items-center gap-3 " + (selected == "muahang" ? "border-l-4 border-blue-500 bg-[#1e2d55]" : "" )} onClick={() => {openPart("muahang")}}>
               <svg
-                class="w-5 h-5"
+                class="w-6 h-6"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -132,7 +118,7 @@ function Sidebar() {
             </button>
             </div>
             )}
-            <li class="px-4 py-2 hover:bg-[#1e2d55] cursor-pointer flex items-center gap-3" onClick={() => {openItem('/test')}}>
+            <button class= {"w-full px-4 py-2 hover:bg-[#1e2d55] cursor-pointer flex items-center gap-3 " + (selected == "kho" ? "border-l-4 border-blue-500 bg-[#1e2d55]" : "" )} onClick={() => {openPart("kho")}}>
               <svg
                 class="w-5 h-5"
                 fill="none"
@@ -147,7 +133,23 @@ function Sidebar() {
                 ></path>
               </svg>
               <span>Kho</span>
-            </li>
+            </button>
+            {selected == "kho" && (
+              <div>
+              <button class="w-full px-4 pl-13 py-2 hover:bg-[#1e2d55] cursor-pointer flex items-center gap-3 cursor-pointer" onClick={() => {openItem('/warehouse')}}>
+              Tồn kho
+            </button>
+            <button class="w-full px-4 pl-13 py-2 hover:bg-[#1e2d55] cursor-pointer flex items-center gap-3" onClick={() => {openItem('/warehouse/import')}}>
+              Nhập kho
+            </button>
+            <button class="w-full px-4 pl-13 py-2 hover:bg-[#1e2d55] cursor-pointer flex items-center gap-3" onClick={() => {openItem('/warehouse/export')}}>
+              Xuất kho
+            </button>
+            <button class="w-full px-4 pl-13 py-2 hover:bg-[#1e2d55] cursor-pointer flex items-center gap-3" onClick={() => {openItem('/warehouse/transactionhistory')}}>
+              Lịch sử
+            </button>
+            </div>
+            )}
             <li class="px-4 py-2 hover:bg-[#1e2d55] cursor-pointer flex items-center gap-3">
               <svg
                 class="w-5 h-5"

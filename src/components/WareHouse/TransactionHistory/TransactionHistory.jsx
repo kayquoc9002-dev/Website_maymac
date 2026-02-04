@@ -1,44 +1,24 @@
-import React from "react";
-import Sidebar from "../../Catalog/Sidebar/Sidebar";
-import Toolbar from "../../Catalog/Toolbar/Toolbar";
-import FormImportShipment from "./FormImportShipment/FormImportShipment.jsx";
-import RowImportShipment from "./RowImportShipment/RowImportShipment.jsx";
-import { useState, useEffect } from "react";
-import { receivedNote } from "../../../Helpers/urlAPI.js";
-import fetchData from "../../../Helpers/fetchData.js";
-import Header from "../../PartsOfPage/Header.jsx";
-function ImportShipment() {
-  const [selected, setSelected] = useState(false);
-  const [data, setData] = useState([]);
-  const openForm = () => {
-    setSelected(!selected);
-  };
-useEffect(() => {
-    const getData = async () => {
-      const result = await fetchData(receivedNote);
-      setData(result);
-    }
-    getData();
-   }, [])
+import React, { useState, useEffect } from 'react'
+import Sidebar from '../../Catalog/Sidebar/Sidebar'
+import Header from "../../PartsOfPage/Header";
+import Toolbar from '../../Catalog/Toolbar/Toolbar'
+import fetchData from '../../../Helpers/fetchData';
+import { transactionRecord } from '../../../Helpers/urlAPI';
+import Row from './Row/Row';
 
+function TransactionHistory() {
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    const getData = async () => {
+      const result = await fetchData(transactionRecord);
+      setData(result);
+    };
+    getData();
+  }, []);
 
   return (
     <>
-      {selected && (
-        <div className="fixed inset-0 z-40 flex justify-center items-center">
-          <div
-            className={`absolute inset-0 bg-black transition-opacity duration-300   ${
-              selected
-                ? "opacity-60 pointer-events-auto"
-                : "opacity-0 pointer-events-none"
-            }`}
-          >
-            // {/* Overlay */}
-          </div>
-          <FormImportShipment openForm={openForm} />
-          {/* edittedData={edittedData} setData={setData} */}
-        </div>
-      )}
       <div class=" bg-gray-50 min-h-screen">
         <div class="flex w-screen">
           {/* <!-- Sidebar --> */}
@@ -46,11 +26,14 @@ useEffect(() => {
 
           <div class=" flex-1 w-[100px] flex flex-col h-screen bg-gray-50 font-sans text-sm">
             {/* <!-- Top Header --> */}
-            <Header title="Nhập hàng" />
+            <Header title="Lịch sử giao dịch" />
 
             <div class="p-2 flex-1 flex flex-col overflow-hidden bg-gray-300">
               {/* <!-- Toolbar --> */}
-              <Toolbar openForm={openForm} />
+              {/* <Toolbar openForm={openForm} /> */}
+              <div class="bg-[#283593] h-10 text-white flex items-center px-2 py-1 gap-1 overflow-x-auto shrink-0">
+
+              </div>
 
               {/* openForm={openForm} edittedId={edittedId} handleEdit={handleEdit} handleDelete={handleDelete} */}
 
@@ -67,22 +50,37 @@ useEffect(() => {
                         />
                       </th>
                       <th class="w-24 border border-gray-300 px-12 py-2 text-center font-bold text-gray-700 whitespace-nowrap">
-                        Ngày đặt hàng
+                        Hình thức
+                      </th>
+                      <th class="w-24 border border-gray-300 px-12 py-2 text-center font-bold text-gray-700 whitespace-nowrap">
+                        Ngày ghi
                       </th>
                       <th class="w-50 border border-gray-300 px-6 py-2 text-center font-bold text-gray-700 whitespace-nowrap">
                         Số phiếu
                       </th>
-                      <th class="w-50 border border-gray-300 px-12 py-2 text-center font-bold text-gray-700 whitespace-nowrap">
-                        Người đặt
+                      <th class="w-24 border border-gray-300 px-12 py-2 text-center font-bold text-gray-700 whitespace-nowrap">
+                        Giờ ghi
+                      </th>
+                      <th class="w-24 border border-gray-300 px-12 py-2 text-center font-bold text-gray-700 whitespace-nowrap">
+                        Kho
                       </th>
                       <th class="w-50 border border-gray-300 px-12 py-2 text-center font-bold text-gray-700 whitespace-nowrap">
-                        Nhà cung cấp
+                        Mã nhân viên
                       </th>
                       <th class="w-50 border border-gray-300 px-12 py-2 text-center font-bold text-gray-700 whitespace-nowrap">
-                        Tổng tiền
+                        Nhân viên
                       </th>
                       <th class="w-50 border border-gray-300 px-12 py-2 text-center font-bold text-gray-700 whitespace-nowrap">
-                        Trạng thái
+                        Mã đối tượng
+                      </th>
+                      <th class="w-50 border border-gray-300 px-12 py-2 text-center font-bold text-gray-700 whitespace-nowrap">
+                        Đối tượng
+                      </th>
+                      <th class="w-50 border border-gray-300 px-12 py-2 text-center font-bold text-gray-700 whitespace-nowrap">
+                        Loại đối tượng
+                      </th>
+                      <th class="w-50 border border-gray-300 px-12 py-2 text-center font-bold text-gray-700 whitespace-nowrap">
+                        Chi tiết hàng hóa
                       </th>
                       <th class="border border-gray-300 px-12 py-2 text-center font-bold text-gray-700 whitespace-nowrap">
                         Ghi chú
@@ -148,6 +146,51 @@ useEffect(() => {
                         </div>
                       </th>
                       <th class="border border-gray-300 p-1">
+                        <div class="flex border border-gray-300 bg-white h-7">
+                          <button class="px-1.5 border-r border-gray-300 text-gray-500 hover:bg-gray-100">
+                            *
+                          </button>
+                          <input
+                            type="text"
+                            class="w-full px-1 outline-none text-xs font-normal"
+                          />
+                        </div>
+                      </th>
+                      <th class="border border-gray-300 p-1">
+                        <div class="flex border border-gray-300 bg-white h-7">
+                          <button class="px-1.5 border-r border-gray-300 text-gray-500 hover:bg-gray-100">
+                            *
+                          </button>
+                          <input
+                            type="text"
+                            class="w-full px-1 outline-none text-xs font-normal"
+                          />
+                        </div>
+                      </th>
+                      <th class="border border-gray-300 p-1">
+                        <div class="flex border border-gray-300 bg-white h-7">
+                          <button class="px-1.5 border-r border-gray-300 text-gray-500 hover:bg-gray-100">
+                            *
+                          </button>
+                          <input
+                            type="text"
+                            class="w-full px-1 outline-none text-xs font-normal"
+                          />
+                        </div>
+                      </th>
+                      <th class="border border-gray-300 p-1">
+                        <div class="flex border border-gray-300 bg-white h-7">
+                          <button class="px-1.5 border-r border-gray-300 text-gray-500 hover:bg-gray-100">
+                            *
+                          </button>
+                          <input
+                            type="text"
+                            class="w-full px-1 outline-none text-xs font-normal"
+                          />
+                        </div>
+                      </th>
+                      
+                      <th class="border border-gray-300 p-1">
                         <select class="w-full h-7 border border-gray-300 text-xs font-normal px-1 outline-none">
                           <option>Tất cả</option>
                           <option>Có</option>
@@ -169,10 +212,11 @@ useEffect(() => {
                   </thead>
                   <tbody class="bg-white text-gray-800">
                     {/* <!-- Row 1 (Selected) --> */}
-                    {data.map(item => (
-                      <RowImportShipment importedShipment={item}/>
+
+                    {data.map((item) => (
+                      <Row detail={item}/>
                     ))}
-                    
+
                     {/* <!-- Row 2 --> */}
                     {/* {data.map((item) => (
                       <RowInfoCustomer handleSelect={handleSelect} inforCustomer={item} selectedId={selectedId} edittedId={edittedId}/>
@@ -293,4 +337,4 @@ useEffect(() => {
   );
 }
 
-export default ImportShipment;
+export default TransactionHistory
