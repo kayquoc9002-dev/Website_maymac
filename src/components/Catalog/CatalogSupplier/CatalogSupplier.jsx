@@ -4,20 +4,26 @@ import Sidebar from "../Sidebar/Sidebar";
 import Toolbar from "../Toolbar/Toolbar";
 import { useEffect, useState } from "react";
 import fetchData from "../../../Helpers/fetchData";
-import FormSupplier from "./FormSupplier/FormSupplier"
-import { suppliers } from "../../../Helpers/urlAPI";
+import FormSupplier from "./FormSupplier/FormSupplier";
+// import { suppliers } from "../../../Helpers/urlAPI";
+import {supplierService} from '../../../Helpers/functionsSupabase'
 
 function CatalogSupplier() {
   const [data, setData] = useState([]);
   const [selected, setSelected] = useState(false);
   const [selectedId, setSelectedId] = useState([]);
-  const [edittedId, setEdittedId] = useState("");
   const [edittedData, setEdittedData] = useState({});
 
   useEffect(() => {
     const getData = async () => {
-      const result = await fetchData(suppliers);
-      setData(result);
+      try{
+        const result = await supplierService.getAll();
+        console.log(result);
+        setData(result);
+      } catch(error){
+        console.log("Lỗi rồi", error);
+      }
+      // console.log(result);
     };
     getData();
   }, []);
@@ -26,38 +32,36 @@ function CatalogSupplier() {
     setSelected(!selected);
   };
 
-  console.log(selectedId);
+  // console.log(selectedId);
   const handleSelect = (id) => {
     const flag = (selectedId.includes(id)
       ? selectedId.filter((item) => item != id)
       : [...selectedId, id]);
     setSelectedId(flag);
-    setEdittedId(edittedId == id ? "" : id)
+    // setEdittedId(edittedId == id ? "" : id)
   };
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     //Chỗ này để chạy tạm thời
-    console.log(selectedId);
+    // console.log(selectedId);
+    const result = await supplierService.remove(selectedId);
+
     const flag = data.filter((item) => {
       if (!selectedId.includes(item.id)) {
         return item;
       }
     });
     setData(flag);
+
   };
 
   const handleEdit = () => {
-    console.log(data.find(item => item.id == edittedId));
+    // console.log(selectedId);
+    const edittedId = selectedId[0];
     setEdittedData(data.find(item => item.id == edittedId));
-    setSelected(true);
+    setSelectedId([]);
+    openForm();
   }
-  // useEffect(() => {
-  //   const getData = async () => {
-  //     const result = await fetchData('http://localhost:3000/Suppliers');
-  //     setData(result);
-  //   }
-  //   getData();
-  // },[])
 
   return (
     <>
@@ -72,7 +76,7 @@ function CatalogSupplier() {
           >
             // {/* Overlay */}
           </div>
-          <FormSupplier openForm={openForm} edittedData={edittedData}  setData={setData} />
+          <FormSupplier openForm={openForm} dataSupplier={data} edittedData={edittedData} setData={setData} />
         </div>
       )}
 
@@ -202,7 +206,7 @@ function CatalogSupplier() {
 
             <div class="p-2 flex-1 flex flex-col overflow-hidden bg-gray-300">
               {/* <!-- Toolbar --> */}
-              <Toolbar openForm={openForm} edittedId={edittedId} handleEdit={handleEdit} handleDelete={handleDelete} />
+              <Toolbar openForm={openForm} selectedId={selectedId} handleEdit={handleEdit} handleDelete={handleDelete} />
 
               {/* <!-- Main Content / Table --> */}
               <div class="flex-1 overflow-x-auto relative ">

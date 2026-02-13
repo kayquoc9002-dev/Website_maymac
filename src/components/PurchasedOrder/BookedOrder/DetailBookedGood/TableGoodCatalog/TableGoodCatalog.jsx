@@ -1,6 +1,7 @@
 import React from "react";
 import RowGoodCatalog from "./RowGoodCatalog/RowGoodCatalog";
 import { useEffect, useState, useRef } from "react";
+import { goodService } from "../../../../../Helpers/functionsSupabase";
 import fetchData from "../../../../../Helpers/fetchData";
 function TableGoodCatalog({ openTableGoodCatalog, updateSelectedGood }) {
   const [data, setData] = useState([]);
@@ -10,9 +11,14 @@ function TableGoodCatalog({ openTableGoodCatalog, updateSelectedGood }) {
   useEffect(() => {
     const getData = async () => {
       // Fetch data from API or perform any side effects here
-      const result = await fetchData('http://localhost:3000/catalogGoods');  
+      // const result = await fetchData('http://localhost:3000/catalogGoods');  
       // console.log(result);
-      setData(result);
+      try{
+        const result = await goodService.getAll();
+        setData(result);
+      } catch(error){
+        console.log("Lỗi")
+      }
     }  
     getData();
   }, [])

@@ -1,7 +1,6 @@
 import React from "react";
 import RowImportedGood from "./RowImportedGood/RowImportedGood";
-
-function DetailImportedGood({order}) {
+function DetailImportedGood({selectedOrder}) {
   // console.log("Detail: ", order.bookedGoods)
   return (
     <>
@@ -150,9 +149,9 @@ function DetailImportedGood({order}) {
                 </div>
               </td>
             </tr>
-            {order.bookedGoods ? order.bookedGoods.map(item => (
+            {Object.keys(selectedOrder).length == 0 ?  <></> : selectedOrder.bookedGoods.map(item => (
               <RowImportedGood detailGood={item}/>
-            )) : <></>}
+            ))}
 
             {/* <!-- Empty Rows for visual height --> */}
             {/* <tr class="h-8 border border-gray-300">

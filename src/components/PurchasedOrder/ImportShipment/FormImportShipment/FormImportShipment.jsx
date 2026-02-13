@@ -1,46 +1,60 @@
 import React from "react";
-import DetailImportedGood from "./DetailImportedGood/DetailImportedGood";
+
 import { useForm, Controller } from "react-hook-form";
 import { useState } from "react";
+import { orderService } from "../../../../Helpers/functionsSupabase";
+import DetailImportedGood from "./DetailImportedGood/DetailImportedGood";
 import Order from "./Order/Order";
 import postData from "../../../../Helpers/postData";
-import { receivedNote } from "../../../../Helpers/urlAPI";
+// import { receivedNote } from "../../../../Helpers/urlAPI";
+import BookedOrder from "./BookedOrder/BookedOrder";
+
 function FormImportShipment({ openForm }) {
 
   const { register, handleSubmit, reset, control, formState: {errors} } = useForm();
-  const [selectedOrder, setSelectedOrder] = useState(false);
+  const [selected, setSelected] = useState(false);
+  const [selectedOrder, setSelectedOrder] = useState({});
   const [loading, setLoading] = useState(false);
-  const [order, setOrder] = useState({});
+  // const [order, setOrder] = useState({});
   const now = new Date();
 
   const onSubmit = (data) => {
-    data = { ...data, importedGood: order.bookedGoods, status: "Đã giao" };
-    setLoading(true);
-    postData(data, setLoading, receivedNote);
+    // data = { ...data, importedGood: order.bookedGoods, status: "Đã giao" };
+    // setLoading(true);
+    // // postData(data, setLoading, receivedNote);
     
-    reset();
-    setOrder({});
+    // reset();
+    // setOrder({});
   };
 
   const openTableOrder = () => {
-    setSelectedOrder(!selectedOrder);
+    setSelected(!selected);
   };
 
+  const handleSelect = async (id) => {
+    try{
+      const result = await orderService.getItemById(id);
+      // console.log(result[0]);
+      setSelectedOrder(result[0]);
+    } catch(error){
+      console.log("Lỗi", error);
+    }
+  }
 
   return (
     <>
-      {selectedOrder && (
+      {selected && (
         <div className="fixed inset-0 z-20 flex justify-center items-center">
           <div
             className={`absolute inset-0 bg-black transition-opacity duration-300   ${
-              selectedOrder
+              selected
                 ? "opacity-60 pointer-events-auto"
                 : "opacity-0 pointer-events-none"
             }`}
           >
             // {/* Overlay */}
           </div>
-          <Order openTableOrder={openTableOrder} setOrder={setOrder} />
+          <BookedOrder openTableOrder={openTableOrder} handleSelect={handleSelect} />
           {/* edittedData={edittedData} setData={setData} */}
         </div>
       )}
@@ -166,7 +180,7 @@ function FormImportShipment({ openForm }) {
                     <div class={"relative flex-none w-1/3"}>
                       <input
                       type="text"
-                      value = {order.supplier ? order.supplier.id : ""}
+                      value = {Object.keys(selectedOrder).length == 0 ? "" : selectedOrder.supplier_id}
                       {...register("supplier_id", { required: true })}
                       class={"w-full border border-gray-300 rounded-sm px-2 py-1 pr-12 focus:outline-none focus:border-blue-500" + (errors.supplier_id ? " border-red-500" : "")}
                     />
@@ -235,7 +249,7 @@ function FormImportShipment({ openForm }) {
                     <input
                       type="text"
                       {...register("supplier_name", { required: true })}
-                      value={order.supplier ? order.supplier.name : ""}
+                      value = {Object.keys(selectedOrder).length == 0 ? "" : selectedOrder.supplier_name}
                       class={"flex-1 border border-gray-300 rounded-sm px-2 py-1 focus:outline-none focus:border-blue-500" + (errors.supplier_name ? " border-red-500" : "")}
                     />
                     {/* <Controller
@@ -252,17 +266,6 @@ function FormImportShipment({ openForm }) {
                       /> */}
                   </div>
 
-                  {/* <!-- Row 2 --> */}
-                  <label class="col-span-3 text-sm text-gray-700">
-                    Người giao
-                  </label>
-                  <div class="col-span-9">
-                    <input
-                      {...register("importshipment_deliverer")}
-                      type="text"
-                      class="w-full border border-gray-300 rounded-sm px-2 py-1 focus:outline-none focus:border-blue-500"
-                    />
-                  </div>
 
                   {/* <!-- Row 3 --> */}
                   <label class="col-span-3 text-sm text-gray-700">
@@ -532,7 +535,8 @@ function FormImportShipment({ openForm }) {
               </div>
 
               {/* <!-- Table --> */}
-              <DetailImportedGood order={order} />
+              <DetailImportedGood  selectedOrder={selectedOrder}/>
+              {/* order={order} */}
             </div>
           </div>
           {/* </div> */}

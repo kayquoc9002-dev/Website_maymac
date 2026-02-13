@@ -2,12 +2,13 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import DetailBookedGood from "../../../PurchasedOrder/BookedOrder/DetailBookedGood/DetailBookedGood";
 import { TbListSearch } from "react-icons/tb";
-import { transactionRecord } from "../../../../Helpers/urlAPI";
+import { transactionRecord, stock } from "../../../../Helpers/urlAPI";
 import postData from "../../../../Helpers/postData";
 import { useState, useRef } from "react";
 import TableObject from "./DetailExportedGood/TableObject/TableObject";
 import DetailExportedGood from "./DetailExportedGood/DetailExportedGood";
-function FormExport({ openForm }) {
+import patchQuatity from "../../../../Helpers/patchImportedQuatity";
+function FormExport({ openForm, exportedRecords, setData }) {
   const [selectedObject, setSelectedObject] = useState(false);
   const [infoSelectedObject, setSelectedInfoObject] = useState({});
   const detailExportedGoods = useRef([]);
@@ -27,8 +28,10 @@ const [loading, setLoading] = useState(false)
   const now = new Date();
 
   const onSubmit = (data) => {
-    data = { ...data, goods: detailExportedGoods.current, status: "Xuất" };
+    data = { ...data, goods: detailExportedGoods.current.map(item => {return ({...item, warehouse: data.warehouse})}), status: "Xuất" };
     postData(data, setLoading, transactionRecord);
+    patchQuatity(data.goods, data.status, stock);
+    setData([...exportedRecords, data]);
     // console.log(data);
     setSelectedGood([]);
     setSelectedInfoObject({});
@@ -153,12 +156,26 @@ const [loading, setLoading] = useState(false)
                   <label class="col-span-3 text-sm text-gray-700">
                     Mục đích xuất kho
                   </label>
-                  <div class="col-span-9">
+                  <div class="col-span-9 flex space-x-1">
+                    <div class="relative flex-none w-1/3">
+                      <input
+                        type="text"
+                        // readOnly
+                        {...register("employee_id")}
+                        class="w-full border border-gray-300 rounded-sm px-2 py-1 pr-12 focus:outline-none focus:border-blue-500"
+                      />
+                    </div>
                     <input
+                      type="text"
+                      // readOnly
+                      {...register("employee_name")}
+                      class="flex-1 bg-gray-200 border border-gray-300 rounded-sm px-2 py-1"
+                    />
+                    {/* <input
                       {...register("reason")}
                       type="text"
                       class="w-full border border-gray-300 rounded-sm px-2 py-1 focus:outline-none focus:border-blue-500"
-                    />
+                    /> */}
                   </div>
 
                   <label class="col-span-3 text-sm text-gray-700">

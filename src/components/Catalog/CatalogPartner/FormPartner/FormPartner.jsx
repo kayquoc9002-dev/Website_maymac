@@ -1,6 +1,55 @@
 import React from "react";
+import { useForm } from "react-hook-form";
+import { useState } from "react";
+import { partnerService } from "../../../../Helpers/functionsSupabase";
+function FormPartner({openForm, dataPartner, edittedData, setData}) {
 
-function FormPartner({openForm, edittedData, setData}) {
+  const [loading, setLoading] = useState(false);
+      const {
+        register,
+        handleSubmit,
+        formState: { errors },
+        reset,
+      } = useForm();
+    
+      const onSubmit = async (data) => {
+        console.log(data);
+        // console.log([...dataSupplier, data]);
+        
+        setLoading(true);
+        // // await postData(data, setLoading, customers);
+        if(Object.keys(edittedData).length != 0){
+          try{
+            console.log("Chỉnh sửa")
+          const result = await partnerService.edit(edittedData.id, data);
+          console.log(result);
+          setData(dataPartner.map(item => {
+            if(item.id == edittedData.id){
+              return data
+            }else{
+              return item
+            }
+          }));
+        } catch(error){
+          console.log("Lỗi!", error);
+        }
+          } else{
+            
+            try{
+              console.log("Thêm")
+            console.log([...dataPartner, data]);
+            const result = await partnerService.add(data);
+            console.log(result);
+  
+            //Gán lại data ở Frontend để đỡ phải gọi lại BE
+            setData([...dataPartner, data]);
+          } catch(error){
+            console.log("Lỗi!", error);
+          }
+        }
+        reset();
+        setLoading(false);
+      };
   return (
     <>
       {/* <div class="bg-gray-50 min-h-screen"> */}
@@ -32,6 +81,7 @@ function FormPartner({openForm, edittedData, setData}) {
           </button>
         </div>
 
+        <form onSubmit={handleSubmit(onSubmit)}>
         {/* <!-- Body --> */}
         <div class="p-6 overflow-y-auto max-h-[80vh]">
           {/* <!-- Radio Group --> */}
@@ -40,9 +90,10 @@ function FormPartner({openForm, edittedData, setData}) {
               <div class="relative flex items-center justify-center">
                 <input
                   type="radio"
-                  name="type"
+                  value="Tổ chức"
+                  {...register("partner_type", {required: "Bắt buộc"})}
                   class="peer appearance-none w-5 h-5 border-2 border-blue-900 rounded-full checked:border-blue-900"
-                  checked
+                  defaultChecked={true}
                 />
                 <div class="absolute w-2.5 h-2.5 bg-blue-900 rounded-full hidden peer-checked:block"></div>
               </div>
@@ -52,7 +103,8 @@ function FormPartner({openForm, edittedData, setData}) {
               <div class="relative flex items-center justify-center">
                 <input
                   type="radio"
-                  name="type"
+                  value="Cá nhân"
+                  {...register("partner_type", {required: "Bắt buộc"})}
                   class="peer appearance-none w-5 h-5 border-2 border-gray-400 rounded-full checked:border-blue-900"
                 />
                 <div class="absolute w-2.5 h-2.5 bg-blue-900 rounded-full hidden peer-checked:block"></div>
@@ -70,29 +122,38 @@ function FormPartner({openForm, edittedData, setData}) {
             {/* <!-- Row 1 --> */}
             <div class="flex items-center">
               <label class="w-36 flex-shrink-0">
-                Mã nhà cung cấp <span class="text-red-500">*</span>
+                Mã đơn vị <span class="text-red-500">*</span>
               </label>
               <input
                 type="text"
-                class="flex-1 border border-blue-400 rounded h-9 px-3 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                  {...register("partner_id", {required: "Bắt buộc"})}
+                class={"flex-1 border border-blue-400 rounded h-9 px-3 focus:outline-none focus:ring-1 focus:ring-blue-500 " + (errors.partner_id
+                      ? "border-red-500 focus:ring-red-500"
+                      : " border-gray-300")}
               />
             </div>
             <div class="flex items-center">
               <label class="w-36 flex-shrink-0">
-                Tên nhà cung cấp <span class="text-red-500">*</span>
+                Tên đơn vị <span class="text-red-500">*</span>
               </label>
               <input
                 type="text"
-                class="flex-1 border border-gray-300 rounded h-9 px-3 focus:outline-none focus:border-blue-500"
+                  {...register("partner_name", {required: "Bắt buộc"})}
+                class={"flex-1 border border-gray-300 rounded h-9 px-3 focus:outline-none focus:border-blue-500 " + (errors.partner_name
+                      ? "border-red-500 focus:ring-red-500"
+                      : " border-gray-300")}
               />
             </div>
 
             {/* <!-- Row 2: Address (Full Width) --> */}
             <div class="flex items-center lg:col-span-2">
-              <label class="w-36 flex-shrink-0">Địa chỉ</label>
+              <label class="w-36 flex-shrink-0">Địa chỉ <span class="text-red-500">*</span></label>
               <input
                 type="text"
-                class="flex-1 border border-gray-300 rounded h-9 px-3 focus:outline-none focus:border-blue-500"
+                  {...register("partner_address", {required: "Bắt buộc"})}
+                class={"flex-1 border border-gray-300 rounded h-9 px-3 focus:outline-none focus:border-blue-500 " + (errors.partner_address
+                      ? "border-red-500 focus:ring-red-500"
+                      : " border-gray-300")}
               />
             </div>
 
@@ -101,23 +162,48 @@ function FormPartner({openForm, edittedData, setData}) {
               <label class="w-36 flex-shrink-0">Mã số thuế</label>
               <input
                 type="text"
+                 {...register("partner_taxCode")}
                 class="flex-1 border border-gray-300 rounded h-9 px-3 focus:outline-none focus:border-blue-500"
               />
             </div>
             <div class="flex items-center">
-              <label class="w-36 flex-shrink-0">Điện thoại</label>
+              <label class="w-36 flex-shrink-0">Điện thoại <span class="text-red-500">*</span></label>
               <input
                 type="text"
+                {...register("partner_phoneNumber", {required: "Bắt buộc"})}
+                class={"flex-1 border border-gray-300 rounded h-9 px-3 focus:outline-none focus:border-blue-500 " + (errors.partner_address
+                      ? "border-red-500 focus:ring-red-500"
+                      : " border-gray-300")}
+              />
+            </div>
+
+            {/* <!-- Row 5 --> */}
+            
+            <div class="flex items-center">
+              <label class="w-36 flex-shrink-0">Ngân hàng</label>
+              <input
+                type="text"
+                {...register("partner_nameBank")}
+                class="flex-1 border border-gray-300 rounded h-9 px-3 focus:outline-none focus:border-blue-500"
+              />
+            </div>
+
+            {/* <!-- Row 6 --> */}
+            <div class="flex items-center">
+              <label class="w-36 flex-shrink-0">Số tài khoản</label>
+              <input
+                type="text"
+                {...register("partner_bankAccNumber")}
                 class="flex-1 border border-gray-300 rounded h-9 px-3 focus:outline-none focus:border-blue-500"
               />
             </div>
 
             {/* <!-- Row 4 --> */}
             <div class="flex items-center">
-              <label class="w-36 flex-shrink-0">Nhóm nhà cung cấp</label>
+              <label class="w-36 flex-shrink-0">Nhóm ĐV</label>
               <div class="flex-1 flex">
                 <div class="relative w-full">
-                  <select class="w-full border border-gray-300 rounded-l h-9 px-3 appearance-none bg-white focus:outline-none focus:border-blue-500 text-gray-500">
+                  <select {...register("partner_group")} class="w-full border border-gray-300 rounded-l h-9 px-3 appearance-none bg-white focus:outline-none focus:border-blue-500 text-gray-500">
                     <option>Nhập để tìm kiếm</option>
                   </select>
                   <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
@@ -154,47 +240,9 @@ function FormPartner({openForm, edittedData, setData}) {
                 </button>
               </div>
             </div>
-            <div class="flex items-center">
-              <label class="w-36 flex-shrink-0">Số nợ tối đa</label>
-              <input
-                type="text"
-                value="0,00"
-                class="flex-1 border border-gray-300 rounded h-9 px-3 text-right focus:outline-none focus:border-blue-500"
-              />
-            </div>
+            <div></div>
 
-            {/* <!-- Row 5 --> */}
-            <div class="flex items-center">
-              <label class="w-36 flex-shrink-0">Hạn nợ (ngày)</label>
-              <input
-                type="text"
-                value="0"
-                class="flex-1 border border-gray-300 rounded h-9 px-3 text-right focus:outline-none focus:border-blue-500"
-              />
-            </div>
-            <div class="flex items-center">
-              <label class="w-36 flex-shrink-0">Ngân hàng</label>
-              <input
-                type="text"
-                class="flex-1 border border-gray-300 rounded h-9 px-3 focus:outline-none focus:border-blue-500"
-              />
-            </div>
-
-            {/* <!-- Row 6 --> */}
-            <div class="flex items-center">
-              <label class="w-36 flex-shrink-0">Số tài khoản</label>
-              <input
-                type="text"
-                class="flex-1 border border-gray-300 rounded h-9 px-3 focus:outline-none focus:border-blue-500"
-              />
-            </div>
-            <div class="flex items-center">
-              <label class="w-36 flex-shrink-0">Chi nhánh NH</label>
-              <input
-                type="text"
-                class="flex-1 border border-gray-300 rounded h-9 px-3 focus:outline-none focus:border-blue-500"
-              />
-            </div>
+            
 
             {/* <!-- Checkbox Row --> */}
             <div class="flex items-center lg:col-span-2">
@@ -202,6 +250,7 @@ function FormPartner({openForm, edittedData, setData}) {
               <label class="flex items-center gap-2 cursor-pointer">
                 <input
                   type="checkbox"
+                  {...register("partner_isCustomer")}
                   class="w-4 h-4 border-gray-300 rounded text-blue-900 focus:ring-blue-900"
                 />
                 <span>Là khách hàng</span>
@@ -220,7 +269,7 @@ function FormPartner({openForm, edittedData, setData}) {
               <label class="w-36 flex-shrink-0">Họ và tên</label>
               <div class="flex-1 flex gap-2">
                 <div class="relative w-24">
-                  <select class="w-full border border-gray-300 rounded h-9 px-2 appearance-none bg-white focus:outline-none focus:border-blue-500">
+                  <select {...register("partner_contactGender")} class="w-full border border-gray-300 rounded h-9 px-2 appearance-none bg-white focus:outline-none focus:border-blue-500">
                     <option>Ông</option>
                     <option>Bà</option>
                   </select>
@@ -250,6 +299,7 @@ function FormPartner({openForm, edittedData, setData}) {
               <label class="w-36 flex-shrink-0">Email</label>
               <input
                 type="text"
+                {...register("partner_contactEmail")}
                 class="flex-1 border border-gray-300 rounded h-9 px-3 focus:outline-none focus:border-blue-500"
               />
             </div>
@@ -259,6 +309,7 @@ function FormPartner({openForm, edittedData, setData}) {
               <label class="w-36 flex-shrink-0">Điện thoại</label>
               <input
                 type="text"
+                {...register("partner_contactPhoneNumber")}
                 class="flex-1 border border-gray-300 rounded h-9 px-3 focus:outline-none focus:border-blue-500"
               />
             </div>
@@ -266,6 +317,7 @@ function FormPartner({openForm, edittedData, setData}) {
               <label class="w-36 flex-shrink-0">Chức danh</label>
               <input
                 type="text"
+                {...register("partner_contactPosition")}
                 class="flex-1 border border-gray-300 rounded h-9 px-3 focus:outline-none focus:border-blue-500"
               />
             </div>
@@ -275,6 +327,7 @@ function FormPartner({openForm, edittedData, setData}) {
               <label class="w-36 flex-shrink-0">Địa chỉ</label>
               <input
                 type="text"
+                {...register("partner_contactAddress")}
                 class="flex-1 border border-gray-300 rounded h-9 px-3 focus:outline-none focus:border-blue-500"
               />
             </div>
@@ -294,7 +347,7 @@ function FormPartner({openForm, edittedData, setData}) {
           </a>
 
           <div class="flex items-center gap-3">
-            <button class="flex items-center gap-2 bg-blue-900 text-white px-4 py-2 rounded hover:bg-blue-800 transition-colors">
+            <button type="submit" class="flex items-center gap-2 bg-blue-900 text-white px-4 py-2 rounded hover:bg-blue-800 transition-colors">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
@@ -310,28 +363,10 @@ function FormPartner({openForm, edittedData, setData}) {
                 <polyline points="17 21 17 13 7 13 7 21"></polyline>
                 <polyline points="7 3 7 8 15 8"></polyline>
               </svg>
-              <span class="font-semibold">Lưu</span>
-            </button>
-
-            <button class="flex items-center gap-2 border border-blue-900 text-blue-900 px-4 py-2 rounded hover:bg-blue-50 transition-colors">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <line x1="12" y1="5" x2="12" y2="19"></line>
-                <line x1="5" y1="12" x2="19" y2="12"></line>
-              </svg>
               <span class="font-semibold">Lưu và thêm mới</span>
             </button>
 
-            <button class="flex items-center gap-2 text-blue-900 px-4 py-2 rounded hover:bg-gray-100 transition-colors">
+            <button type="reset" class="flex items-center gap-2 text-blue-900 px-4 py-2 rounded hover:bg-gray-100 transition-colors">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
@@ -350,10 +385,9 @@ function FormPartner({openForm, edittedData, setData}) {
             </button>
           </div>
         </div>
+        </form>
       </div>
-      {/* </div>
-</div> */}
-      {/* </div> */}
+      
     </>
   );
 }

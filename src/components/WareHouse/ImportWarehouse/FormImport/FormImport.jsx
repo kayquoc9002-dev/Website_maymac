@@ -3,8 +3,9 @@ import { useState, useRef } from "react";
 import { useForm } from "react-hook-form";
 import DetailImportedGood from "./DetailImportedGood/DetailImportedGood";
 import postData from "../../../../Helpers/postData";
-import { transactionRecord } from "../../../../Helpers/urlAPI";
-function FormImport({ openForm }) {
+import { transactionRecord, stock } from "../../../../Helpers/urlAPI";
+import patchImportedQuatity from '../../../../Helpers/patchImportedQuatity';
+function FormImport({ openForm, importedRecords, setData }) {
   const detailImportedGoods = useRef([]);
   const [selectedGood, setSelectedGood] = useState([]);
   const now = new Date();
@@ -24,9 +25,10 @@ const [loading, setLoading] = useState(false);
   } = useForm();
 
   const onSubmit = (data) => {
-    data = { ...data, goods: detailImportedGoods.current, status: "Nhập" };
+    data = { ...data, goods: detailImportedGoods.current.map(item => {return {...item, warehouse: data.warehouse_name}}), status: "Nhập" };
     postData(data, setLoading, transactionRecord );
-    // console.log(data);
+    patchImportedQuatity(data.goods, stock);
+    setData([...importedRecords, data]);
     setSelectedGood([]);
     reset();
   };

@@ -1,23 +1,64 @@
 import React from 'react'
 import RowInfoGood from './RowInfoGood/RowInfoGood'
 import SideBar from '../Sidebar/Sidebar'
+import { goodService } from '../../../Helpers/functionsSupabase'
 import { useEffect, useState } from 'react'
-import fetchData from '../../../Helpers/fetchData'
+// import fetchData from '../../../Helpers/fetchData'
 import { useNavigate } from 'react-router-dom'
-import { catalogGoods } from '../../../Helpers/urlAPI'
+import Toolbar from '../Toolbar/Toolbar'
 function CatalogGood() {
-   const [data, setData] = useState([]);
-   const navigate = useNavigate();
-  const openForm = () => {
-    navigate('/catalog/good/form');
-  };
+    const [data, setData] = useState([]);
+    const [selectedId, setSelectedId] = useState([]);
+    const [edittedData, setEdittedData] = useState({});
+    const navigate = useNavigate();
+    const openForm = () => {
+      navigate('/catalog/good/form', { state: { goodId: selectedId[0]} });
+    };
   useEffect(() => {
     const getData = async () => {
-      const result = await fetchData(catalogGoods);
-      setData(result);
+      // const result = await fetchData();
+      try{
+        const result = await goodService.getAll();
+        console.log(result);
+        setData(result);
+      } catch(error){
+        console.log("Lỗi rồi!", error);
+      }
+      // setData(result);
     }
     getData();
-  },[])
+  },[]);
+
+  const handleSelect = (id) => {
+    const flag = (selectedId.includes(id)
+      ? selectedId.filter((item) => item != id)
+      : [...selectedId, id]);
+    setSelectedId(flag);
+    // setEdittedId(edittedId == id ? "" : id)
+  };
+
+  const handleDelete = async () => {
+      //Chỗ này để chạy tạm thời
+      // console.log(selectedId);
+      const result = await goodService.remove(selectedId);
+  
+      const flag = data.filter((item) => {
+        if (!selectedId.includes(item.id)) {
+          return item;
+        }
+      });
+      setData(flag);
+  
+    };
+  
+  const handleEdit = () => {
+    const edittedId = selectedId[0];
+    setEdittedData(data.find(item => item.id == edittedId));
+    setSelectedId([]);
+    navigate('/catalog/good/form')
+  }
+  
+
   return (
     <>
     <div class=" bg-gray-50 min-h-screen">
@@ -146,7 +187,8 @@ function CatalogGood() {
 
             <div class="p-2 flex-1 flex flex-col overflow-hidden bg-gray-300">
               {/* <!-- Toolbar --> */}
-              <div class="bg-[#283593] text-white flex items-center px-2 py-1 gap-1 overflow-x-auto shrink-0">
+              <Toolbar openForm={openForm} selectedId={selectedId} handleEdit={handleEdit} handleDelete={handleDelete} />
+              {/* <div class="bg-[#283593] text-white flex items-center px-2 py-1 gap-1 overflow-x-auto shrink-0">
                 <button class="flex items-center gap-1 px-3 py-1.5 hover:bg-white/10 rounded transition" onClick={openForm}>
                   <svg
                     class="w-4 h-4"
@@ -212,7 +254,7 @@ function CatalogGood() {
                   </svg>
                   <span>Xóa</span>
                 </button>
-              </div>
+              </div> */}
 
               {/* <!-- Main Content / Table --> */}
               <div class="flex-1 overflow-x-auto relative ">

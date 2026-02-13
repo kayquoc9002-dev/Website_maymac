@@ -590,6 +590,7 @@
     {
       "customer_id": "Hehehe",
       "customer_name": "1021312312",
+      "customer_citizenId": "0491231231",
       "customer_gender": "male",
       "customer_birthday": "23902112",
       "customer_email": "emasadsa",
@@ -612,6 +613,7 @@
     {
       "customer_id": "KH002",
       "customer_name": "Nguyen Van A",
+      "customer_citizenId": "049789451",
       "customer_gender": "female",
       "customer_birthday": "19900101",
       "customer_email": "nguyenvana@example.com",
@@ -634,6 +636,7 @@
     {
       "customer_id": "KH003",
       "customer_name": "Tran Van B",
+      "customer_citizenId": "049145612",
       "customer_gender": "male",
       "customer_birthday": "19851212",
       "customer_email": "tranvanb@example.com",
@@ -652,97 +655,6 @@
       "customer_note": "Khách VIP",
       "customer_status": "Đang theo dõi",
       "id": "892f"
-    },
-    {
-      "id": "2c91",
-      "customer_id": "D123231312",
-      "customer_name": "Duy",
-      "customer_ctizenId": "",
-      "customer_phoneNumber": "01213131",
-      "customer_maxDebt": "",
-      "customer_debtTerm": "",
-      "customer_addressCity": "Tỉnh thành",
-      "customer_addressDistrict": "Quận/Huyện",
-      "customer_addressWard": "Phường/Xã",
-      "customer_addressDetail": "",
-      "customer_email": "",
-      "customer_birthday": "",
-      "customer_gender": null,
-      "customer_group": "Nhập để tìm kiếm",
-      "customer_staff": "",
-      "customer_isSupplier": false,
-      "customer_companyName": "",
-      "customer_status": "Ngừng theo dõi",
-      "customer_taxId": ""
-    },
-    {
-      "id": "366b",
-      "customer_id": "K1231312313",
-      "customer_name": "Tùng",
-      "customer_ctizenId": "",
-      "customer_phoneNumber": "01213131",
-      "customer_maxDebt": "",
-      "customer_debtTerm": "",
-      "customer_addressCity": "",
-      "customer_addressDistrict": "Quận/Huyện",
-      "customer_addressWard": "Phường/Xã",
-      "customer_addressDetail": "",
-      "customer_email": "",
-      "customer_birthday": "",
-      "customer_gender": null,
-      "customer_status": null,
-      "customer_group": "Nhập để tìm kiếm",
-      "customer_staff": "",
-      "customer_note": "",
-      "customer_isSupplier": false,
-      "customer_companyName": "",
-      "customer_taxId": ""
-    },
-    {
-      "id": "6ad6",
-      "customer_id": "T2132131",
-      "customer_name": "Khoa",
-      "customer_ctizenId": "",
-      "customer_phoneNumber": "0987644221",
-      "customer_maxDebt": "",
-      "customer_debtTerm": "",
-      "customer_addressCity": "",
-      "customer_addressDistrict": "Quận/Huyện",
-      "customer_addressWard": "Phường/Xã",
-      "customer_addressDetail": "",
-      "customer_email": "",
-      "customer_birthday": "",
-      "customer_gender": null,
-      "customer_status": null,
-      "customer_group": "Nhập để tìm kiếm",
-      "customer_staff": "",
-      "customer_note": "",
-      "customer_isSupplier": false,
-      "customer_companyName": "",
-      "customer_taxId": ""
-    },
-    {
-      "id": "3d1b",
-      "customer_id": "Hehehe",
-      "customer_name": "Khánh",
-      "customer_ctizenId": "",
-      "customer_phoneNumber": "0987644221",
-      "customer_maxDebt": "",
-      "customer_debtTerm": "",
-      "customer_addressCity": "",
-      "customer_addressDistrict": "Quận/Huyện",
-      "customer_addressWard": "Phường/Xã",
-      "customer_addressDetail": "",
-      "customer_email": "",
-      "customer_birthday": "",
-      "customer_gender": null,
-      "customer_status": null,
-      "customer_group": "Nhập để tìm kiếm",
-      "customer_staff": "",
-      "customer_note": "",
-      "customer_isSupplier": false,
-      "customer_companyName": "",
-      "customer_taxId": ""
     }
   ],
   "partners": [
@@ -943,7 +855,7 @@
           "good_supplierName": "Công ty TNHH Vải Lụa Á Đông",
           "good_tax": 10,
           "good_unit": "cái",
-          "quatity": "123"
+          "quatity": 123
         }
       ],
       "totalPrice": 10000000
@@ -975,7 +887,7 @@
           "good_supplierName": "Công ty TNHH Vải Lụa Á Đông",
           "good_tax": 10,
           "good_unit": "cái",
-          "quatity": "234"
+          "quatity": 234
         },
         {
           "id": "x7y2",
@@ -990,7 +902,7 @@
           "good_supplierName": "Công ty TNHH Vải Lụa Á Đông",
           "good_tax": 10,
           "good_unit": "cái",
-          "quatity": "345"
+          "quatity": 345
         }
       ],
       "totalPrice": 10000000
@@ -1022,7 +934,7 @@
           "good_supplierName": "Công ty TNHH Vải Lụa Á Đông",
           "good_tax": 10,
           "good_unit": "cái",
-          "quatity": "6"
+          "quatity": 6
         },
         {
           "id": "x7y2",
@@ -1037,7 +949,7 @@
           "good_supplierName": "Công ty TNHH Vải Lụa Á Đông",
           "good_tax": 10,
           "good_unit": "cái",
-          "quatity": "4"
+          "quatity": 4
         }
       ],
       "totalPrice": 10000000
@@ -1052,6 +964,20 @@
       "order_time": "17:29:27",
       "order_status": "Chưa thực hiện",
       "supplier": {},
+      "bookedGoods": [],
+      "totalPrice": 10000000
+    },
+    {
+      "id": "b371",
+      "orderer_phone": "0987654321",
+      "orderer_name": "Tùng",
+      "order_note": "Tuyệt vời",
+      "order_code": "ABCD-PDH000025",
+      "order_date": "12/2/2026",
+      "order_time": "22:18:31",
+      "order_status": "Chưa thực hiện",
+      "supplier_id": "CT006",
+      "supplier_name": "Công ty TNHH Vải Lụa Á Đông",
       "bookedGoods": [],
       "totalPrice": 10000000
     }
@@ -1090,14 +1016,14 @@
   ],
   "transactionRecord": [
     {
-      "id": "80e4",
-      "employee_id": "D123",
-      "employee_name": "Duy",
+      "id": "8613",
+      "employee_id": "T123",
+      "employee_name": "Tùng",
       "warehouse_name": "Kho nguyên liệu",
       "note": "Tuyệt vời",
       "record_id": "ABCD-NK000273",
-      "record_date": "4/2/2026",
-      "record_time": "22:02:47",
+      "record_date": "8/2/2026",
+      "record_time": "19:10:17",
       "goods": [
         {
           "id": "a9b3",
@@ -1112,7 +1038,8 @@
           "good_supplierName": "Công ty TNHH Vải Lụa Á Đông",
           "good_tax": 10,
           "good_unit": "cái",
-          "quatity": "1"
+          "quatity": 100,
+          "warehouse": "Kho nguyên liệu"
         },
         {
           "id": "x7y2",
@@ -1127,23 +1054,21 @@
           "good_supplierName": "Công ty TNHH Vải Lụa Á Đông",
           "good_tax": 10,
           "good_unit": "cái",
-          "quatity": "2"
+          "quatity": 200,
+          "warehouse": "Kho nguyên liệu"
         }
       ],
       "status": "Nhập"
     },
     {
-      "id": "7add",
-      "employee_id": "T123",
-      "employee_name": "Tùng",
-      "reason": "Gia công",
-      "object_id": "CT006",
-      "object_name": "Công ty TNHH Vải Lụa Á Đông",
-      "object_type": "",
-      "note": "Cũng được",
+      "id": "29ae",
+      "employee_id": "D123",
+      "employee_name": "Duy",
+      "warehouse_name": "Kho nguyên liệu",
+      "note": "",
       "record_id": "ABCD-NK000273",
-      "record_date": "4/2/2026",
-      "record_time": "22:03:35",
+      "record_date": "8/2/2026",
+      "record_time": "19:22:51",
       "goods": [
         {
           "id": "a9b3",
@@ -1158,7 +1083,8 @@
           "good_supplierName": "Công ty TNHH Vải Lụa Á Đông",
           "good_tax": 10,
           "good_unit": "cái",
-          "quatity": "100"
+          "quatity": 100,
+          "warehouse": "Kho nguyên liệu"
         },
         {
           "id": "x7y2",
@@ -1173,25 +1099,90 @@
           "good_supplierName": "Công ty TNHH Vải Lụa Á Đông",
           "good_tax": 10,
           "good_unit": "cái",
-          "quatity": "200"
-        },
+          "quatity": 200,
+          "warehouse": "Kho nguyên liệu"
+        }
+      ],
+      "status": "Nhập"
+    },
+    {
+      "id": "3ccb",
+      "employee_id": "K123",
+      "employee_name": "Khoa",
+      "warehouse_name": "Kho nguyên liệu",
+      "note": "",
+      "record_id": "ABCD-NK000273",
+      "record_date": "8/2/2026",
+      "record_time": "19:23:38",
+      "goods": [
         {
-          "id": "m4q8",
-          "good_barcode": "8938505970035",
-          "good_brand": "An Phước",
-          "good_group": "Áo sơ mi",
-          "good_initialStock": 70,
-          "good_name": "Áo sơ mi trắng",
-          "good_price": 250000,
-          "good_sku": "ASM003",
+          "id": "a9b3",
+          "good_barcode": "8938505970011",
+          "good_brand": "Coolmate",
+          "good_group": "Áo thun",
+          "good_initialStock": 100,
+          "good_name": "Áo thun cotton",
+          "good_price": 120000,
+          "good_sku": "AT001",
           "good_supplierId": "CT006",
           "good_supplierName": "Công ty TNHH Vải Lụa Á Đông",
           "good_tax": 10,
           "good_unit": "cái",
-          "quatity": "110"
+          "quatity": 110,
+          "warehouse": "Kho nguyên liệu"
+        },
+        {
+          "id": "x7y2",
+          "good_barcode": "8938505970028",
+          "good_brand": "Levi's",
+          "good_group": "Quần jean",
+          "good_initialStock": 50,
+          "good_name": "Quần jean nam",
+          "good_price": 350000,
+          "good_sku": "QJ002",
+          "good_supplierId": "CT006",
+          "good_supplierName": "Công ty TNHH Vải Lụa Á Đông",
+          "good_tax": 10,
+          "good_unit": "cái",
+          "quatity": 210,
+          "warehouse": "Kho nguyên liệu"
         }
       ],
-      "status": "Xuất"
+      "status": "Nhập"
+    }
+  ],
+  "stock": [
+    {
+      "id": "a9b3",
+      "good_barcode": "8938505970011",
+      "good_brand": "Coolmate",
+      "good_group": "Áo thun",
+      "good_initialStock": 100,
+      "good_name": "Áo thun cotton",
+      "good_price": 120000,
+      "good_sku": "AT001",
+      "good_supplierId": "CT006",
+      "good_supplierName": "Công ty TNHH Vải Lụa Á Đông",
+      "good_tax": 10,
+      "good_unit": "cái",
+      "quatity": 110,
+      "warehouse": "Kho nguyên liệu"
+    },
+    {
+      "id": "x7y2",
+      "good_barcode": "8938505970028",
+      "good_brand": "Levi's",
+      "good_group": "Quần jean",
+      "good_initialStock": 50,
+      "good_name": "Quần jean nam",
+      "good_price": 350000,
+      "good_sku": "QJ002",
+      "good_supplierId": "CT006",
+      "good_supplierName": "Công ty TNHH Vải Lụa Á Đông",
+      "good_tax": 10,
+      "good_unit": "cái",
+      "quatity": 210,
+      "warehouse": "Kho nguyên liệu"
     }
   ]
 }

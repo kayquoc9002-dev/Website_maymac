@@ -2,41 +2,52 @@ import React from "react";
 import RowInfoCustomer from "./RowInfoCustomer/RowInfoCustomer";
 import { useState, useEffect, useRef } from "react";
 import FormCustomer from "./FormCustomer/FormCustomer";
-import fetchData from "../../../Helpers/fetchData"
+// import fetchData from "../../../Helpers/fetchData"
 import Sidebar from "../Sidebar/Sidebar";
 import Toolbar from "../Toolbar/Toolbar";
-import { customers } from "../../../Helpers/urlAPI";
+import { customerService } from "../../../Helpers/functionsSupabase";
+// import { customers } from "../../../Helpers/urlAPI";
 function CatalogCustomer() {
   const [selected, setSelected] = useState(false);
   const [data, setData] = useState([]);
   
   const [selectedId, setSelectedId] = useState([]);
-  const [edittedId, setEdittedId] = useState("");
   const [edittedData, setEdittedData] = useState({});
-  // const selectedId = useRef([]);
-  // const cacheData = useRef([]);
   const openForm = () => {
     setSelected(!selected);
   }
   console.log(selectedId);
-  // console.log(data);
   console.log(edittedData);
+
   useEffect(() => {
     const getData = async () => {
-      const result = await fetchData(customers);
-      setData(result);
+      try{
+        const result = await customerService.getAll();
+        console.log(result);
+        setData(result);
+      } catch(error){
+        console.log("Lỗi rồi!", error);
+      }
+      
     }
     getData();
   },[])
 
   const handleSelect = (id) => {
-    // setSelectedId(prev => (prev.includes(id) ? prev.filter(item => item != id) : [...prev, id]))
     const flag = (selectedId.includes(id) ? selectedId.filter(item => item != id) : [...selectedId, id]);
-    setEdittedId(edittedId == id ? "" : id);
+    // setEdittedId(edittedId == id ? "" : id);
     setSelectedId(flag);
   }
-  const handleDelete = () => {
+  const handleDelete = async () => {
     // console.log(selectedId);
+
+    try{
+      const result = await customerService.remove(selectedId);
+      // console.log(result); 
+      //Giá trị của result là null vì nó không trả ra mảng mới
+    } catch(error){
+      console.log("Lỗi", error);
+    }
 
     //Chỗ này là để chạy tạm thời 
     const result = data.filter(item => {
@@ -49,9 +60,11 @@ function CatalogCustomer() {
     setSelectedId([]);
   }
   const handleEdit = () => {
-    console.log(edittedId);
+    // console.log(edittedId);
+    console.log(selectedId);
+    const edittedId = selectedId[0];
     setEdittedData(data.find(item => item.id == edittedId));
-    setEdittedId("");
+    // setEdittedId("");
     setSelectedId([]);
     setSelected(!selected);
   }
@@ -68,7 +81,7 @@ function CatalogCustomer() {
           // {/* Overlay */}
           
         </div>
-        <FormCustomer openForm={openForm}  edittedData={edittedData} setData={setData}/>
+        <FormCustomer openForm={openForm} dataGood={data} edittedData={edittedData} setData={setData}/>
          </div>
       )}
       <div class=" bg-gray-50 min-h-screen">
@@ -197,7 +210,7 @@ function CatalogCustomer() {
 
             <div class="p-2 flex-1 flex flex-col overflow-hidden bg-gray-300">
               {/* <!-- Toolbar --> */}
-              <Toolbar openForm={openForm} edittedId={edittedId} handleEdit={handleEdit} handleDelete={handleDelete}/>
+              <Toolbar openForm={openForm}  selectedId={selectedId} handleEdit={handleEdit} handleDelete={handleDelete}/>
 
               {/* <!-- Main Content / Table --> */}
               <div class="flex-1 overflow-x-auto relative ">
@@ -443,7 +456,7 @@ function CatalogCustomer() {
 
                     {/* <!-- Row 2 --> */}
                     {data.map((item) => (
-                      <RowInfoCustomer handleSelect={handleSelect} inforCustomer={item} selectedId={selectedId} edittedId={edittedId}/>
+                      <RowInfoCustomer handleSelect={handleSelect} inforCustomer={item} selectedId={selectedId}/>
                     ))}
                   </tbody>
                 </table>

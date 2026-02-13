@@ -1,6 +1,52 @@
 import React from "react";
+import { useForm } from "react-hook-form";
+import { useState } from "react";
+import { supplierService } from "../../../../Helpers/functionsSupabase";
+function FormSupplier({openForm, dataSupplier, edittedData, setData}) {
+  const [loading, setLoading] = useState(false);
+    const {
+      register,
+      handleSubmit,
+      formState: { errors },
+      reset,
+    } = useForm();
+  
+    const onSubmit = async (data) => {
+      data = {...data, supplier_maxDebt: parseInt(data.supplier_maxDebt), supplier_dayDebt: parseInt(data.supplier_dayDebt)}
+      console.log(data);
+      // console.log([...dataSupplier, data]);
+      setLoading(true);
+      // // await postData(data, setLoading, customers);
+      if(Object.keys(edittedData).length != 0){
+        try{
+        const result = await supplierService.edit(edittedData.id, data);
+        console.log(result);
+        setData(dataSupplier.map(item => {
+          if(item.id == edittedData.id){
+            return data
+          }else{
+            return item
+          }
+        }));
+      } catch(error){
+        console.log("Lỗi!", error);
+      }
+        } else{
+          try{
+          console.log([...dataSupplier, data]);
+          const result = await supplierService.add(data);
+          console.log(result);
 
-function FormSupplier({openForm, edittedData, setData}) {
+          //Gán lại data ở Frontend để đỡ phải gọi lại BE
+          setData([...dataSupplier, data]);
+        } catch(error){
+          console.log("Lỗi!", error);
+        }
+      }
+      reset();
+      setLoading(false);
+    };
+
   return (
     <>
       {/* <div class="bg-gray-50 min-h-screen"> */}
@@ -12,7 +58,7 @@ function FormSupplier({openForm, edittedData, setData}) {
         {/* <!-- Header --> */}
         <div class="flex justify-between items-center px-4 py-3 bg-gray-100 border-b border-gray-200">
           <h2 class="font-bold text-gray-800 text-base">
-            Thêm mới đơn vị gia công
+            Thêm mới nhà cung cấp
           </h2>
           <button class="text-gray-400 hover:text-gray-600" onClick={openForm}>
             <svg
@@ -32,6 +78,7 @@ function FormSupplier({openForm, edittedData, setData}) {
           </button>
         </div>
 
+        <form onSubmit={handleSubmit(onSubmit)}>
         {/* <!-- Body --> */}
         <div class="p-6 overflow-y-auto max-h-[80vh]">
           {/* <!-- Radio Group --> */}
@@ -40,9 +87,10 @@ function FormSupplier({openForm, edittedData, setData}) {
               <div class="relative flex items-center justify-center">
                 <input
                   type="radio"
-                  name="type"
-                  class="peer appearance-none w-5 h-5 border-2 border-blue-900 rounded-full checked:border-blue-900"
-                  checked
+                  value="Tổ chức"
+                  {...register("supplier_type", {required: "Bắt buộc"})}
+                  class="peer appearance-none w-5 h-5 border-2  border-gray-400 rounded-full checked:border-blue-900"
+                  defaultChecked={true}
                 />
                 <div class="absolute w-2.5 h-2.5 bg-blue-900 rounded-full hidden peer-checked:block"></div>
               </div>
@@ -52,7 +100,9 @@ function FormSupplier({openForm, edittedData, setData}) {
               <div class="relative flex items-center justify-center">
                 <input
                   type="radio"
-                  name="type"
+                  value="Cá nhân"
+                  defaultChecked={false}
+                  {...register("supplier_type", {required: "Bắt buộc"})}
                   class="peer appearance-none w-5 h-5 border-2 border-gray-400 rounded-full checked:border-blue-900"
                 />
                 <div class="absolute w-2.5 h-2.5 bg-blue-900 rounded-full hidden peer-checked:block"></div>
@@ -74,7 +124,10 @@ function FormSupplier({openForm, edittedData, setData}) {
               </label>
               <input
                 type="text"
-                class="flex-1 border border-blue-400 rounded h-9 px-3 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                {...register("supplier_id", { required: "Bắt buộc" })}
+                class={"flex-1 border rounded h-9 px-3 focus:outline-none focus:ring-1 focus:ring-blue-500 " + (errors.supplier_id
+                      ? "border-red-500 focus:ring-red-500"
+                      : " border-gray-300")}
               />
             </div>
             <div class="flex items-center">
@@ -83,16 +136,22 @@ function FormSupplier({openForm, edittedData, setData}) {
               </label>
               <input
                 type="text"
-                class="flex-1 border border-gray-300 rounded h-9 px-3 focus:outline-none focus:border-blue-500"
+                {...register("supplier_name", { required: "Bắt buộc" })}
+                class={"flex-1 border border-gray-300 rounded h-9 px-3 focus:outline-none focus:border-blue-500 " + (errors.supplier_name
+                      ? "border-red-500 focus:ring-red-500"
+                      : " border-gray-300")}
               />
             </div>
 
             {/* <!-- Row 2: Address (Full Width) --> */}
             <div class="flex items-center lg:col-span-2">
-              <label class="w-36 flex-shrink-0">Địa chỉ</label>
+              <label class="w-36 flex-shrink-0">Địa chỉ <span class="text-red-500">*</span></label>
               <input
                 type="text"
-                class="flex-1 border border-gray-300 rounded h-9 px-3 focus:outline-none focus:border-blue-500"
+                {...register("supplier_address", {required: "Bắt buộc"})}
+                class={"flex-1 border border-gray-300 rounded h-9 px-3 focus:outline-none focus:border-blue-500 "  + (errors.supplier_name
+                      ? "border-red-500 focus:ring-red-500"
+                      : " border-gray-300")}
               />
             </div>
 
@@ -101,24 +160,30 @@ function FormSupplier({openForm, edittedData, setData}) {
               <label class="w-36 flex-shrink-0">Mã số thuế</label>
               <input
                 type="text"
+                {...register("supplier_taxCode")}
                 class="flex-1 border border-gray-300 rounded h-9 px-3 focus:outline-none focus:border-blue-500"
               />
             </div>
             <div class="flex items-center">
-              <label class="w-36 flex-shrink-0">Điện thoại</label>
+              <label class="w-36 flex-shrink-0">Điện thoại <span class="text-red-500">*</span></label>
               <input
                 type="text"
-                class="flex-1 border border-gray-300 rounded h-9 px-3 focus:outline-none focus:border-blue-500"
+                {...register("supplier_phoneNumber", { required: "Bắt buộc" })}
+                class={"flex-1 border border-gray-300 rounded h-9 px-3 focus:outline-none focus:border-blue-500 " + (errors.supplier_phoneNumber
+                      ? "border-red-500 focus:ring-red-500"
+                      : " border-gray-300")}
               />
             </div>
 
             {/* <!-- Row 4 --> */}
             <div class="flex items-center">
-              <label class="w-36 flex-shrink-0">Nhóm nhà cung cấp</label>
+              <label class="w-36 flex-shrink-0">Nhóm NCC</label>
               <div class="flex-1 flex">
                 <div class="relative w-full">
-                  <select class="w-full border border-gray-300 rounded-l h-9 px-3 appearance-none bg-white focus:outline-none focus:border-blue-500 text-gray-500">
-                    <option>Nhập để tìm kiếm</option>
+                  <select {...register("supplier_group")} class="w-full border border-gray-300 rounded-l h-9 px-3 appearance-none bg-white focus:outline-none focus:border-blue-500 text-gray-500">
+                    <option value="">Nhập để tìm kiếm</option>
+                    <option value="Vải lụa">Vải lụa</option>
+                    <option value="Màu">Màu</option>
                   </select>
                   <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
                     <svg
@@ -158,7 +223,9 @@ function FormSupplier({openForm, edittedData, setData}) {
               <label class="w-36 flex-shrink-0">Số nợ tối đa</label>
               <input
                 type="text"
-                value="0,00"
+                placeholder="0,00"
+                defaultValue="0"
+                {...register("supplier_maxDebt")}
                 class="flex-1 border border-gray-300 rounded h-9 px-3 text-right focus:outline-none focus:border-blue-500"
               />
             </div>
@@ -168,7 +235,8 @@ function FormSupplier({openForm, edittedData, setData}) {
               <label class="w-36 flex-shrink-0">Hạn nợ (ngày)</label>
               <input
                 type="text"
-                value="0"
+                defaultValue="0"
+                {...register("supplier_dayDebt")}
                 class="flex-1 border border-gray-300 rounded h-9 px-3 text-right focus:outline-none focus:border-blue-500"
               />
             </div>
@@ -176,6 +244,7 @@ function FormSupplier({openForm, edittedData, setData}) {
               <label class="w-36 flex-shrink-0">Ngân hàng</label>
               <input
                 type="text"
+                {...register("supplier_nameBank")}
                 class="flex-1 border border-gray-300 rounded h-9 px-3 focus:outline-none focus:border-blue-500"
               />
             </div>
@@ -185,13 +254,7 @@ function FormSupplier({openForm, edittedData, setData}) {
               <label class="w-36 flex-shrink-0">Số tài khoản</label>
               <input
                 type="text"
-                class="flex-1 border border-gray-300 rounded h-9 px-3 focus:outline-none focus:border-blue-500"
-              />
-            </div>
-            <div class="flex items-center">
-              <label class="w-36 flex-shrink-0">Chi nhánh NH</label>
-              <input
-                type="text"
+                {...register("supplier_bankAccNumber")}
                 class="flex-1 border border-gray-300 rounded h-9 px-3 focus:outline-none focus:border-blue-500"
               />
             </div>
@@ -203,8 +266,20 @@ function FormSupplier({openForm, edittedData, setData}) {
                 <input
                   type="checkbox"
                   class="w-4 h-4 border-gray-300 rounded text-blue-900 focus:ring-blue-900"
+                  {...register("supplier_isCustomer")}
                 />
                 <span>Là khách hàng</span>
+              </label>
+            </div>
+            <div class="flex items-center lg:col-span-2">
+              <div class="w-36"></div>
+              <label class="flex items-center gap-2 cursor-pointer">
+                <input
+                  type="checkbox"
+                  class="w-4 h-4 border-gray-300 rounded text-blue-900 focus:ring-blue-900"
+                  {...register("supplier_status")}
+                />
+                <span>Đang hoạt động</span>
               </label>
             </div>
           </div>
@@ -220,7 +295,7 @@ function FormSupplier({openForm, edittedData, setData}) {
               <label class="w-36 flex-shrink-0">Họ và tên</label>
               <div class="flex-1 flex gap-2">
                 <div class="relative w-24">
-                  <select class="w-full border border-gray-300 rounded h-9 px-2 appearance-none bg-white focus:outline-none focus:border-blue-500">
+                  <select {...register("supplier_contactGender")} class="w-full border border-gray-300 rounded h-9 px-2 appearance-none bg-white focus:outline-none focus:border-blue-500">
                     <option>Ông</option>
                     <option>Bà</option>
                   </select>
@@ -242,6 +317,7 @@ function FormSupplier({openForm, edittedData, setData}) {
                 </div>
                 <input
                   type="text"
+                  {...register("supplier_contactName")}
                   class="flex-1 border border-gray-300 rounded h-9 px-3 focus:outline-none focus:border-blue-500"
                 />
               </div>
@@ -250,6 +326,7 @@ function FormSupplier({openForm, edittedData, setData}) {
               <label class="w-36 flex-shrink-0">Email</label>
               <input
                 type="text"
+                {...register("supplier_contactEmail")}
                 class="flex-1 border border-gray-300 rounded h-9 px-3 focus:outline-none focus:border-blue-500"
               />
             </div>
@@ -259,6 +336,7 @@ function FormSupplier({openForm, edittedData, setData}) {
               <label class="w-36 flex-shrink-0">Điện thoại</label>
               <input
                 type="text"
+                {...register("supplier_contactPhoneNumber")}
                 class="flex-1 border border-gray-300 rounded h-9 px-3 focus:outline-none focus:border-blue-500"
               />
             </div>
@@ -266,6 +344,7 @@ function FormSupplier({openForm, edittedData, setData}) {
               <label class="w-36 flex-shrink-0">Chức danh</label>
               <input
                 type="text"
+                {...register("supplier_contactPosition")}
                 class="flex-1 border border-gray-300 rounded h-9 px-3 focus:outline-none focus:border-blue-500"
               />
             </div>
@@ -275,6 +354,7 @@ function FormSupplier({openForm, edittedData, setData}) {
               <label class="w-36 flex-shrink-0">Địa chỉ</label>
               <input
                 type="text"
+                {...register("supplier_contactAddress")}
                 class="flex-1 border border-gray-300 rounded h-9 px-3 focus:outline-none focus:border-blue-500"
               />
             </div>
@@ -294,7 +374,7 @@ function FormSupplier({openForm, edittedData, setData}) {
           </a>
 
           <div class="flex items-center gap-3">
-            <button class="flex items-center gap-2 bg-blue-900 text-white px-4 py-2 rounded hover:bg-blue-800 transition-colors">
+            <button type="submit" disabled={loading} class="flex items-center gap-2 bg-blue-900 text-white px-4 py-2 rounded hover:bg-blue-800 transition-colors">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
@@ -310,28 +390,10 @@ function FormSupplier({openForm, edittedData, setData}) {
                 <polyline points="17 21 17 13 7 13 7 21"></polyline>
                 <polyline points="7 3 7 8 15 8"></polyline>
               </svg>
-              <span class="font-semibold">Lưu</span>
-            </button>
-
-            <button class="flex items-center gap-2 border border-blue-900 text-blue-900 px-4 py-2 rounded hover:bg-blue-50 transition-colors">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <line x1="12" y1="5" x2="12" y2="19"></line>
-                <line x1="5" y1="12" x2="19" y2="12"></line>
-              </svg>
               <span class="font-semibold">Lưu và thêm mới</span>
-            </button>
+            </button>           
 
-            <button class="flex items-center gap-2 text-blue-900 px-4 py-2 rounded hover:bg-gray-100 transition-colors">
+            <button type="reset" disabled={loading} class="flex items-center gap-2 text-blue-900 px-4 py-2 rounded hover:bg-gray-100 transition-colors">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
@@ -350,10 +412,8 @@ function FormSupplier({openForm, edittedData, setData}) {
             </button>
           </div>
         </div>
+        </form>
       </div>
-      {/* </div>
-</div> */}
-      {/* </div> */}
     </>
   );
 }

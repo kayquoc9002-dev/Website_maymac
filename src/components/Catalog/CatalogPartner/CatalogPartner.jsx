@@ -4,9 +4,10 @@ import RowInfoPartner from "./RowInfoPartner/RowInfoPartner";
 import Sidebar from "../Sidebar/Sidebar";
 import Toolbar from "../Toolbar/Toolbar";
 import { useEffect, useState } from "react";
-import fetchData from "../../../Helpers/fetchData";
+// import fetchData from "../../../Helpers/fetchData";
 import FormPartner from "./FormPartner/FormPartner";
-import { partners } from "../../../Helpers/urlAPI";
+// import { partners } from "../../../Helpers/urlAPI";
+import { partnerService } from "../../../Helpers/functionsSupabase";
 function CatalogPartner() {
   const [data, setData] = useState([]);
   const [selected, setSelected] = useState(false);
@@ -16,8 +17,15 @@ function CatalogPartner() {
 
   useEffect(() => {
     const getData = async () => {
-      const result = await fetchData(partners);
-      setData(result);
+      // const result = await fetchData(partners);
+      try{
+        const result = await partnerService.getAll();
+        console.log(result);
+        setData(result);
+
+      } catch(error){
+        console.log("Lỗi!", error);
+      }
     };
     getData();
   }, []);
@@ -32,24 +40,36 @@ function CatalogPartner() {
       ? selectedId.filter((item) => item != id)
       : [...selectedId, id]);
     setSelectedId(flag);
-    setEdittedId(edittedId == id ? "" : id)
+    
   };
 
-  const handleDelete = () => {
-    //Chỗ này để chạy tạm thời
-    console.log(selectedId);
-    const flag = data.filter((item) => {
-      if (!selectedId.includes(item.id)) {
-        return item;
-      }
-    });
-    setData(flag);
+  const handleDelete = async () => {
+     try{
+          const result = await partnerService.remove(selectedId);
+          // console.log(result); 
+          //Giá trị của result là null vì nó không trả ra mảng mới
+        } catch(error){
+          console.log("Lỗi", error);
+        }
+    
+        //Chỗ này là để chạy tạm thời 
+        const result = data.filter(item => {
+          if(!selectedId.includes(item.id)){
+            return item;
+          }
+        })
+        // console.log(result);
+        setData(result);
+        setSelectedId([]);
   };
 
   const handleEdit = () => {
-    console.log(data.find(item => item.id == edittedId));
+    console.log(selectedId);
+    const edittedId = selectedId[0];
     setEdittedData(data.find(item => item.id == edittedId));
-    setSelected(true);
+    // setEdittedId("");
+    setSelectedId([]);
+    setSelected(!selected);
   }
   // useEffect(() => {
   //   const getData = async () => {
@@ -72,7 +92,7 @@ function CatalogPartner() {
           >
             // {/* Overlay */}
           </div>
-          <FormPartner openForm={openForm} edittedData={edittedData}  setData={setData} />
+          <FormPartner openForm={openForm} dataPartner={data} edittedData={edittedData}  setData={setData} />
         </div>
       )}
 
@@ -202,7 +222,7 @@ function CatalogPartner() {
 
             <div class="p-2 flex-1 flex flex-col overflow-hidden bg-gray-300">
               {/* <!-- Toolbar --> */}
-              <Toolbar openForm={openForm} edittedId={edittedId} handleEdit={handleEdit} handleDelete={handleDelete} />
+              <Toolbar openForm={openForm} selectedId={selectedId} handleEdit={handleEdit} handleDelete={handleDelete} />
 
               {/* <!-- Main Content / Table --> */}
               <div class="flex-1 overflow-x-auto relative ">

@@ -1,18 +1,32 @@
-import React from 'react'
-import Header from '../../PartsOfPage/Header'
-import Sidebar from '../../Catalog/Sidebar/Sidebar'
-import Toolbar from '../../Catalog/Toolbar/Toolbar'
+import React from "react";
+import Header from "../../PartsOfPage/Header";
+import Sidebar from "../../Catalog/Sidebar/Sidebar";
+import Toolbar from "../../Catalog/Toolbar/Toolbar";
+import { stock } from "../../../Helpers/urlAPI";
+import fetchData from "../../../Helpers/fetchData";
+import Row from "./Row/Row";
+import { useState, useEffect } from "react";
 function WarehouseManagement() {
+  
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    const getData = async () => {
+      const result = await fetchData(stock);
+      setData(result);
+    };
+    getData();
+  }, []);
+
   return (
     <>
-        <div class=" bg-gray-50 min-h-screen">
+      <div class=" bg-gray-50 min-h-screen">
         <div class="flex w-screen">
           {/* <!-- Sidebar --> */}
           <Sidebar />
 
           <div class=" flex-1 w-[100px] flex flex-col h-screen bg-gray-50 font-sans text-sm">
             {/* <!-- Top Header --> */}
-            <Header title="Tồn kho"/>
+            <Header title="Tồn kho" />
 
             <div class="p-2 flex-1 flex flex-col overflow-hidden bg-gray-300">
               {/* <!-- Toolbar --> */}
@@ -33,21 +47,36 @@ function WarehouseManagement() {
                         />
                       </th>
                       <th class="w-24 border border-gray-300 px-12 py-2 text-center font-bold text-gray-700 whitespace-nowrap">
-                        Ngày đặt hàng
+                        Kho
                       </th>
-                      <th class="w-50 border border-gray-300 px-6 py-2 text-center font-bold text-gray-700 whitespace-nowrap">
-                        Số phiếu
+                      <th class=" border border-gray-300 px-20 py-2 text-center font-bold text-gray-700 whitespace-nowrap">
+                        Mã SKU
                       </th>
-                      <th class="w-50 border border-gray-300 px-12 py-2 text-center font-bold text-gray-700 whitespace-nowrap">
-                        Người đặt
+                      <th class="w-24 border border-gray-300 px-24 py-2 text-center font-bold text-gray-700 whitespace-nowrap">
+                        Tên hàng hóa
                       </th>
-                      <th class="w-50 border border-gray-300 px-12 py-2 text-center font-bold text-gray-700 whitespace-nowrap">
-                        Nhà cung cấp
+                      <th class="w-24 border border-gray-300 px-15 py-2 text-center font-bold text-gray-700 whitespace-nowrap">
+                        Mã vạch
                       </th>
-                      <th class="w-50 border border-gray-300 px-12 py-2 text-center font-bold text-gray-700 whitespace-nowrap">
+                      <th class="w-24 border border-gray-300 px-12 py-2 text-center font-bold text-gray-700 whitespace-nowrap">
+                        Nhóm hàng hóa
+                      </th>
+                      <th class="w-24 border border-gray-300 px-10 py-2 text-center font-bold text-gray-700 whitespace-nowrap">
+                        Đơn vị
+                      </th>
+                      <th class="w-24 border border-gray-300 px-12 py-2 text-center font-bold text-gray-700 whitespace-nowrap">
+                        Số lượng
+                      </th>
+                      <th class="w-24 border border-gray-300 px-12 py-2 text-center font-bold text-gray-700 whitespace-nowrap">
+                        Đơn giá
+                      </th>
+                      <th class="w-24 border border-gray-300 px-8 py-2 text-center font-bold text-gray-700 whitespace-nowrap">
+                        Thuế
+                      </th>
+                      <th class="w-50 border border-gray-300 px-15 py-2 text-center font-bold text-gray-700 whitespace-nowrap">
                         Tổng tiền
                       </th>
-                      <th class="w-50 border border-gray-300 px-12 py-2 text-center font-bold text-gray-700 whitespace-nowrap">
+                      <th class="border border-gray-300 px-15 py-2 text-center font-bold text-gray-700 whitespace-nowrap">
                         Trạng thái
                       </th>
                       <th class="border border-gray-300 px-12 py-2 text-center font-bold text-gray-700 whitespace-nowrap">
@@ -131,16 +160,69 @@ function WarehouseManagement() {
                           />
                         </div>
                       </th>
+                      <th class="border border-gray-300 p-1">
+                        <div class="flex border border-gray-300 bg-white h-7">
+                          <button class="px-1.5 border-r border-gray-300 text-gray-500 hover:bg-gray-100">
+                            *
+                          </button>
+                          <input
+                            type="text"
+                            class="w-full px-1 outline-none text-xs font-normal"
+                          />
+                        </div>
+                      </th>
+                      <th class="border border-gray-300 p-1">
+                        <div class="flex border border-gray-300 bg-white h-7">
+                          <button class="px-1.5 border-r border-gray-300 text-gray-500 hover:bg-gray-100">
+                            *
+                          </button>
+                          <input
+                            type="text"
+                            class="w-full px-1 outline-none text-xs font-normal"
+                          />
+                        </div>
+                      </th>
+                      <th class="border border-gray-300 p-1">
+                        <div class="flex border border-gray-300 bg-white h-7">
+                          <button class="px-1.5 border-r border-gray-300 text-gray-500 hover:bg-gray-100">
+                            *
+                          </button>
+                          <input
+                            type="text"
+                            class="w-full px-1 outline-none text-xs font-normal"
+                          />
+                        </div>
+                      </th>
+                      <th class="border border-gray-300 p-1">
+                        <div class="flex border border-gray-300 bg-white h-7">
+                          <button class="px-1.5 border-r border-gray-300 text-gray-500 hover:bg-gray-100">
+                            *
+                          </button>
+                          <input
+                            type="text"
+                            class="w-full px-1 outline-none text-xs font-normal"
+                          />
+                        </div>
+                      </th>
+                      <th class="border border-gray-300 p-1">
+                        <div class="flex border border-gray-300 bg-white h-7">
+                          <button class="px-1.5 border-r border-gray-300 text-gray-500 hover:bg-gray-100">
+                            *
+                          </button>
+                          <input
+                            type="text"
+                            class="w-full px-1 outline-none text-xs font-normal"
+                          />
+                        </div>
+                      </th>
                     </tr>
                   </thead>
                   <tbody class="bg-white text-gray-800">
                     {/* <!-- Row 1 (Selected) --> */}
 
-
-                    {/* {data.map((item) => (
-                      <RowInfoBookedOrder bookedOrder={item}/>
-                    ))} */}
-
+                    {data.map((item) => (
+                      <Row detail={item}/>
+                    ))}
 
                     {/* <!-- Row 2 --> */}
                     {/* {data.map((item) => (
@@ -259,7 +341,7 @@ function WarehouseManagement() {
         </div>
       </div>
     </>
-  )
+  );
 }
 
-export default WarehouseManagement
+export default WarehouseManagement;

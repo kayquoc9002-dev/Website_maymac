@@ -47,6 +47,7 @@ function DetailBookedGood({detailBookedGoods}) {
         return {...item, quatity: count}
       }
     })
+    console.log(flag);
     setSelectedGood(flag);
     detailBookedGoods.current = flag;
   }

@@ -2,18 +2,27 @@ import React from 'react'
 import Header from '../../PartsOfPage/Header'
 import Sidebar from '../../Catalog/Sidebar/Sidebar'
 import Toolbar from '../../Catalog/Toolbar/Toolbar'
-import { useState, useEffect } from 'react'
+import RowExportWarehouse from './RowExportWarehouse/RowExportWarehouse'
 import FormExport from './FormExport/FormExport'
+import { transactionRecord } from '../../../Helpers/urlAPI'
+import { useState, useEffect } from 'react'
+import fetchData from '../../../Helpers/fetchData'
+import DetailGood from './DetailGood/DetailGood'
+
 function ExportWarehouse() {
 
   const [selectedForm, setSelectedForm] = useState(false);
+  const [selectedDetail, setSelectedDetail] = useState(false);
   const [data, setData] = useState([]);
   const openForm = () => {
     setSelectedForm(!selectedForm);
   }
+  const openDetail = () => {
+    setSelectedDetail(!selectedDetail);
+  }
    useEffect(() => {
     const getData = async () => {
-      // const result = await fetchData(exportWarehouse);
+      const result = await fetchData(transactionRecord);
       setData(result);
     }
     getData();
@@ -31,7 +40,22 @@ function ExportWarehouse() {
           >
             // {/* Overlay */}
           </div>
-          <FormExport openForm={openForm}/>
+          <FormExport openForm={openForm} exportedRecords={data} setData={setData}/>
+          </div>
+        )}
+
+        {selectedDetail && (
+          <div className="fixed inset-0 z-20 flex justify-center items-center">
+          <div
+            className={`absolute inset-0 bg-black transition-opacity duration-300   ${
+              selectedDetail
+                ? "opacity-60 pointer-events-auto"
+                : "opacity-0 pointer-events-none"
+            }`}
+          >
+            // {/* Overlay */}
+          </div>
+          <DetailGood openDetail={openDetail}/>
           </div>
         )}
 
@@ -63,22 +87,37 @@ function ExportWarehouse() {
                         />
                       </th>
                       <th class="w-24 border border-gray-300 px-12 py-2 text-center font-bold text-gray-700 whitespace-nowrap">
-                        Ngày đặt hàng
+                        Hình thức
+                      </th>
+                      <th class="w-24 border border-gray-300 px-12 py-2 text-center font-bold text-gray-700 whitespace-nowrap">
+                        Ngày ghi
                       </th>
                       <th class="w-50 border border-gray-300 px-6 py-2 text-center font-bold text-gray-700 whitespace-nowrap">
                         Số phiếu
                       </th>
-                      <th class="w-50 border border-gray-300 px-12 py-2 text-center font-bold text-gray-700 whitespace-nowrap">
-                        Người đặt
+                      <th class="w-24 border border-gray-300 px-12 py-2 text-center font-bold text-gray-700 whitespace-nowrap">
+                        Giờ ghi
+                      </th>
+                      <th class="w-24 border border-gray-300 px-12 py-2 text-center font-bold text-gray-700 whitespace-nowrap">
+                        Kho
                       </th>
                       <th class="w-50 border border-gray-300 px-12 py-2 text-center font-bold text-gray-700 whitespace-nowrap">
-                        Nhà cung cấp
+                        Mã nhân viên
                       </th>
                       <th class="w-50 border border-gray-300 px-12 py-2 text-center font-bold text-gray-700 whitespace-nowrap">
-                        Tổng tiền
+                        Nhân viên
                       </th>
                       <th class="w-50 border border-gray-300 px-12 py-2 text-center font-bold text-gray-700 whitespace-nowrap">
-                        Trạng thái
+                        Mã đối tượng
+                      </th>
+                      <th class="w-50 border border-gray-300 px-12 py-2 text-center font-bold text-gray-700 whitespace-nowrap">
+                        Đối tượng
+                      </th>
+                      <th class="w-50 border border-gray-300 px-12 py-2 text-center font-bold text-gray-700 whitespace-nowrap">
+                        Loại đối tượng
+                      </th>
+                      <th class="w-50 border border-gray-300 px-12 py-2 text-center font-bold text-gray-700 whitespace-nowrap">
+                        Chi tiết hàng hóa
                       </th>
                       <th class="border border-gray-300 px-12 py-2 text-center font-bold text-gray-700 whitespace-nowrap">
                         Ghi chú
@@ -144,6 +183,51 @@ function ExportWarehouse() {
                         </div>
                       </th>
                       <th class="border border-gray-300 p-1">
+                        <div class="flex border border-gray-300 bg-white h-7">
+                          <button class="px-1.5 border-r border-gray-300 text-gray-500 hover:bg-gray-100">
+                            *
+                          </button>
+                          <input
+                            type="text"
+                            class="w-full px-1 outline-none text-xs font-normal"
+                          />
+                        </div>
+                      </th>
+                      <th class="border border-gray-300 p-1">
+                        <div class="flex border border-gray-300 bg-white h-7">
+                          <button class="px-1.5 border-r border-gray-300 text-gray-500 hover:bg-gray-100">
+                            *
+                          </button>
+                          <input
+                            type="text"
+                            class="w-full px-1 outline-none text-xs font-normal"
+                          />
+                        </div>
+                      </th>
+                      <th class="border border-gray-300 p-1">
+                        <div class="flex border border-gray-300 bg-white h-7">
+                          <button class="px-1.5 border-r border-gray-300 text-gray-500 hover:bg-gray-100">
+                            *
+                          </button>
+                          <input
+                            type="text"
+                            class="w-full px-1 outline-none text-xs font-normal"
+                          />
+                        </div>
+                      </th>
+                      <th class="border border-gray-300 p-1">
+                        <div class="flex border border-gray-300 bg-white h-7">
+                          <button class="px-1.5 border-r border-gray-300 text-gray-500 hover:bg-gray-100">
+                            *
+                          </button>
+                          <input
+                            type="text"
+                            class="w-full px-1 outline-none text-xs font-normal"
+                          />
+                        </div>
+                      </th>
+                      
+                      <th class="border border-gray-300 p-1">
                         <select class="w-full h-7 border border-gray-300 text-xs font-normal px-1 outline-none">
                           <option>Tất cả</option>
                           <option>Có</option>
@@ -167,9 +251,9 @@ function ExportWarehouse() {
                     {/* <!-- Row 1 (Selected) --> */}
 
 
-                    {/* {data.map((item) => (
-                      <RowInfoBookedOrder bookedOrder={item}/>
-                    ))} */}
+                    {data.map((item) => (
+                      <RowExportWarehouse exportedRecord={item} openDetail={openDetail}/>
+                    ))}
 
 
                     {/* <!-- Row 2 --> */}

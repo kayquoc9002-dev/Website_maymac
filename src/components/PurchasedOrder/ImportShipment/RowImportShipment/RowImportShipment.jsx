@@ -1,11 +1,11 @@
 import React from 'react'
 
-function RowImportShipment({importedShipment}) {
+function RowImportShipment({importedShipment, selectedId, handleSelect}) {
   return (
     <>
         <tr class="hover:bg-gray-50">
         <td class="border border-gray-300 p-2 text-center">
-          <input type="checkbox" class="rounded border-gray-400"/>
+          <input type="checkbox" class="rounded border-gray-400" checked={selectedId.includes(importedShipment.id)} onChange={() => {handleSelect(importedShipment.id)}}/>
         </td>
         <td class="border border-gray-300 px-2 py-1.5">{importedShipment.importshipment_date}</td>
         <td class="border border-gray-300 px-2 py-1.5 text-blue-600 cursor-pointer hover:underline">

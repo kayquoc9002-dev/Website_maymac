@@ -9,14 +9,11 @@ import DetailBookedGood from "../DetailBookedGood/DetailBookedGood";
 import { useForm } from "react-hook-form";
 import postData from "../../../../Helpers/postData";
 import { purchaseOrder } from "../../../../Helpers/urlAPI";
-function FormInfoBookedOrder({ openForm, dataOrder, setData }) {
+function FormInfoBookedOrder({ openForm, dataOrder, edittedData, setData }) {
   const [selectedSupplier, setselectedSupplier] = useState(false);
   const [selectedGood, setSelectedGood] = useState(false);
   const now = new Date();
-  const [infoSelectedSupplier, setSelectedInfoSupplier] = useState({
-    id: "",
-    name: ""
-  });
+  const [infoSelectedSupplier, setSelectedInfoSupplier] = useState({});
   const detailBookedGoods = useRef([]);
   const { register, handleSubmit, reset } = useForm();
   const [loading, setLoading] = useState(false);
@@ -24,11 +21,10 @@ function FormInfoBookedOrder({ openForm, dataOrder, setData }) {
   // const [totalPrice, setTotalPrice] = useState(0);
   // const [taxAmount, setTaxAmount] = useState(0);
 
-  
-console.log(detailBookedGoods.current);
+  console.log(detailBookedGoods.current);
   console.log(now.toLocaleDateString()); // hiển thị ngày giờ theo locale
   console.log(now.toLocaleTimeString());
-  
+
   const openFormSupplier = () => {
     setselectedSupplier(!selectedSupplier);
   };
@@ -36,19 +32,21 @@ console.log(detailBookedGoods.current);
     setSelectedGood(!selectedGood);
   };
 
-  const onSubmit = (data) =>{
-    data = {...data, supplier: {
-      id: infoSelectedSupplier.supplier_id,
-      name: infoSelectedSupplier.supplier_name
-    }, bookedGoods: detailBookedGoods.current, totalPrice: 10000000}
+  const onSubmit = (data) => {
+    data = {
+      ...data,
+      supplier_id: infoSelectedSupplier.supplier_id,
+      supplier_name: infoSelectedSupplier.supplier_name,
+      bookedGoods: detailBookedGoods.current,
+      totalPrice: 10000000,
+    };
     // console.log(data);
     // console.log(detailBookedGoods.current);
-    postData(data, setLoading, purchaseOrder)
+    postData(data, setLoading, purchaseOrder);
     reset();
     setData([...dataOrder, data]);
     openForm();
-
-  }
+  };
   return (
     <>
       {selectedSupplier && (
@@ -65,8 +63,9 @@ console.log(detailBookedGoods.current);
           <TableSupplier
             openFormSupplier={openFormSupplier}
             setSelectedInfoSupplier={setSelectedInfoSupplier}
+            // edittedData={edittedData} setData={setData}
           />
-          {/* edittedData={edittedData} setData={setData} */}
+          
         </div>
       )}
 
@@ -123,11 +122,14 @@ console.log(detailBookedGoods.current);
           </div>
         </div>
 
-      
         {/* <!-- Content Area --> */}
-        <form id="myForm" class="p-4 flex-grow overflow-y-auto" onSubmit={handleSubmit(onSubmit)}>
+        <form
+          id="myForm"
+          class="p-4 flex-grow overflow-y-auto"
+          onSubmit={handleSubmit(onSubmit)}
+        >
           <button
-          type="button"
+            type="button"
             onClick={openFormGood}
             class="border border-gray-400 text-gray-600 px-4 py-1.5 rounded bg-white hover:bg-gray-200 mb-5 text-sm font-medium shadow-sm"
           >
@@ -166,14 +168,14 @@ console.log(detailBookedGoods.current);
                 <label class="text-sm text-gray-700">Người đặt</label>
                 <div class="flex gap-2">
                   <input
-                  {...register("orderer_phone")}
+                    {...register("orderer_phone")}
                     type="text"
                     placeholder="0901779913"
                     class="rounded border border-gray-300 px-2 py-1 w-1/3 focus:outline-none focus:border-blue-500 text-sm"
                     readonly
                   />
                   <input
-                  {...register("orderer_name")}
+                    {...register("orderer_name")}
                     type="text"
                     placeholder="testdemo"
                     readonly
@@ -181,9 +183,20 @@ console.log(detailBookedGoods.current);
                   />
                 </div>
 
+                <label class="text-sm text-gray-700">Kho dặt</label>
+                <div class="flex gap-2">
+                  <input
+                    {...register("order_warehouse")}
+                    type="text"
+                    
+                    class="rounded border border-gray-300 px-2 py-1 w-1/3 focus:outline-none focus:border-blue-500 text-sm"
+                  
+                  />
+                </div>
+
                 <label class="text-sm text-gray-700">Ghi chú</label>
                 <input
-                {...register("order_note")}
+                  {...register("order_note")}
                   type="text"
                   placeholder="Đặt hàng nhà cung cấp"
                   class="rounded border border-gray-300 px-2 py-1 w-full focus:outline-none focus:border-blue-500 text-sm"
@@ -200,7 +213,10 @@ console.log(detailBookedGoods.current);
                   Tài liệu đính kèm
                 </label>
                 <div class="flex">
-                  <button class="border border-gray-300 px-2 py-0.5 text-gray-500 bg-gray-50 text-xs" type="button">
+                  <button
+                    class="border border-gray-300 px-2 py-0.5 text-gray-500 bg-gray-50 text-xs"
+                    type="button"
+                  >
                     Tải tệp ...
                   </button>
                 </div>
@@ -225,7 +241,7 @@ console.log(detailBookedGoods.current);
 
                 <label class="text-sm text-gray-700">Ngày đặt hàng</label>
                 <input
-                {...register("order_date")}
+                  {...register("order_date")}
                   type="text"
                   // placeholder="27/01/2026"
                   value={now.toLocaleDateString()}
@@ -235,7 +251,7 @@ console.log(detailBookedGoods.current);
 
                 <label class="text-sm text-gray-700">Thời gian đặt</label>
                 <input
-                {...register("order_time")}
+                  {...register("order_time")}
                   type="text"
                   // placeholder="11:42:20"
                   value={now.toLocaleTimeString()}
@@ -245,7 +261,7 @@ console.log(detailBookedGoods.current);
 
                 <label class="text-sm text-gray-700">Trạng thái</label>
                 <input
-                {...register("order_status")}
+                  {...register("order_status")}
                   type="text"
                   value="Chưa thực hiện"
                   readonly
@@ -285,7 +301,10 @@ console.log(detailBookedGoods.current);
                   />
                   Quét mã vạch
                 </label>
-                <button type="button" class="flex items-center gap-1 text-gray-500 hover:text-blue-600">
+                <button
+                  type="button"
+                  class="flex items-center gap-1 text-gray-500 hover:text-blue-600"
+                >
                   <svg
                     class="w-4 h-4"
                     fill="none"
@@ -301,7 +320,10 @@ console.log(detailBookedGoods.current);
                   </svg>
                   Nhập khẩu
                 </button>
-                <button type="button" class="flex items-center gap-1 text-gray-500 hover:text-blue-600">
+                <button
+                  type="button"
+                  class="flex items-center gap-1 text-gray-500 hover:text-blue-600"
+                >
                   <svg
                     class="w-4 h-4"
                     fill="none"
@@ -323,7 +345,7 @@ console.log(detailBookedGoods.current);
             {/* <!-- Table --> */}
 
             {/* <!-- Main Content / Table --> */}
-            <DetailBookedGood detailBookedGoods={detailBookedGoods}/>
+            <DetailBookedGood detailBookedGoods={detailBookedGoods} />
           </div>
         </form>
 
@@ -350,8 +372,7 @@ console.log(detailBookedGoods.current);
             <span class="text-blue-900">1.080.000,00</span>
           </div>
         </div>
-        
-        
+
         {/* <!-- Footer --> */}
         <div class="rounded-bl rounded-br flex flex-col md:flex-row justify-between items-center px-6 border-t border-gray-200 bg-white py-4">
           <button class="flex items-center text-blue-900 font-bold text-sm hover:underline mb-3 md:mb-0">

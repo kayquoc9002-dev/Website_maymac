@@ -1,15 +1,21 @@
 import React from "react";
 import { useEffect, useState, useRef } from "react";
-import fetchData from "../../../../../Helpers/fetchData";
 import RowSupplier from "./RowSupplier/RowSupplier";
+import { supplierService } from "../../../../../Helpers/functionsSupabase";
 function TableSupplier({openFormSupplier, setSelectedInfoSupplier}) {
     const [data, setData] = useState([]);
     const infoSelectedSupplier = useRef({});
 
     useEffect(() => {
         const getData = async () => {
-            const result = await fetchData('http://localhost:3000/suppliers')
-            setData(result)
+            // const result = await fetchData('http://localhost:3000/suppliers')
+            try{
+              const result = await supplierService.getAll();
+              setData(result)
+            } catch(error){
+              console.log("Có lỗi!", error);
+            }
+            
         }
         getData()
     }, [])

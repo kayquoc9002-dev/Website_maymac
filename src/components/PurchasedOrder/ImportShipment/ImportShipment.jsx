@@ -9,18 +9,47 @@ import fetchData from "../../../Helpers/fetchData.js";
 import Header from "../../PartsOfPage/Header.jsx";
 function ImportShipment() {
   const [selected, setSelected] = useState(false);
+  const [selectedId, setSelectedId] = useState([]);
+  const [edittedData, setEdittedData] = useState({});
   const [data, setData] = useState([]);
   const openForm = () => {
     setSelected(!selected);
   };
-useEffect(() => {
+  useEffect(() => {
     const getData = async () => {
       const result = await fetchData(receivedNote);
       setData(result);
-    }
+    };
     getData();
-   }, [])
+  }, []);
 
+  const handleSelect = (id) => {
+    const flag = selectedId.includes(id)
+      ? selectedId.filter((item) => item != id)
+      : [...selectedId, id];
+    setSelectedId(flag);
+  };
+
+  const handleDelete = async () => {
+    //Chỗ này để chạy tạm thời
+    // console.log(selectedId);
+    const result = await orderService.remove(selectedId);
+
+    const flag = data.filter((item) => {
+      if (!selectedId.includes(item.id)) {
+        return item;
+      }
+    });
+    setData(flag);
+  };
+
+  const handleEdit = () => {
+    // console.log(selectedId);
+    const edittedId = selectedId[0];
+    setEdittedData(data.find((item) => item.id == edittedId));
+    setSelectedId([]);
+    openForm();
+  };
 
   return (
     <>
@@ -35,7 +64,7 @@ useEffect(() => {
           >
             // {/* Overlay */}
           </div>
-          <FormImportShipment openForm={openForm} />
+          <FormImportShipment openForm={openForm} edittedData={edittedData} setData={setData}/>
           {/* edittedData={edittedData} setData={setData} */}
         </div>
       )}
@@ -50,7 +79,7 @@ useEffect(() => {
 
             <div class="p-2 flex-1 flex flex-col overflow-hidden bg-gray-300">
               {/* <!-- Toolbar --> */}
-              <Toolbar openForm={openForm} />
+              <Toolbar openForm={openForm} handleDelete={handleDelete} handleEdit={handleEdit} selectedId={selectedId}/>
 
               {/* openForm={openForm} edittedId={edittedId} handleEdit={handleEdit} handleDelete={handleDelete} */}
 
@@ -67,13 +96,13 @@ useEffect(() => {
                         />
                       </th>
                       <th class="w-24 border border-gray-300 px-12 py-2 text-center font-bold text-gray-700 whitespace-nowrap">
-                        Ngày đặt hàng
+                        Ngày nhận hàng
                       </th>
                       <th class="w-50 border border-gray-300 px-6 py-2 text-center font-bold text-gray-700 whitespace-nowrap">
                         Số phiếu
                       </th>
                       <th class="w-50 border border-gray-300 px-12 py-2 text-center font-bold text-gray-700 whitespace-nowrap">
-                        Người đặt
+                        Người nhận
                       </th>
                       <th class="w-50 border border-gray-300 px-12 py-2 text-center font-bold text-gray-700 whitespace-nowrap">
                         Nhà cung cấp
@@ -169,10 +198,10 @@ useEffect(() => {
                   </thead>
                   <tbody class="bg-white text-gray-800">
                     {/* <!-- Row 1 (Selected) --> */}
-                    {data.map(item => (
-                      <RowImportShipment importedShipment={item}/>
+                    {data.map((item) => (
+                      <RowImportShipment importedShipment={item} selectedId={selectedId} handleSelect={handleSelect}/>
                     ))}
-                    
+
                     {/* <!-- Row 2 --> */}
                     {/* {data.map((item) => (
                       <RowInfoCustomer handleSelect={handleSelect} inforCustomer={item} selectedId={selectedId} edittedId={edittedId}/>

@@ -4,6 +4,9 @@ import Sidebar from "../../Catalog/Sidebar/Sidebar";
 import Toolbar from "../../Catalog/Toolbar/Toolbar";
 import FormImport from "./FormImport/FormImport";
 import { useState, useEffect } from "react";
+import RowImportWarehouse from "./RowImportWarehouse/RowImportWarehouse";
+import { transactionRecord } from "../../../Helpers/urlAPI";
+import fetchData from "../../../Helpers/fetchData";
 
 function ImportWarehouse() {
   const [selectedForm, setSelectedForm] = useState(false);
@@ -14,7 +17,7 @@ function ImportWarehouse() {
 
   useEffect(() => {
     const getData = async () => {
-      // const result = await fetchData(exportWarehouse);
+      const result = await fetchData(transactionRecord);
       setData(result);
     };
     getData();
@@ -33,7 +36,7 @@ function ImportWarehouse() {
           >
             // {/* Overlay */}
           </div>
-          <FormImport openForm={openForm} />
+          <FormImport openForm={openForm} importedRecords={data} setData={setData}/>
         </div>
       )}
       <div class=" bg-gray-50 min-h-screen">
@@ -64,22 +67,37 @@ function ImportWarehouse() {
                         />
                       </th>
                       <th class="w-24 border border-gray-300 px-12 py-2 text-center font-bold text-gray-700 whitespace-nowrap">
-                        Ngày đặt hàng
+                        Hình thức
+                      </th>
+                      <th class="w-24 border border-gray-300 px-12 py-2 text-center font-bold text-gray-700 whitespace-nowrap">
+                        Ngày ghi
                       </th>
                       <th class="w-50 border border-gray-300 px-6 py-2 text-center font-bold text-gray-700 whitespace-nowrap">
                         Số phiếu
                       </th>
-                      <th class="w-50 border border-gray-300 px-12 py-2 text-center font-bold text-gray-700 whitespace-nowrap">
-                        Người đặt
+                      <th class="w-24 border border-gray-300 px-12 py-2 text-center font-bold text-gray-700 whitespace-nowrap">
+                        Giờ ghi
+                      </th>
+                      <th class="w-24 border border-gray-300 px-12 py-2 text-center font-bold text-gray-700 whitespace-nowrap">
+                        Kho
                       </th>
                       <th class="w-50 border border-gray-300 px-12 py-2 text-center font-bold text-gray-700 whitespace-nowrap">
-                        Nhà cung cấp
+                        Mã nhân viên
                       </th>
                       <th class="w-50 border border-gray-300 px-12 py-2 text-center font-bold text-gray-700 whitespace-nowrap">
-                        Tổng tiền
+                        Nhân viên
                       </th>
                       <th class="w-50 border border-gray-300 px-12 py-2 text-center font-bold text-gray-700 whitespace-nowrap">
-                        Trạng thái
+                        Mã đối tượng
+                      </th>
+                      <th class="w-50 border border-gray-300 px-12 py-2 text-center font-bold text-gray-700 whitespace-nowrap">
+                        Đối tượng
+                      </th>
+                      <th class="w-50 border border-gray-300 px-12 py-2 text-center font-bold text-gray-700 whitespace-nowrap">
+                        Loại đối tượng
+                      </th>
+                      <th class="w-50 border border-gray-300 px-12 py-2 text-center font-bold text-gray-700 whitespace-nowrap">
+                        Chi tiết hàng hóa
                       </th>
                       <th class="border border-gray-300 px-12 py-2 text-center font-bold text-gray-700 whitespace-nowrap">
                         Ghi chú
@@ -145,6 +163,51 @@ function ImportWarehouse() {
                         </div>
                       </th>
                       <th class="border border-gray-300 p-1">
+                        <div class="flex border border-gray-300 bg-white h-7">
+                          <button class="px-1.5 border-r border-gray-300 text-gray-500 hover:bg-gray-100">
+                            *
+                          </button>
+                          <input
+                            type="text"
+                            class="w-full px-1 outline-none text-xs font-normal"
+                          />
+                        </div>
+                      </th>
+                      <th class="border border-gray-300 p-1">
+                        <div class="flex border border-gray-300 bg-white h-7">
+                          <button class="px-1.5 border-r border-gray-300 text-gray-500 hover:bg-gray-100">
+                            *
+                          </button>
+                          <input
+                            type="text"
+                            class="w-full px-1 outline-none text-xs font-normal"
+                          />
+                        </div>
+                      </th>
+                      <th class="border border-gray-300 p-1">
+                        <div class="flex border border-gray-300 bg-white h-7">
+                          <button class="px-1.5 border-r border-gray-300 text-gray-500 hover:bg-gray-100">
+                            *
+                          </button>
+                          <input
+                            type="text"
+                            class="w-full px-1 outline-none text-xs font-normal"
+                          />
+                        </div>
+                      </th>
+                      <th class="border border-gray-300 p-1">
+                        <div class="flex border border-gray-300 bg-white h-7">
+                          <button class="px-1.5 border-r border-gray-300 text-gray-500 hover:bg-gray-100">
+                            *
+                          </button>
+                          <input
+                            type="text"
+                            class="w-full px-1 outline-none text-xs font-normal"
+                          />
+                        </div>
+                      </th>
+                      
+                      <th class="border border-gray-300 p-1">
                         <select class="w-full h-7 border border-gray-300 text-xs font-normal px-1 outline-none">
                           <option>Tất cả</option>
                           <option>Có</option>
@@ -167,9 +230,9 @@ function ImportWarehouse() {
                   <tbody class="bg-white text-gray-800">
                     {/* <!-- Row 1 (Selected) --> */}
 
-                    {/* {data.map((item) => (
-                      <RowInfoBookedOrder bookedOrder={item}/>
-                    ))} */}
+                    {data.map((item) => (
+                      <RowImportWarehouse importedRecord={item}/>
+                    ))}
 
                     {/* <!-- Row 2 --> */}
                     {/* {data.map((item) => (

@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import postData from "../../../../Helpers/postData";
-import fetchData from "../../../../Helpers/fetchData";
-import { customers } from "../../../../Helpers/urlAPI";
-function FormCustomer({ openForm, edittedData, setData }) {
+// import fetchData from "../../../../Helpers/fetchData";
+// import { customers } from "../../../../Helpers/urlAPI";
+import { customerService } from "../../../../Helpers/functionsSupabase";
+function FormCustomer({ openForm, dataGood, edittedData, setData }) {
   const [loading, setLoading] = useState(false);
   const {
     register,
@@ -13,21 +14,49 @@ function FormCustomer({ openForm, edittedData, setData }) {
   } = useForm();
 
   const onSubmit = async (data) => {
+    console.log(data);
     setLoading(true);
-    await postData(data, setLoading, customers);
+    // await postData(data, setLoading, customers);
+    if(Object.keys(edittedData).length != 0){
+      try{
+      const result = await customerService.edit(edittedData.id, data);
+      console.log(result);
+      setData(dataGood.map(item => {
+        if(item.id == edittedData.id){
+          return data
+        }else{
+          return item
+        }
+      }));
+    } catch(error){
+      console.log("Lỗi!", error);
+    }
+    } else{
+      try{
+      const result = await customerService.add(data);
+      console.log(result);
+      setData([...dataGood, data]);
+    } catch(error){
+      console.log("Lỗi!", error);
+    }
+    }
+
     // if(edittedData == []){
       
     // }else{
     //   // Cập nhật data mới với database
     // }
     reset();
-  
+    setLoading(false);
+    
+
     //Sau khi submit thì gán lại data mới
-    const getData = async () => {
-      const result = await fetchData(customers);
-      setData(result);
-    }
-    getData();
+    
+    // const getData = async () => {
+    //   const result = await fetchData(customers);
+    //   setData(result);
+    // }
+    // getData();
   };
 
   return (
@@ -69,7 +98,7 @@ function FormCustomer({ openForm, edittedData, setData }) {
                   Mã khách hàng <span class="text-red-500 focus:border-red-500">*</span>
                 </label>
                 <input
-                  value={edittedData ? edittedData.customer_id : ""}
+                  defaultValue={edittedData ? edittedData.customer_id : ""}
                   type="text"
                   placeholder="DL - 1203480990"
                   class={
@@ -85,7 +114,7 @@ function FormCustomer({ openForm, edittedData, setData }) {
                   Tên khách hàng <span class="text-red-500">*</span>
                 </label>
                 <input
-                  value={edittedData ? edittedData.customer_name : ""}
+                  defaultValue={edittedData ? edittedData.customer_name : ""}
                   type="text"
                   class={
                     "w-full md:w-2/3 border rounded px-3 py-2 text-sm focus:outline-none focus:border-blue-500 " +
@@ -104,10 +133,10 @@ function FormCustomer({ openForm, edittedData, setData }) {
                   CCCD
                 </label>
                 <input
-                  value={edittedData ? edittedData.customer_ctizenId : ""}
+                  value={edittedData ? edittedData.customer_citizenId : ""}
                   type="text"
                   class="w-full md:w-2/3 border-gray-300 border rounded px-3 py-2 text-sm focus:outline-none focus:border-blue-500 "
-                  {...register("customer_ctizenId")}
+                  {...register("customer_citizenId")}
                 />
               </div>
               <div class="flex flex-col md:flex-row md:items-center">
@@ -115,7 +144,7 @@ function FormCustomer({ openForm, edittedData, setData }) {
                   Điện thoại <span class="text-red-500">*</span>
                 </label>
                 <input
-                  value={edittedData ? edittedData.customer_phoneNumber : ""}
+                  defaultValue={edittedData ? edittedData.customer_phoneNumber : ""}
                   type="text"
                   class={
                     "w-full md:w-2/3 border rounded px-3 py-2 text-sm focus:outline-none focus:border-blue-5000 " +

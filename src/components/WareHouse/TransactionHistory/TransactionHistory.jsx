@@ -31,9 +31,10 @@ function TransactionHistory() {
             <div class="p-2 flex-1 flex flex-col overflow-hidden bg-gray-300">
               {/* <!-- Toolbar --> */}
               {/* <Toolbar openForm={openForm} /> */}
-              <div class="bg-[#283593] h-10 text-white flex items-center px-2 py-1 gap-1 overflow-x-auto shrink-0">
+              {/* <div class="bg-[#283593] h-10 text-white flex items-center px-2 py-1 gap-1 overflow-x-auto shrink-0">
+              </div> */}
 
-              </div>
+              <Toolbar />
 
               {/* openForm={openForm} edittedId={edittedId} handleEdit={handleEdit} handleDelete={handleDelete} */}
 

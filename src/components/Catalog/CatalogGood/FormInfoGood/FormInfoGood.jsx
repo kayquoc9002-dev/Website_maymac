@@ -1,35 +1,68 @@
-import React from "react";
-import { useState } from "react";
+import React, { useEffect } from "react";
+import { useState, useRef } from "react";
 import SideBar from "../../Sidebar/Sidebar";
 import { TbListSearch } from "react-icons/tb";
 import { useForm, Controller } from "react-hook-form";
 import FormPrice from "./FormPrice/FormPrice";
 import FormNumber from "./FormNumber/FormNumber";
 import TableSelectedSupplier from "./TableSelectedSupplier/TableSelectedSupplier";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import postData from "../../../../Helpers/postData";
 import GoodCatalog from "../../../PurchasedOrder/BookedOrder/DetailBookedGood/TableGoodCatalog/TableGoodCatalog";
 import { catalogGoods } from "../../../../Helpers/urlAPI";
+import { goodService } from "../../../../Helpers/functionsSupabase";
+import TableVariant from "./TableVariant/TableVariant";
+import { generateId } from "../../../../Helpers/generateId";
 function FormInfoGood() {
   const [selectedSupplier, setselectedSupplier] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [infoSelectedSupplier, setSelectedInfoSupplier] = useState({});
-
+  // const [edittedData, setEdittedData] = useState({});
+  const goodVariants = useRef([]);
+  const suppliers = useRef([])
+  const [resetKey, setResetKey] = useState(0);
   const navigate = useNavigate();
+  const location = useLocation();
+  const {edittId} = location.state || {};
+  
+  //Cần kiểm tra lại
+  // if(!edittId){
+  //   useEffect(() => {
+  //     const getData = async () => {
+  //       try{
+  //         const result = await goodService.getItemById(edittId);
+  //       } catch(error){
+  //         console.log("Lỗi!", error);
+  //       }
+  //     }
+  //     getData();
+  //   }, [])
+  // }
+
   const {
     register,
     handleSubmit,
     formState: { errors },
     control,
+    reset
   } = useForm();
 
   const onSubmit = (data) => {
+    setLoading(true)
     data.good_tax = parseInt(data.good_tax, 10);
+    data = {...data, id: generateId(), variants: goodVariants.current, suppliers: suppliers.current}
+    // console.log(data);
     const sendData = async (data) => {
-      await postData(data, setLoading, catalogGoods);
-      navigate('/catalog/good');
+      try{
+        const result = await goodService.add(data);
+      } catch(error){
+        console.log("Lỗi!", error);
+      }
+      // navigate('/catalog/good');
     } 
     sendData(data);
+    reset()
+    setResetKey((resetKey) => (resetKey+1))
+    setLoading(false)
   };
   const openFormSupplier = () => {
     setselectedSupplier(!selectedSupplier);
@@ -487,7 +520,7 @@ function FormInfoGood() {
                             </div>
                           </div> */}
                           
-                          <label class="text-sm text-gray-700 mb-1">
+                          {/* <label class="text-sm text-gray-700 mb-1">
                             Nhà cung cấp <span class="text-red-500">*</span>
                           </label>
                           <div class="flex gap-2">
@@ -527,7 +560,7 @@ function FormInfoGood() {
                                   : " border-gray-300")
                               }
                             />
-                          </div>
+                          </div> */}
 
                           {/* <!-- Row: VAT --> */}
                           <div class="flex items-center">
@@ -546,7 +579,7 @@ function FormInfoGood() {
                           </div>
 
                           {/* <!-- Pricing Table --> */}
-                          <div class="mt-2">
+                          {/* <div class="mt-2">
                             <table class="w-full border-collapse border border-gray-200 text-sm">
                               <thead>
                                 <tr class="bg-gray-100">
@@ -608,7 +641,7 @@ function FormInfoGood() {
                                 </tr>
                               </tbody>
                             </table>
-                          </div>
+                          </div> */}
                         </div>
 
                         {/* <!-- Right Column --> */}
@@ -664,8 +697,9 @@ function FormInfoGood() {
                       </div>
 
                       {/* <!-- Bottom Tabs & Table --> */}
-                      <TableSelectedSupplier />
+                      <TableSelectedSupplier key={resetKey} suppliers={suppliers}/>
 
+                      <TableVariant key={resetKey+1} goodVariants={goodVariants}/>
                       <div class="text-gray-400 italic mb-4 text-sm mt-2">
                         (Nếu không chọn Đơn vị bán/nhập mặc định thì chương
                         trình sẽ lấy Đơn vị tính cơ bản làm Đơn vị bán/nhập mặc
@@ -750,41 +784,6 @@ function FormInfoGood() {
                         </svg>
                       </div>
 
-                      {/* <!-- Attributes Section --> */}
-                      <div class="mb-4">
-                        <h3 class="font-bold text-gray-700 uppercase mb-2">
-                          THÔNG TIN THUỘC TÍNH
-                        </h3>
-
-                        <div class="border border-gray-300 rounded-sm">
-                          {/* <!-- Row 1 --> */}
-                          <div class="flex border-b border-gray-300">
-                            <div class="w-40 bg-[#f0f0f0] p-2 flex items-center text-gray-700 border-r border-gray-300">
-                              Màu sắc
-                            </div>
-                            <div class="flex-1 p-2 bg-white">
-                              <input
-                                type="text"
-                                class="w-full outline-none text-gray-600"
-                                placeholder="Xanh, Đỏ, Vàng..."
-                              />
-                            </div>
-                          </div>
-                          {/* <!-- Row 2 --> */}
-                          <div class="flex">
-                            <div class="w-40 bg-[#f0f0f0] p-2 flex items-center text-gray-700 border-r border-gray-300">
-                              Size
-                            </div>
-                            <div class="flex-1 p-2 bg-white">
-                              <input
-                                type="text"
-                                class="w-full outline-none text-gray-600"
-                                placeholder="S, M, L, XL..."
-                              />
-                            </div>
-                          </div>
-                        </div>
-                      </div>
                     </div>
                   </div>
                   {/* <!-- Footer --> */}
@@ -827,6 +826,7 @@ function FormInfoGood() {
                       <button
                         class="flex items-center text-[#313a66] px-4 py-2 rounded hover:bg-gray-300 text-sm font-medium"
                         type="reset"
+                        onClick={() => {navigate('/catalog/good')}}
                         disabled={loading}
                       >
                         <svg

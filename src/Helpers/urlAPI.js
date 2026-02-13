@@ -1,8 +1,9 @@
 export const transaction = 'http://localhost:3000/transaction';
 export const customers = 'http://localhost:3000/customers';
 export const partners = 'http://localhost:3000/partners';
-export const suppliers = 'http://localhost:3000suppliers';
+export const suppliers = 'http://localhost:3000/suppliers';
 export const catalogGoods = 'http://localhost:3000/catalogGoods';
 export const purchaseOrder = 'http://localhost:3000/purchaseOrder';
 export const receivedNote = 'http://localhost:3000/receivedNote';
 export const transactionRecord = 'http://localhost:3000/transactionRecord';
+export const stock = 'http://localhost:3000/stock';

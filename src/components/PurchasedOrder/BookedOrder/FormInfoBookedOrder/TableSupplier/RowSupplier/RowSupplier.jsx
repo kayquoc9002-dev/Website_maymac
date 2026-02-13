@@ -7,12 +7,13 @@ function RowSupplier({infoSupplier, handleSelectSupplier}) {
       <tr class="bg-blue-100 hover:bg-blue-200">
         <td class="border-r border-b border-gray-300 p-2 text-center">
           <input
-            type="radio"
+          type="radio"
             name="objectSupplier"
             defaultChecked = {false}
             onClick={(e) => {handleSelectSupplier(e, infoSupplier)}}
             class="text-blue-600 focus:ring-blue-500 cursor-pointer"
           />
+          
         </td>
         <td class="border-r border-b border-gray-300 p-2">{infoSupplier.supplier_id}</td>
         <td class="border-r border-b border-gray-300 p-2">{infoSupplier.supplier_name}</td>

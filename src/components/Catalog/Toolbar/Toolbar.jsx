@@ -1,12 +1,13 @@
 import React from "react";
 
-function Toolbar({openForm, edittedId, handleEdit, handleDelete}) {
+function Toolbar({openForm, selectedId, handleEdit, handleDelete}) {
   return (
     <>
       <div class="bg-[#283593] text-white flex items-center px-2 py-1 gap-1 overflow-x-auto shrink-0">
         <button
-          class="flex items-center gap-1 px-3 py-1.5 hover:bg-white/10 rounded transition"
+          class={"flex items-center gap-1 px-3 py-1.5 hover:bg-white/10 rounded transition "+ (selectedId.length > 0 ? "opacity-50" : "")}
           onClick={openForm}
+          disabled={selectedId.length != 0}
         >
           <svg
             class="w-4 h-4"
@@ -25,8 +26,8 @@ function Toolbar({openForm, edittedId, handleEdit, handleDelete}) {
         </button>
         <div class="w-px h-5 bg-white/20 mx-1"></div>
         <button
-          class="flex items-center gap-1 px-3 py-1.5 hover:bg-white/10 rounded transition"
-          disabled={edittedId == ""}
+          class={"flex items-center gap-1 px-3 py-1.5 hover:bg-white/10 rounded transition "  + (selectedId.length > 1 ? "opacity-50" : "")}
+          disabled={selectedId.length != 1}
           onClick={handleEdit}
         >
           <svg

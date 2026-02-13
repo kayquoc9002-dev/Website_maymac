@@ -20,10 +20,10 @@ function Row({ detail }) {
           {detail.record_id}
         </td>
         <td class="border border-gray-300 px-2 py-1.5">{detail.record_time}</td>
-        <td class="border border-gray-300 px-2 py-1.5">{detail.employee_id}</td>
         <td class="border border-gray-300 px-2 py-1.5 font-bold">
           {detail.warehouse_name ? detail.warehouse_name : ""}
         </td>
+        <td class="border border-gray-300 px-2 py-1.5">{detail.employee_id}</td>
         <td class="border border-gray-300 px-2 py-1.5">
           {detail.employee_name}
         </td>

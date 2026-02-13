@@ -7,20 +7,58 @@ import FormInfoBookedOrder from "./FormInfoBookedOrder/FormInfoBookedOrder.jsx";
 import fetchData from "../../../Helpers/fetchData.js";
 import { purchaseOrder } from "../../../Helpers/urlAPI.js";
 import Header from "../../PartsOfPage/Header.jsx";
+import { orderService } from "../../../Helpers/functionsSupabase.js";
 
 function BookedOrder() {
   const [selected, setSelected] = useState(false);
+  const [selectedId, setSelectedId] = useState([]);
+  const [edittedData, setEdittedData] = useState({});
   const [data, setData] = useState([]);
   useEffect(() => {
     const getData = async () => {
-      const result = await fetchData(purchaseOrder);
-      setData(result);
+      // const result = await fetchData(purchaseOrder);
+      try{
+        const result = await orderService.getAll();
+        setData(result);
+      } catch(error){
+        console.log("Lỗi!", error);
+      }
+      
     }
     getData();
    }, [])
   const openForm = () => {
     setSelected(!selected);
   };
+
+  const handleSelect = (id) => {
+    const flag = (selectedId.includes(id)
+      ? selectedId.filter((item) => item != id)
+      : [...selectedId, id]);
+    setSelectedId(flag);
+  };
+
+  const handleDelete = async () => {
+      //Chỗ này để chạy tạm thời
+      // console.log(selectedId);
+      const result = await orderService.remove(selectedId);
+  
+      const flag = data.filter((item) => {
+        if (!selectedId.includes(item.id)) {
+          return item;
+        }
+      });
+      setData(flag);
+  
+    };
+
+  const handleEdit = () => {
+    // console.log(selectedId);
+    const edittedId = selectedId[0];
+    setEdittedData(data.find(item => item.id == edittedId));
+    setSelectedId([]);
+    openForm();
+  }
 
   return (
     <>
@@ -35,7 +73,7 @@ function BookedOrder() {
           >
             // {/* Overlay */}
           </div>
-          <FormInfoBookedOrder openForm={openForm} dataOrder={data} setData={setData}/>
+          <FormInfoBookedOrder openForm={openForm} dataOrder={data} edittedData={edittedData} setData={setData}/>
           {/* edittedData={edittedData} setData={setData} */}
         </div>
       )}
@@ -50,7 +88,7 @@ function BookedOrder() {
 
             <div class="p-2 flex-1 flex flex-col overflow-hidden bg-gray-300">
               {/* <!-- Toolbar --> */}
-              <Toolbar openForm={openForm} />
+              <Toolbar openForm={openForm} handleEdit={handleEdit} selectedId={selectedId} handleDelete={handleDelete}/>
 
               {/* openForm={openForm} edittedId={edittedId} handleEdit={handleEdit} handleDelete={handleDelete} */}
 
@@ -170,7 +208,7 @@ function BookedOrder() {
                   <tbody class="bg-white text-gray-800">
                     {/* <!-- Row 1 (Selected) --> */}
                     {data.map((item) => (
-                      <RowInfoBookedOrder bookedOrder={item}/>
+                      <RowInfoBookedOrder bookedOrder={item} selectedId={selectedId} handleSelect={handleSelect}/>
                     ))}
                     {/* <!-- Row 2 --> */}
                     {/* {data.map((item) => (

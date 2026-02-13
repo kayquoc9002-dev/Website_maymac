@@ -28,7 +28,7 @@ function RowDetailImportedGood({ infoGood, handleDeleteItem, handleChangeQuatity
       setTotalPrice(e.target.value * infoGood.good_price);
     }
     e.target.value = parseInt(e.target.value);
-    handleChangeQuatity(infoGood.id, e.target.value);
+    handleChangeQuatity(infoGood.id, parseInt(e.target.value));
     // detailBookedGoods.current = selectedGood.map(item => {
     //   if(item.id != infoGood.id){
     //     return item;
