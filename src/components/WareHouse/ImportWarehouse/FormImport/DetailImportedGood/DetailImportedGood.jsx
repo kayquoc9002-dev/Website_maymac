@@ -1,37 +1,59 @@
 import { useState } from "react";
 import { MdLibraryAdd } from "react-icons/md";
 import RowDetailImportedGood from "./RowDetailImportedGood/RowDetailImportedGood";
-import TableGood from '../../../ExportWarehouse/FormExport/DetailExportedGood/TableGood/TableGood'
-
-function DetailImportedGood({selectedGood, setSelectedGood, detailImportedGoods }) {
+import TableGood from "./TableGood";
+function DetailImportedGood({
+  selectedGood,
+  setSelectedGood,
+  detailImportedGoods,
+}) {
   const [selected, setSelected] = useState(false);
-  const [quatity, setQuatity] = useState(0);
+  const [data, setData] = useState([]);
+  // const [quatity, setQuatity] = useState(0);
 
-
-  const updateSelectedGood = (data) => {
-    const listSelectedId = selectedGood.filter((item) => {
-      return item.id;
-    });
-    const flag = data.filter((item) => {
-      if (!listSelectedId.includes(item.id)) {
-        return item;
-      }
-    });
-
-    detailImportedGoods.current = [...selectedGood, ...flag].map((item) => {
-      return { ...item, quatity: 0 };
-    });
-    // console.log(detailBookedGoods);
-    setSelectedGood(
-      [...selectedGood, ...flag].map((item) => {
-        return { ...item, quatity: 0 };
-      }),
-    );
-    openTableGood();
+  // useEffect(() => {
+  //   const getData = async () => {
+  //         // Fetch data from API or perform any side effects here
+  //         try {
+  //           const result = await goodService.geGoodWithtVariant(selectedGoodId);
+  //           console.log(result);
+  //           setData(result);
+  //         } catch (error) {
+  //           console.log("Lỗi rồi!", error);
+  //         }
+  //       };
+  //       getData();
+  // }, [])
+console.log("render lại",data);
+  const updateSelectedGood = (good) => {
+    detailImportedGoods.current = [...detailImportedGoods.current, good];
+    setData([...data, good]);
   };
 
+  //Xem lại
+  // const updateSelectedGood = (data) => {
+  //   const listSelectedId = selectedGood.filter((item) => {
+  //     return item.id;
+  //   });
+  //   const flag = data.filter((item) => {
+  //     if (!listSelectedId.includes(item.id)) {
+  //       return item;
+  //     }
+  //   });
+
+  //   detailImportedGoods.current = [...selectedGood, ...flag].map((item) => {
+  //     return { ...item, quatity: 0 };
+  //   });
+  //   // console.log(detailBookedGoods);
+  //   setSelectedGood(
+  //     [...selectedGood, ...flag].map((item) => {
+  //       return { ...item, quatity: 0 };
+  //     }),
+  //   );
+  //   openTableGood();
+  // };
+
   const openTableGood = () => {
-    console.log("Đã");
     setSelected(!selected);
   };
 
@@ -40,14 +62,20 @@ function DetailImportedGood({selectedGood, setSelectedGood, detailImportedGoods 
     setSelectedGood(flag);
   };
 
-  const handleChangeQuatity = (id, count) => {
-    const flag = selectedGood.map((item) => {
-      if (item.id != id) {
-        return item;
-      } else {
-        return { ...item, quatity: count };
+  const handleChangeQuatity = (goodId, variantId, count) => {
+    const flag = data.map((item) => {
+      if (item.id == goodId) {
+        item.variants = item.variants.map((detail) => {
+          if (detail.id != variantId) {
+            return detail;
+          } else {
+            return { ...detail, quantity: count };
+          }
+        });
       }
+      return item;
     });
+    console.log(flag);
     setSelectedGood(flag);
     detailImportedGoods.current = flag;
   };
@@ -88,19 +116,16 @@ function DetailImportedGood({selectedGood, setSelectedGood, detailImportedGoods 
                 Tên hàng hóa
               </th>
               <th class="border border-gray-300 p-1 px-12 whitespace-nowrap">
-                Số lô
+                Kích thước
               </th>
               <th class="border border-gray-300 p-1 px-12 whitespace-nowrap">
-                Kho
-              </th>
-              <th class="border border-gray-300 p-1 px-12 whitespace-nowrap">
-                Đơn vị tính
+                Màu sắc
               </th>
               <th class="border border-gray-300 p-1 px-12 whitespace-nowrap">
                 Số lượng
               </th>
               <th class="border border-gray-300 p-1 px-12 whitespace-nowrap">
-                Đơn giá
+                Đơn vị tính
               </th>
               <th class="border border-gray-300 p-1 px-12 whitespace-nowrap">
                 Ghi chú
@@ -109,12 +134,15 @@ function DetailImportedGood({selectedGood, setSelectedGood, detailImportedGoods 
           </thead>
           <tbody>
             {/* <!-- Row 1 --> */}
-            {selectedGood.map((item) => (
-              <RowDetailImportedGood
-                infoGood={item}
-                handleDeleteItem={handleDeleteItem}
-                handleChangeQuatity={handleChangeQuatity}
-              />
+            {data.map((item) => (
+              item.variants.map((detail) => (
+                <RowDetailImportedGood
+                  infoGood={item}
+                  detailVariant={detail}
+                  handleDeleteItem={handleDeleteItem}
+                  handleChangeQuatity={handleChangeQuatity}
+                />
+              ))
             ))}
           </tbody>
         </table>

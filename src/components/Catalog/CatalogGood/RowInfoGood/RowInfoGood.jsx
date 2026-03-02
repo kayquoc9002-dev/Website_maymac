@@ -1,11 +1,11 @@
 import React from 'react'
 
-function RowInfoGood({infoGood}) {
+function RowInfoGood({infoGood, handleSelect, selectedId}) {
   return (
     <>
     <tr class="hover:bg-gray-50">
         <td class="border border-gray-300 p-2 text-center">
-          <input type="checkbox" class="rounded border-gray-400" />
+          <input type="checkbox" class="rounded border-gray-400" checked={selectedId.includes(infoGood.id)} onChange={() => {handleSelect(infoGood.id)}}/>
         </td>
         <td class="border border-gray-300 px-2 py-1.5">{infoGood.good_sku}</td>
         <td class="border border-gray-300 px-2 py-1.5">{infoGood.good_barcode}</td>

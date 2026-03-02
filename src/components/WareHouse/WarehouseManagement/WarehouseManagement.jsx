@@ -1,24 +1,65 @@
 import React from "react";
 import Header from "../../PartsOfPage/Header";
 import Sidebar from "../../Catalog/Sidebar/Sidebar";
+import Option from "./OptionWarehouse/Option";
 import Toolbar from "../../Catalog/Toolbar/Toolbar";
 import { stock } from "../../../Helpers/urlAPI";
 import fetchData from "../../../Helpers/fetchData";
+import { batchItems } from "../../../Helpers/functionsSupabase";
 import Row from "./Row/Row";
 import { useState, useEffect } from "react";
+import DetailVariant from "./DetailVariant/DetailVariant";
 function WarehouseManagement() {
-  
   const [data, setData] = useState([]);
-  useEffect(() => {
+  const [selectedId, setSelectedId] = useState([]);
+  const [selectedParentId, setSelectedParentId] = useState("");
+  const [selected, setSelected] = useState(false);
+
+    useEffect(() => {
     const getData = async () => {
-      const result = await fetchData(stock);
+      // const result = await fetchData(stock);
+      const result = await batchItems.getGoodInWarehouse();
+      console.log(result);
       setData(result);
     };
     getData();
   }, []);
 
+  const handleSelect = (id) => {
+    const flag = selectedId.includes(id)
+      ? selectedId.filter((item) => item != id)
+      : [...selectedId, id];
+    setSelectedId(flag);
+    // console.log(flag);
+    // setSelectedParentId(selectedParentId == id ? "" : parentId)
+  };
+
+  const openDetail = () => {
+    setSelected(!selected)
+  }
+
+
   return (
     <>
+    {selected && (
+        <div className="fixed inset-0 z-20 flex justify-center items-center">
+          <div
+            className={`absolute inset-0 bg-black transition-opacity duration-300   ${
+              selected
+                ? "opacity-60 pointer-events-auto"
+                : "opacity-0 pointer-events-none"
+            }`}
+          >
+            // {/* Overlay */}
+          </div>
+          <DetailVariant
+            openDetail={openDetail}
+            selectedId={selectedId[0]}
+            // selectedParentId={selectedParentId}
+            // updateSelectedGood={updateSelectedGood}
+          />
+        </div>
+      )}
       <div class=" bg-gray-50 min-h-screen">
         <div class="flex w-screen">
           {/* <!-- Sidebar --> */}
@@ -28,9 +69,10 @@ function WarehouseManagement() {
             {/* <!-- Top Header --> */}
             <Header title="Tồn kho" />
 
+            <Option />
             <div class="p-2 flex-1 flex flex-col overflow-hidden bg-gray-300">
               {/* <!-- Toolbar --> */}
-              <Toolbar />
+              <Toolbar openDetail={openDetail} selectedId={selectedId}/>
 
               {/* openForm={openForm} edittedId={edittedId} handleEdit={handleEdit} handleDelete={handleDelete} */}
 
@@ -66,15 +108,6 @@ function WarehouseManagement() {
                       </th>
                       <th class="w-24 border border-gray-300 px-12 py-2 text-center font-bold text-gray-700 whitespace-nowrap">
                         Số lượng
-                      </th>
-                      <th class="w-24 border border-gray-300 px-12 py-2 text-center font-bold text-gray-700 whitespace-nowrap">
-                        Đơn giá
-                      </th>
-                      <th class="w-24 border border-gray-300 px-8 py-2 text-center font-bold text-gray-700 whitespace-nowrap">
-                        Thuế
-                      </th>
-                      <th class="w-50 border border-gray-300 px-15 py-2 text-center font-bold text-gray-700 whitespace-nowrap">
-                        Tổng tiền
                       </th>
                       <th class="border border-gray-300 px-15 py-2 text-center font-bold text-gray-700 whitespace-nowrap">
                         Trạng thái
@@ -182,46 +215,13 @@ function WarehouseManagement() {
                           />
                         </div>
                       </th>
-                      <th class="border border-gray-300 p-1">
-                        <div class="flex border border-gray-300 bg-white h-7">
-                          <button class="px-1.5 border-r border-gray-300 text-gray-500 hover:bg-gray-100">
-                            *
-                          </button>
-                          <input
-                            type="text"
-                            class="w-full px-1 outline-none text-xs font-normal"
-                          />
-                        </div>
-                      </th>
-                      <th class="border border-gray-300 p-1">
-                        <div class="flex border border-gray-300 bg-white h-7">
-                          <button class="px-1.5 border-r border-gray-300 text-gray-500 hover:bg-gray-100">
-                            *
-                          </button>
-                          <input
-                            type="text"
-                            class="w-full px-1 outline-none text-xs font-normal"
-                          />
-                        </div>
-                      </th>
-                      <th class="border border-gray-300 p-1">
-                        <div class="flex border border-gray-300 bg-white h-7">
-                          <button class="px-1.5 border-r border-gray-300 text-gray-500 hover:bg-gray-100">
-                            *
-                          </button>
-                          <input
-                            type="text"
-                            class="w-full px-1 outline-none text-xs font-normal"
-                          />
-                        </div>
-                      </th>
                     </tr>
                   </thead>
                   <tbody class="bg-white text-gray-800">
                     {/* <!-- Row 1 (Selected) --> */}
 
                     {data.map((item) => (
-                      <Row detail={item}/>
+                      <Row detail={item} handleSelect={handleSelect} selectedId={selectedId}/>
                     ))}
 
                     {/* <!-- Row 2 --> */}

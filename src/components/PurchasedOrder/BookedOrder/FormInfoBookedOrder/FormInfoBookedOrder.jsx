@@ -1,29 +1,73 @@
-import React from "react";
-import { LuTextSearch } from "react-icons/lu";
-import { FaSearchPlus } from "react-icons/fa";
+import React, { use } from "react";
 import { TbListSearch } from "react-icons/tb";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import TableSupplier from "./TableSupplier/TableSupplier";
 import TableGood from "./TableGood/TableGood";
 import DetailBookedGood from "../DetailBookedGood/DetailBookedGood";
 import { useForm } from "react-hook-form";
-import postData from "../../../../Helpers/postData";
+import {
+  requestService,
+  orderService,
+  handlePurchaseOrder,
+} from "../../../../Helpers/functionsSupabase";
 import { purchaseOrder } from "../../../../Helpers/urlAPI";
+import { useStore } from "../../../../Helpers/cartStore";
+import { formatCurrencyNoUnit } from "../../../../Helpers/formatCurrency";
+import generateCode from "../../../../Helpers/generateCode";
 function FormInfoBookedOrder({ openForm, dataOrder, edittedData, setData }) {
   const [selectedSupplier, setselectedSupplier] = useState(false);
   const [selectedGood, setSelectedGood] = useState(false);
   const now = new Date();
-  const [infoSelectedSupplier, setSelectedInfoSupplier] = useState({});
-  const detailBookedGoods = useRef([]);
+  const [date] = useState(now.toLocaleDateString());
+  const [time] = useState(now.toLocaleTimeString());
+  // const [infoSelectedSupplier, setSelectedInfoSupplier] = useState({});
+
+  const { setStore, option, clearOption } = useStore();
+  const priId = useRef([]);
+  const purchasedRequest = useRef("");
   const { register, handleSubmit, reset } = useForm();
   const [loading, setLoading] = useState(false);
+  const [po_code] = useState(generateCode());
+  const neededPayment = Math.round(option.reduce(
+    (total, item) =>
+      total +
+      item.requested_qty * item.variant_price * (1 + item.good_tax / 100),
+    0,
+  ));
+  const total = option.reduce(
+    (total, item) => total + item.requested_qty * item.variant_price,
+    0,
+  );
+  const totalTax = Math.round(option.reduce(
+    (total, item) =>
+      total + item.requested_qty * item.variant_price * (item.good_tax / 100),
+    0,
+  ));
+  const totalquantity = option.reduce(
+    (total, item) => total + item.requested_qty,
+    0,
+  );
+  console.log(neededPayment);
   // const [quantity, setQuatity] = useState(0);
   // const [totalPrice, setTotalPrice] = useState(0);
   // const [taxAmount, setTaxAmount] = useState(0);
 
-  console.log(detailBookedGoods.current);
-  console.log(now.toLocaleDateString()); // hiển thị ngày giờ theo locale
-  console.log(now.toLocaleTimeString());
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const result = await orderService.getAllRequest();
+        const flag = result.filter((item) => {
+          if (!priId.current.includes(item.id)) {
+            return item;
+          }
+        });
+        setStore(flag);
+      } catch (error) {
+        console.log("Lỗi rồi!", error);
+      }
+    };
+    getData();
+  }, []);
 
   const openFormSupplier = () => {
     setselectedSupplier(!selectedSupplier);
@@ -32,20 +76,52 @@ function FormInfoBookedOrder({ openForm, dataOrder, edittedData, setData }) {
     setSelectedGood(!selectedGood);
   };
 
+  useEffect(() => {
+    const getData = async () => {
+      // Fetch data from API or perform any side effects here
+      try {
+        // const result = await requestService.getRequestById(
+        //   purchasedRequest.current,
+        // );
+        // console.log(result);
+        // const result2 = await orderService.getAllRequest();
+        // console.log(result2);
+        // setOrder(result);
+      } catch (error) {
+        console.log("Lỗi rồi!", error);
+      }
+    };
+    if (!purchaseOrder.current) {
+      getData();
+    }
+  }, [purchasedRequest.current]);
+
   const onSubmit = (data) => {
     data = {
       ...data,
-      supplier_id: infoSelectedSupplier.supplier_id,
-      supplier_name: infoSelectedSupplier.supplier_name,
-      bookedGoods: detailBookedGoods.current,
-      totalPrice: 10000000,
+      supplier_id: option[0].supplier_id,
+      supplier_name: option[0].supplier_name,
+      // booked_goods: detailBookedGoods.current,
+      booked_goods: option,
+      total_amount: neededPayment,
+      order_amount: 100000000,
+      po_code: po_code
     };
-    // console.log(data);
-    // console.log(detailBookedGoods.current);
-    postData(data, setLoading, purchaseOrder);
-    reset();
     setData([...dataOrder, data]);
-    openForm();
+    console.log(data);
+    const sendOrder = async () => {
+      try {
+        
+        const result = await handlePurchaseOrder(data);
+        reset();
+        clearOption();
+      } catch (error) {
+        console.log("Lỗi", error);
+      }
+    };
+    sendOrder();
+
+    // openForm();
   };
   return (
     <>
@@ -65,7 +141,6 @@ function FormInfoBookedOrder({ openForm, dataOrder, edittedData, setData }) {
             setSelectedInfoSupplier={setSelectedInfoSupplier}
             // edittedData={edittedData} setData={setData}
           />
-          
         </div>
       )}
 
@@ -80,7 +155,7 @@ function FormInfoBookedOrder({ openForm, dataOrder, edittedData, setData }) {
           >
             // {/* Overlay */}
           </div>
-          <TableGood openFormGood={openFormGood} />
+          <TableGood priId={priId} openFormGood={openFormGood} />
           {/* edittedData={edittedData} setData={setData} */}
         </div>
       )}
@@ -133,7 +208,7 @@ function FormInfoBookedOrder({ openForm, dataOrder, edittedData, setData }) {
             onClick={openFormGood}
             class="border border-gray-400 text-gray-600 px-4 py-1.5 rounded bg-white hover:bg-gray-200 mb-5 text-sm font-medium shadow-sm"
           >
-            Chọn hàng cần báo
+            Chọn hàng cần đặt
           </button>
 
           <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
@@ -146,20 +221,24 @@ function FormInfoBookedOrder({ openForm, dataOrder, edittedData, setData }) {
               <div class="grid grid-cols-[100px_1fr] gap-y-3 items-center">
                 <label class="text-sm text-gray-700">Nhà cung cấp</label>
                 <div class="flex gap-2">
-                  <div className="relative w-1/3" onClick={openFormSupplier}>
+                  <div className="relative w-1/3">
                     <TbListSearch className=" w-5 h-5 absolute top-1/2 -translate-y-1/2 right-2 z-5" />
+                    {/* onClick={openFormSupplier} */}
                     <input
                       type="text"
                       // placeholder="000168119-1t1002"
-                      value={infoSelectedSupplier.supplier_id}
+                      // value={infoSelectedSupplier.supplier_id}
+                      value={option.length ? option[0].supplier_id : ""}
                       readonly
                       class="w-full rounded border border-gray-300 px-2 py-1  focus:outline-none focus:border-blue-500 text-sm"
                     />
+                    {/* value={option.length ? option[0].supplier_id : ""} */}
                   </div>
                   <input
                     type="text"
                     // placeholder="Anh Sang"
-                    value={infoSelectedSupplier.supplier_name}
+                    // value={infoSelectedSupplier.supplier_name}
+                    value={option.length ? option[0].supplier_name : ""}
                     readonly
                     class="rounded border border-gray-300 px-2 py-1 w-2/3 focus:outline-none focus:border-blue-500 text-sm"
                   />
@@ -168,39 +247,121 @@ function FormInfoBookedOrder({ openForm, dataOrder, edittedData, setData }) {
                 <label class="text-sm text-gray-700">Người đặt</label>
                 <div class="flex gap-2">
                   <input
-                    {...register("orderer_phone")}
+                    {...register("orderer_id")}
                     type="text"
-                    placeholder="0901779913"
                     class="rounded border border-gray-300 px-2 py-1 w-1/3 focus:outline-none focus:border-blue-500 text-sm"
-                    readonly
+                    // readonly
                   />
                   <input
                     {...register("orderer_name")}
                     type="text"
-                    placeholder="testdemo"
-                    readonly
+                    // placeholder="testdemo"
+                    // readonly
                     class="rounded border border-gray-300 px-2 py-1 w-2/3 focus:outline-none focus:border-blue-500 text-sm"
                   />
                 </div>
 
-                <label class="text-sm text-gray-700">Kho dặt</label>
+                <label class="text-sm text-gray-700">Kho đặt</label>
+                <div class="flex gap-2">
+                  <select
+                    className="w-full border border-gray-300 rounded-sm px-2 py-1 focus:outline-none focus:border-blue-500 "
+                    {...register("order_warehouse")}
+                    // value={option.request_warehouse}
+                  >
+                    <option className="text-center text-gray-500" value="">
+                      -----Chọn Kho-----
+                    </option>
+                    <option className="text-left" value="Kho chờ gia công">
+                      Kho chính
+                    </option>
+                    <option className="text-left" value="Kho nguyên liệu">
+                      Kho nguyên liệu
+                    </option>
+                    <option className="text-left" value="Kho thành phần">
+                      Kho thành phẩm
+                    </option>
+                    <option className="text-left" value="Kho chờ gia công">
+                      Kho chờ gia công
+                    </option>
+                  </select>
+                </div>
+
+                <label class="text-sm text-gray-700">Kho nhận</label>
+                <div class="flex gap-2">
+                  <select
+                    className="w-full border border-gray-300 rounded-sm px-2 py-1 focus:outline-none focus:border-blue-500 "
+                    {...register("receive_warehouse")}
+                    // value={option.request_warehouse}
+                  >
+                    <option className="text-center text-gray-500" value="">
+                      -----Chọn Kho-----
+                    </option>
+                    <option className="text-left" value="Kho chờ gia công">
+                      Kho chính
+                    </option>
+                    <option className="text-left" value="Kho nguyên liệu">
+                      Kho nguyên liệu
+                    </option>
+                    <option className="text-left" value="Kho thành phần">
+                      Kho thành phẩm
+                    </option>
+                    <option className="text-left" value="Kho chờ gia công">
+                      Kho chờ gia công
+                    </option>
+                  </select>
+                </div>
+
+                <label class="text-sm text-gray-700">Thanh toán</label>
+                <div class="flex gap-2 w-full">
+                  <select
+                    className="w-1/2 border border-gray-300 rounded-sm px-2 py-1 focus:outline-none focus:border-blue-500 "
+                    {...register("payment_method")}
+                  >
+                    <option className="text-center text-gray-500" value="">
+                      -----Phương thức thanh toán-----
+                    </option>
+                    <option className="text-left" value="PARTIAL">
+                      Đặt cọc (20%)
+                    </option>
+                    <option className="text-left" value="FULL">
+                      Tất toán
+                    </option>
+                  </select>
+                  <select
+                    className="w-1/2 border border-gray-300 rounded-sm px-2 py-1 focus:outline-none focus:border-blue-500 "
+                    {...register("pay_way")}
+                  >
+                    <option className="text-center text-gray-500" value="">
+                      -----Hình thức thanh toán-----
+                    </option>
+                    <option className="text-left" value="cash">
+                      Tiền mặt
+                    </option>
+                    <option className="text-left" value="bank">
+                      Chuyển khoản
+                    </option>
+                  </select>
+                </div>
+
+                <label class="text-sm text-gray-700"></label>
                 <div class="flex gap-2">
                   <input
-                    {...register("order_warehouse")}
+                    {...register("order_amount")}
+                    placeholder="Tiền thanh toán trả trước"
                     type="text"
-                    
-                    class="rounded border border-gray-300 px-2 py-1 w-1/3 focus:outline-none focus:border-blue-500 text-sm"
-                  
+                    // value={formatCurrencyNoUnit(100000000) + " VNĐ"}
+                    class="rounded text-right border border-gray-300 px-2 py-1 w-3/3 focus:outline-none focus:border-blue-500 text-sm"
+                    readonly
                   />
                 </div>
 
                 <label class="text-sm text-gray-700">Ghi chú</label>
                 <input
-                  {...register("order_note")}
+                  {...register("note")}
                   type="text"
-                  placeholder="Đặt hàng nhà cung cấp"
+                  // value={order.reason}
                   class="rounded border border-gray-300 px-2 py-1 w-full focus:outline-none focus:border-blue-500 text-sm"
-                  readonly
+                  // readonly
                 />
 
                 <label class="text-sm text-gray-700">Tham chiếu</label>
@@ -232,38 +393,29 @@ function FormInfoBookedOrder({ openForm, dataOrder, edittedData, setData }) {
               <div class="grid grid-cols-[100px_1fr] gap-y-3 items-center">
                 <label class="text-sm text-gray-700">Số phiếu</label>
                 <input
-                  {...register("order_code")}
+                  {...register("po_code")}
                   type="text"
-                  value="ABCD-PDH000025"
+                  value={po_code}
                   readonly
                   class="rounded border border-gray-300  px-2 py-1 w-full focus:outline-none focus:border-blue-500 text-sm"
                 />
 
-                <label class="text-sm text-gray-700">Ngày đặt hàng</label>
+                <label class="text-sm text-gray-700">Ngày nhận hàng</label>
                 <input
                   {...register("order_date")}
                   type="text"
                   // placeholder="27/01/2026"
-                  value={now.toLocaleDateString()}
+                  value={date}
                   readonly
                   class="rounded border border-gray-300 px-2 py-1 w-full focus:outline-none focus:border-blue-500 text-sm"
                 />
 
-                <label class="text-sm text-gray-700">Thời gian đặt</label>
+                <label class="text-sm text-gray-700">Thời gian nhận</label>
                 <input
                   {...register("order_time")}
                   type="text"
                   // placeholder="11:42:20"
-                  value={now.toLocaleTimeString()}
-                  readonly
-                  class="rounded border border-gray-300 px-2 py-1 w-full focus:outline-none focus:border-blue-500 text-sm"
-                />
-
-                <label class="text-sm text-gray-700">Trạng thái</label>
-                <input
-                  {...register("order_status")}
-                  type="text"
-                  value="Chưa thực hiện"
+                  value={time}
                   readonly
                   class="rounded border border-gray-300 px-2 py-1 w-full focus:outline-none focus:border-blue-500 text-sm"
                 />
@@ -345,36 +497,14 @@ function FormInfoBookedOrder({ openForm, dataOrder, edittedData, setData }) {
             {/* <!-- Table --> */}
 
             {/* <!-- Main Content / Table --> */}
-            <DetailBookedGood detailBookedGoods={detailBookedGoods} />
+
+            <DetailBookedGood priId={priId} />
+            {/* {option.length ? <DetailImportedGood order={option[0]} /> : <></>} */}
           </div>
         </form>
 
-        {/* <!-- Footer Summary --> */}
-        <div class="bg-[#e0e0e0] border-t border-gray-400 p-2 flex flex-wrap gap-6 text-sm font-bold text-gray-800 items-center justify-end">
-          <div class="flex gap-2">
-            <span class="text-gray-600 font-normal">Tổng số lượng</span>
-            <span>10</span>
-          </div>
-          <div class="flex gap-2">
-            <span class="text-gray-600 font-normal">Tổng thành tiền</span>
-            <span>1.000.000,00</span>
-          </div>
-          <div class="flex gap-2">
-            <span class="text-gray-600 font-normal">Tiền CK</span>
-            <span>0,00</span>
-          </div>
-          <div class="flex gap-2">
-            <span class="text-gray-600 font-normal">Tiền thuế</span>
-            <span>80.000,00</span>
-          </div>
-          <div class="flex gap-2 bg-gray-300 px-2 py-1 rounded">
-            <span class="text-gray-700 font-normal">Tổng tiền thanh toán</span>
-            <span class="text-blue-900">1.080.000,00</span>
-          </div>
-        </div>
-
         {/* <!-- Footer --> */}
-        <div class="rounded-bl rounded-br flex flex-col md:flex-row justify-between items-center px-6 border-t border-gray-200 bg-white py-4">
+        {/* <div class="rounded-bl rounded-br flex flex-col md:flex-row justify-between items-center px-6 border-t border-gray-200 bg-white py-4">
           <button class="flex items-center text-blue-900 font-bold text-sm hover:underline mb-3 md:mb-0">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -430,11 +560,111 @@ function FormInfoBookedOrder({ openForm, dataOrder, edittedData, setData }) {
               Hủy bỏ
             </button>
           </div>
+        </div> */}
+
+        <div className="rounded-bl rounded-br flex flex-col md:flex-row justify-between items-end px-6 border-t border-gray-200 bg-white py-4 gap-4">
+          {/* BÊN TRÁI: Trợ giúp */}
+          <button className="flex items-center text-blue-900 font-bold text-sm hover:underline mb-3 md:mb-0 shrink-0">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-5 w-5 mr-1"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fillRule="evenodd"
+                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z"
+                clipRule="evenodd"
+              />
+            </svg>
+            Trợ giúp
+          </button>
+
+          {/* GIỮA: CỤM THÔNG TIN TỔNG HỢP (Eye-catching Section) */}
+          <div className="flex-1 flex flex-col md:flex-row justify-end items-end md:items-center gap-4 md:gap-8 border-r-0 md:border-r border-dashed border-gray-300 pr-0 md:pr-8">
+            {/* Tổng số lượng */}
+            <div className="flex flex-col items-end">
+              <span className="text-[10px] uppercase font-bold text-gray-400 tracking-wider">
+                Tổng số lượng
+              </span>
+              <div className="bg-blue-100 text-blue-800 px-2 py-0.5 rounded font-bold text-sm border border-blue-200">
+                {totalquantity}{" "}
+                <span className="text-[10px] font-medium">SP</span>
+              </div>
+            </div>
+
+            {/* Tổng tiền & Thuế */}
+            <div className="flex flex-col items-end border-l border-dashed border-gray-300 pl-4">
+              <div className="flex gap-2 items-center">
+                <span className="text-[10px] uppercase font-bold text-gray-400">
+                  Tổng tiền:
+                </span>
+                <span className="text-sm font-bold text-gray-700">
+                  {formatCurrencyNoUnit(total)}
+                </span>
+              </div>
+              <div className="flex gap-2 items-center">
+                <span className="text-[10px] uppercase font-bold text-gray-400">
+                  Tiền thuế:
+                </span>
+                <span className="text-sm font-bold text-gray-600">
+                  {formatCurrencyNoUnit(totalTax)}
+                </span>
+              </div>
+            </div>
+
+            {/* TIỀN CẦN THANH TOÁN (Điểm nhấn chính) */}
+            <div className="flex flex-col items-end bg-red-50 px-4 py-1 rounded-sm border-l-4 border-red-500">
+              <span className="text-[11px] uppercase font-black text-red-500 tracking-tighter">
+                Tiền cần thanh toán
+              </span>
+              <span className="text-2xl font-black text-red-600 leading-none">
+                {formatCurrencyNoUnit(neededPayment)}{" "}
+                <span className="text-xs font-bold">đ</span>
+              </span>
+            </div>
+          </div>
+
+          {/* BÊN PHẢI: Các nút hành động */}
+          <div className="flex space-x-3 shrink-0">
+            <button
+              className="flex items-center bg-[#313a66] text-white px-6 py-2.5 rounded shadow-lg hover:bg-blue-900 text-sm font-bold uppercase transition-all active:scale-95"
+              type="submit"
+              form="myForm"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-4 w-4 mr-2"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path d="M7.707 10.293a1 1 0 10-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 11.586V6h5a2 2 0 012 2v7a2 2 0 01-2 2H4a2 2 0 01-2-2V8a2 2 0 012-2h5v5.586l-1.293-1.293zM9 4a1 1 0 012 0v2H9V4z" />
+              </svg>
+              Lưu đơn hàng
+            </button>
+            <button
+              className="flex items-center text-gray-500 px-4 py-2.5 rounded hover:bg-gray-100 text-sm font-bold border border-gray-200 transition-all uppercase"
+              type="reset"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-4 w-4 mr-1"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+              Hủy bỏ
+            </button>
+          </div>
         </div>
       </div>
-
-      {/* </div>
-      </div> */}
     </>
   );
 }

@@ -1,0 +1,104 @@
+import React from "react";
+import { useState } from "react";
+import { MdDeleteForever } from "react-icons/md";
+function RowDetailPurchasedRequest({ infoGood, infoVariant, handleDeleteItem, handleChangeQuatity }) {
+  // const [totalPrice, setTotalPrice] = useState(0);
+  
+
+ //Hàm xử lý khi submit form 
+  // const onSubmit = (data) => {
+  //   data.good_tax = parseInt(data.good_tax, 10);
+  //   const sendData = async (data) => {
+  //     await postData(data, setLoading, catalogGoods);
+  //     navigate("/catalog/good");
+  //   };
+  //   sendData(data);
+  // };
+
+  const formatCurrency = (val) => {
+    if (!val) return "";
+    return new Intl.NumberFormat("vi-VN").format(val) + " ₫";
+  };
+
+  const handleChangeValue = (e) => {
+    if (e.target.value < 0 || isNaN(e.target.value)) {
+      e.target.value = 0;
+    }
+    e.target.value = parseInt(e.target.value);
+    handleChangeQuatity(infoGood.id, infoVariant.id, parseInt(e.target.value));
+    
+    // detailBookedGoods.current = selectedGood.map(item => {
+    //   if(item.id != infoGood.id){
+    //     return item;
+    //   } else{
+    //     return {...item, quatity: e.target.value}
+    //   }
+    // })
+    // infoGood = {...infoGood, quatity: e.target.value}
+    // console.log(infoGood);
+  };
+
+
+  
+
+  return (
+    <>
+      <tr class="bg-white">
+        <td class="border border-gray-300 p-0 relative">
+          <div class="flex h-8"></div>
+        </td>
+        <td class="border border-gray-300 p-0 relative">
+          <div class="flex h-8">
+            <input
+              type="text"
+              readOnly
+              defaultValue={infoGood.good_sku}
+              class="w-full h-full px-1 outline-none text-center"
+            />
+          </div>
+        </td>
+        <td class="border border-gray-300 p-0">
+          <div class="flex h-8">
+            <input
+              type="text"
+              readOnly
+              defaultValue={infoGood.good_name}
+              class="w-full h-full px-1 outline-none"
+            />
+          </div>
+        </td>
+        <td class="border border-gray-300 p-0">
+          <div class="text-center">{infoVariant.variant_size}</div>
+        </td>
+
+        <td class="border border-gray-300 p-0">
+          <div class="text-center">{infoVariant.variant_color}</div>
+        </td>
+        <td class="border border-gray-300 p-0">
+          <div class="flex h-8">
+            <input
+              defaultValue={0}
+              type="number"
+              class="w-full h-full px-1 outline-none text-center"
+              onChange={handleChangeValue}
+            />
+          </div>
+        </td>
+        <td class="border border-gray-300 p-0">
+          <div class="text-right pr-1"> {infoGood.good_unit}
+          </div>
+        </td>
+        <td class="border border-gray-300 p-0">
+          <div class="text-center">{infoGood.good_sku}</div>
+        </td>
+        <td class="border border-gray-300 border-r-0 p-0" onClick={() => {handleDeleteItem(infoVariant.id)}}>
+          <div class="flex h-8">
+            <MdDeleteForever className="w-7 h-7 px-1 text-red-600 hover:text-red-400" />
+          </div>
+        </td>
+      </tr>
+    </>
+  );
+}
+
+export default RowDetailPurchasedRequest;

@@ -1,9 +1,9 @@
 import React from "react";
 
-function Row({ order, selectedId, setSelectedId }) {
-  const handleChange = (id) => {
-    setSelectedId(selectedId == id ? "" : id);
-  };
+function Row({ order, selectedId, handleSelect }) {
+  // const handleChange = (id) => {
+  //   handleSelect(id);
+  // };
   return (
     <>
       <tr class="hover:bg-gray-50">
@@ -13,16 +13,14 @@ function Row({ order, selectedId, setSelectedId }) {
               type="checkbox"
               class="rounded border-gray-400"
               checked={selectedId == order.id}
-              onClick={() => {
-                handleChange(order.id);
-              }}
+              onChange={() => handleSelect(order.id, order)}
             />
           </div>
         </td>
         <td class="border border-gray-300 p-2 font-medium">
-          {order.order_code}
+          {order.po_code}
         </td>
-        <td class="border border-gray-300 p-2 font-bold">{order.order_date}</td>
+        <td class="border border-gray-300 p-2 font-bold">{order.recorded_date}</td>
         <td class="border border-gray-300 p-2">{order.orderer_name}</td>
         <td class="border border-gray-300 p-2">{order.supplier_name}</td>
       </tr>

@@ -1,6 +1,6 @@
 import React from "react";
 
-function Toolbar({openForm, selectedId, handleEdit, handleDelete}) {
+function Toolbar({openForm, openDetail, selectedId, handleEdit, handleDelete}) {
   return (
     <>
       <div class="bg-[#283593] text-white flex items-center px-2 py-1 gap-1 overflow-x-auto shrink-0">
@@ -23,6 +23,27 @@ function Toolbar({openForm, selectedId, handleEdit, handleDelete}) {
             ></path>
           </svg>
           <span>Thêm mới</span>
+        </button>
+        <div class="w-px h-5 bg-white/20 mx-1"></div>
+         <button
+          class={"flex items-center gap-1 px-3 py-1.5 hover:bg-white/10 rounded transition "+ (selectedId.length > 1 ? "opacity-50" : "")}
+          onClick={openDetail}
+          disabled={selectedId.length != 1}
+        >
+          <svg
+            class="w-4 h-4"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 4v16m8-8H4"
+            ></path>
+          </svg>
+          <span>Xem chi tiết</span>
         </button>
         <div class="w-px h-5 bg-white/20 mx-1"></div>
         <button

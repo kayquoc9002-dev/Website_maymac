@@ -1,7 +1,7 @@
 import React from "react";
 import OrderRow from "../OrderRow/OrderRow";
 import { useState } from "react";
-import { useCartStore } from "../../../../../cartStore";
+import { useCartStore } from "../../../../../Helpers/cartStore";
 function OrderTable({ detail }) {
   const [data, setData] = useState(detail.Orders);
   const { removeItem, removeOrder } = useCartStore();

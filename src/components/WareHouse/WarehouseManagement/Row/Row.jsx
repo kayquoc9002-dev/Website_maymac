@@ -1,11 +1,11 @@
 import React from "react";
 
-function Row({detail}) {
+function Row({detail, handleSelect, selectedId}) {
   return (
     <>
       <tr class="hover:bg-gray-50">
         <td class="border border-gray-300 p-2 text-center">
-          <input type="checkbox" class="rounded border-gray-400" />
+          <input type="checkbox" class="rounded border-gray-400"  checked={selectedId.includes(detail.id)} onChange={() => {handleSelect(detail.id)}}/>
         </td>
         <td class="border border-gray-300 px-2 py-1.5">
           {detail.warehouse}
@@ -27,19 +27,10 @@ function Row({detail}) {
           {detail.good_unit}
         </td>
         <td class="border border-gray-300 px-2 py-1.5">
-          {detail.quatity}
+          {detail.total_quantity}
         </td>
         <td class="border border-gray-300 px-2 py-1.5">
           {detail.good_price}
-        </td>
-        <td class="border border-gray-300 px-2 py-1.5">
-          {detail.good_tax}%
-        </td>
-        <td class="border border-gray-300 px-2 py-1.5">
-          {detail.good_price * detail.quatity * (1+detail.good_tax/100)}
-        </td>
-        <td class="border border-gray-300 px-2 py-1.5">
-          
         </td>
          <td class="border border-gray-300 px-2 py-1.5">
           

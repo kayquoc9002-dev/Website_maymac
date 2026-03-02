@@ -13,17 +13,19 @@ import { catalogGoods } from "../../../../Helpers/urlAPI";
 import { goodService } from "../../../../Helpers/functionsSupabase";
 import TableVariant from "./TableVariant/TableVariant";
 import { generateId } from "../../../../Helpers/generateId";
+import GoodAvatar from "./GoodAvatar";
 function FormInfoGood() {
   const [selectedSupplier, setselectedSupplier] = useState(false);
   const [loading, setLoading] = useState(false);
   // const [edittedData, setEdittedData] = useState({});
   const goodVariants = useRef([]);
-  const suppliers = useRef([])
+  const suppliers = useRef([]);
   const [resetKey, setResetKey] = useState(0);
   const navigate = useNavigate();
   const location = useLocation();
-  const {edittId} = location.state || {};
-  
+  const { edittId } = location.state || {};
+  const good_urls = useRef([]);
+
   //Cần kiểm tra lại
   // if(!edittId){
   //   useEffect(() => {
@@ -43,27 +45,34 @@ function FormInfoGood() {
     handleSubmit,
     formState: { errors },
     control,
-    reset
+    reset,
   } = useForm();
 
   const onSubmit = (data) => {
-    setLoading(true)
+    setLoading(true);
     data.good_tax = parseInt(data.good_tax, 10);
-    data = {...data, id: generateId(), variants: goodVariants.current, suppliers: suppliers.current}
+    data = {
+      ...data,
+      id: generateId(),
+      variants: goodVariants.current,
+      suppliers: suppliers.current,
+      good_urls: good_urls.current
+    };
     // console.log(data);
     const sendData = async (data) => {
-      try{
+      try {
         const result = await goodService.add(data);
-      } catch(error){
+      } catch (error) {
         console.log("Lỗi!", error);
       }
-      // navigate('/catalog/good');
-    } 
+    };
     sendData(data);
-    reset()
-    setResetKey((resetKey) => (resetKey+1))
-    setLoading(false)
+
+    reset();
+    setResetKey((resetKey) => resetKey + 1);
+    setLoading(false);
   };
+
   const openFormSupplier = () => {
     setselectedSupplier(!selectedSupplier);
   };
@@ -483,84 +492,36 @@ function FormInfoGood() {
                               render={({ field }) => <FormPrice {...field} />}
                             />
                           </div>
-
-                          {/* <!-- Row: Name --> */}
-                          {/* <div class="flex items-center">
-                            <label class="w-32 text-gray-700 text-sm">
-                              Nhà cung cấp <span class="text-red-500">*</span>
+                            
+                          <div class="flex items-center">
+                            <label class="w-32 text-gray-700 flex items-center gap-1 text-sm">
+                              Giá bán TB
+                              <svg
+                                class="w-4 h-4 text-gray-400"
+                                fill="currentColor"
+                                viewBox="0 0 20 20"
+                              >
+                                <path
+                                  fill-rule="evenodd"
+                                  d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                                  clip-rule="evenodd"
+                                ></path>
+                              </svg>
                             </label>
-                            <div class="flex-1 relative">
-                              <input
-                                {...register("good_supplier", {
-                                  required: "Bắt buộc",
-                                })}
-                                type="text"
-                                class={
-                                  "w-full border rounded px-2 py-1.5 focus:outline-none focus:border-blue-500" +
-                                  (errors.good_supplier
-                                    ? " border-red-500 focus:border-red-500"
-                                    : " border-gray-300")
-                                }
-                              />
-                              {errors.good_name && (
-                                <div class="absolute right-2 top-1.5 text-red-500">
-                                  <svg
-                                    class="w-5 h-5"
-                                    fill="currentColor"
-                                    viewBox="0 0 20 20"
-                                  >
-                                    <path
-                                      fill-rule="evenodd"
-                                      d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
-                                      clip-rule="evenodd"
-                                    ></path>
-                                  </svg>
-                                </div>
-                              )}
-                            </div>
-                          </div> */}
-                          
-                          {/* <label class="text-sm text-gray-700 mb-1">
-                            Nhà cung cấp <span class="text-red-500">*</span>
-                          </label>
-                          <div class="flex gap-2">
-                            <div
-                              className="relative w-1/3"
-                              onClick={openFormSupplier}
-                            >
-                              <TbListSearch className=" w-5 h-5 absolute top-1/2 -translate-y-1/2 right-2 z-35" />
-                              <input
-                                type="text"
-                                // placeholder="000168119-1t1002"
-                                value={infoSelectedSupplier.supplier_id}
-                                readonly
-                                {...register("good_supplierId", {
-                                  required: "Bắt buộc",
-                                })}
-                                class={
-                                  "w-full rounded border border-gray-300 px-2 py-1  focus:outline-none focus:border-blue-500 text-sm" +
-                                  (errors.good_supplierId
-                                    ? " border-red-500 focus:border-red-500"
-                                    : " border-gray-300")
-                                }
-                              />
-                            </div>
-                            <input
+                            {/* <input
+                              {...register("good_buy_price")}
                               type="text"
-                              // placeholder="Anh Sang"
-                              value={infoSelectedSupplier.supplier_name}
-                              readonly
-                              {...register("good_supplierName", {
-                                required: "Bắt buộc",
-                              })}
-                              class={
-                                "rounded border border-gray-300 px-2 py-1 w-2/3 focus:outline-none focus:border-blue-500 text-sm" +
-                                (errors.good_supplierName
-                                  ? " border-red-500 focus:border-red-500"
-                                  : " border-gray-300")
-                              }
+                              placeholder="0,00"
+                              value = {value ? formatCurrency(value) : ''}
+                              class="flex-1 border border-gray-300 rounded px-2 py-1.5 text-right focus:outline-none focus:border-blue-500"
+                            /> */}
+                            <Controller
+                              name="good_saleprice"
+                              control={control}
+                              defaultValue={0}
+                              render={({ field }) => <FormPrice {...field} />}
                             />
-                          </div> */}
+                          </div>
 
                           {/* <!-- Row: VAT --> */}
                           <div class="flex items-center">
@@ -668,7 +629,8 @@ function FormInfoGood() {
                             hóa.)
                           </div>
 
-                          <div class="flex">
+                          {/* Chưa cần thiết */}
+                          {/* <div class="flex">
                             <label class="w-32 text-gray-700 text-sm">
                               Quản lý hàng hóa theo
                             </label>
@@ -692,14 +654,47 @@ function FormInfoGood() {
                                 </span>
                               </label>
                             </div>
+                          </div> */}
+
+                          {/* <!-- Checkbox --> */}
+                          <div class="flex items-center mb-6">
+                            <input
+                              type="checkbox"
+                              id="show-pos"
+                              class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                              {...register("is_marketable")}
+                            />
+                            <label
+                              for="show-pos"
+                              class="ml-2 text-sm text-gray-700"
+                            >
+                              Hiển thị trên màn hình bán hàng
+                            </label>
+                            <svg
+                              class="w-4 h-4 ml-1 text-gray-400"
+                              fill="currentColor"
+                              viewBox="0 0 20 20"
+                            >
+                              <path
+                                fill-rule="evenodd"
+                                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                                clip-rule="evenodd"
+                              ></path>
+                            </svg>
                           </div>
                         </div>
                       </div>
 
                       {/* <!-- Bottom Tabs & Table --> */}
-                      <TableSelectedSupplier key={resetKey} suppliers={suppliers}/>
+                      <TableSelectedSupplier
+                        key={resetKey}
+                        suppliers={suppliers}
+                      />
 
-                      <TableVariant key={resetKey+1} goodVariants={goodVariants}/>
+                      <TableVariant
+                        key={resetKey + 1}
+                        goodVariants={goodVariants}
+                      />
                       <div class="text-gray-400 italic mb-4 text-sm mt-2">
                         (Nếu không chọn Đơn vị bán/nhập mặc định thì chương
                         trình sẽ lấy Đơn vị tính cơ bản làm Đơn vị bán/nhập mặc
@@ -707,83 +702,7 @@ function FormInfoGood() {
                       </div>
 
                       {/* <!-- Image Upload Section --> */}
-                      <div class="mb-6">
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">
-                          Ảnh hàng hóa
-                        </label>
-                        <div class="flex items-start">
-                          <div class="text-sm italic text-gray-400 w-48 mr-4">
-                            Định dạng(.jpg, .jpeg, .png, .gif) và dung lượng{" "}
-                            {"<"} 2MB{" "}
-                          </div>{" "}
-                          <div class="w-32 h-32 border-2 border-dashed border-blue-300 bg-blue-50 rounded flex flex-col items-center justify-center text-center cursor-pointer hover:bg-blue-100 transition-colors relative">
-                            <div class="absolute top-0 right-0 bg-white border border-blue-200 text-[10px] px-1 text-gray-500 flex items-center">
-                              <svg
-                                class="w-3 h-3 mr-1"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                              >
-                                <path
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  stroke-width="2"
-                                  d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
-                                ></path>
-                              </svg>
-                              Biểu tượng
-                            </div>
-                            <svg
-                              class="w-8 h-8 text-gray-400 mb-1"
-                              fill="none"
-                              stroke="currentColor"
-                              viewBox="0 0 24 24"
-                            >
-                              <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                stroke-width="2"
-                                d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-                              ></path>
-                            </svg>
-                            <span class="text-xs font-medium text-gray-600">
-                              Thêm hình ảnh
-                            </span>
-                            <span class="text-xs text-gray-500">(1/10)</span>
-                            <div class="mt-2 bg-[#2c3e50] text-white px-2 py-0.5 rounded text-xs">
-                              ...
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* <!-- Checkbox --> */}
-                      <div class="flex items-center mb-6">
-                        <input
-                          type="checkbox"
-                          id="show-pos"
-                          class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
-                          checked
-                        />
-                        <label
-                          for="show-pos"
-                          class="ml-2 text-sm text-gray-700"
-                        >
-                          Hiển thị trên màn hình bán hàng
-                        </label>
-                        <svg
-                          class="w-4 h-4 ml-1 text-gray-400"
-                          fill="currentColor"
-                          viewBox="0 0 20 20"
-                        >
-                          <path
-                            fill-rule="evenodd"
-                            d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
-                            clip-rule="evenodd"
-                          ></path>
-                        </svg>
-                      </div>
-
+                      <GoodAvatar good_urls={good_urls}/>
                     </div>
                   </div>
                   {/* <!-- Footer --> */}
@@ -826,7 +745,9 @@ function FormInfoGood() {
                       <button
                         class="flex items-center text-[#313a66] px-4 py-2 rounded hover:bg-gray-300 text-sm font-medium"
                         type="reset"
-                        onClick={() => {navigate('/catalog/good')}}
+                        onClick={() => {
+                          navigate("/catalog/good");
+                        }}
                         disabled={loading}
                       >
                         <svg

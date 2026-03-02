@@ -980,6 +980,70 @@
       "supplier_name": "Công ty TNHH Vải Lụa Á Đông",
       "bookedGoods": [],
       "totalPrice": 10000000
+    },
+    {
+      "id": "a723",
+      "orderer_id": "T1123",
+      "orderer_name": "Tùng",
+      "order_warehouse": "",
+      "order_note": "Tuyệt vời",
+      "order_code": "ABCD-PDH000025",
+      "order_date": "22/2/2026",
+      "order_time": "15:59:15",
+      "order_status": "Chưa thực hiện",
+      "warehouse": "Kho nguyên liệu",
+      "supplier_id": "CT008",
+      "supplier_name": "Minh Phát",
+      "bookedGoods": [
+        {
+          "id": "a9b3",
+          "good_barcode": "8938505970011",
+          "good_brand": "Coolmate",
+          "good_group": "Áo thun",
+          "good_initialStock": 100,
+          "good_name": "Áo thun cotton",
+          "good_price": 120000,
+          "good_sku": "AT001",
+          "good_tax": 10,
+          "good_unit": "cái",
+          "suppliers": [
+            {
+              "id": "12dn",
+              "supplier_id": "CT008",
+              "supplier_name": "Minh Phát",
+              "supplier_address": "123 Nguyễn Văn Linh, Đà Nẵng"
+            },
+            {
+              "id": "234n",
+              "supplier_id": "CT009",
+              "supplier_name": "Hoa Sen",
+              "supplier_address": "45 Lê Duẩn, Huế"
+            },
+            {
+              "id": "6h7i",
+              "supplier_id": "CT010",
+              "supplier_name": "An Khang",
+              "supplier_address": "12 Trần Phú, Hà Nội"
+            }
+          ],
+          "created_at": "2026-02-13T15:22:07.901333+00:00",
+          "quatity": 0
+        }
+      ],
+      "totalPrice": 10000000
+    },
+    {
+      "id": "441c",
+      "orderer_id": "",
+      "orderer_name": "",
+      "warehouse": "",
+      "order_note": "",
+      "order_code": "ABCD-PDH000025",
+      "order_date": "22/2/2026",
+      "order_time": "16:02:18",
+      "order_status": "Chưa thực hiện",
+      "bookedGoods": [],
+      "totalPrice": 10000000
     }
   ],
   "receivedNote": [
@@ -1149,6 +1213,133 @@
         }
       ],
       "status": "Nhập"
+    },
+    {
+      "id": "128b",
+      "employee_id": "",
+      "employee_name": "",
+      "warehouse_name": "",
+      "batchCode": "SHIP-20260215000039-3447",
+      "note": "",
+      "record_id": "ABCD-NK000273",
+      "record_date": "15/2/2026",
+      "record_time": "00:00:39",
+      "goods": [],
+      "status": "Nhập"
+    },
+    {
+      "id": "ac73",
+      "employee_id": "",
+      "employee_name": "",
+      "warehouse_name": "",
+      "batchCode": "SHIP-20260215001947-7627",
+      "note": "",
+      "record_id": "ABCD-NK000273",
+      "record_date": "15/2/2026",
+      "record_time": "00:19:47",
+      "goods": [],
+      "status": "Nhập"
+    },
+    {
+      "id": "43d5",
+      "employee_id": "",
+      "employee_name": "",
+      "warehouse_name": "",
+      "batchCode": "SHIP-20260215021654-2532",
+      "note": "",
+      "record_id": "ABCD-NK000273",
+      "record_date": "15/2/2026",
+      "record_time": "02:16:54",
+      "goods": [],
+      "status": "Nhập"
+    },
+    {
+      "id": "c575",
+      "employee_id": "T123",
+      "employee_name": "Tùng",
+      "warehouse_name": "Kho nguyên liệu",
+      "batchCode": "SHIP-20260215131301-1578",
+      "note": "Tuyệt vời",
+      "record_id": "ABCD-NK000273",
+      "record_date": "15/2/2026",
+      "record_time": "13:13:01",
+      "goods": [
+        {
+          "good_sku": "AT001",
+          "good_name": "Áo thun cotton",
+          "good_unit": "cái",
+          "variants": [
+            {
+              "id": "id-1770995481104-5131",
+              "good_id": "a9b3",
+              "created_at": "2026-02-14T15:09:27.587992+00:00",
+              "variant_id": "Hehehe",
+              "variant_size": "XL",
+              "variant_color": "Vàng",
+              "variant_price": 1000000,
+              "variant_stock": null
+            },
+            {
+              "id": "id-1770995495093-9715",
+              "good_id": "a9b3",
+              "created_at": "2026-02-14T15:09:27.587992+00:00",
+              "variant_id": "HIhi",
+              "variant_size": "X",
+              "variant_color": "Đỏ",
+              "variant_price": 100000,
+              "variant_stock": null
+            }
+          ],
+          "warehouse": "Kho nguyên liệu"
+        }
+      ],
+      "status": "Nhập"
+    },
+    {
+      "id": "a651",
+      "batchCode": "SHIP-20260215150017-7574",
+      "supplier_id": "",
+      "supplier_name": "",
+      "employee_id": "T123",
+      "employee_name": "Khoa",
+      "warehouse_name": "Kho thành phần",
+      "note": "Tuyệt vời",
+      "record_id": "ABCD-NK000273",
+      "record_date": "15/2/2026",
+      "record_time": "15:00:17",
+      "goods": [
+        {
+          "good_sku": "AT001",
+          "good_name": "Áo thun cotton",
+          "good_unit": "cái",
+          "variants": [
+            {
+              "id": "id-1770995481104-5131",
+              "good_id": "a9b3",
+              "created_at": "2026-02-14T15:09:27.587992+00:00",
+              "variant_id": "Hehehe",
+              "variant_size": "XL",
+              "variant_color": "Vàng",
+              "variant_price": 1000000,
+              "variant_stock": null,
+              "quatity": 4
+            },
+            {
+              "id": "id-1770995495093-9715",
+              "good_id": "a9b3",
+              "created_at": "2026-02-14T15:09:27.587992+00:00",
+              "variant_id": "HIhi",
+              "variant_size": "X",
+              "variant_color": "Đỏ",
+              "variant_price": 100000,
+              "variant_stock": null,
+              "quatity": 5
+            }
+          ],
+          "warehouse": "Kho thành phần"
+        }
+      ],
+      "status": "Nhập"
     }
   ],
   "stock": [
@@ -1183,6 +1374,66 @@
       "good_unit": "cái",
       "quatity": 210,
       "warehouse": "Kho nguyên liệu"
+    },
+    {
+      "id": "5ae4",
+      "good_sku": "AT001",
+      "good_name": "Áo thun cotton",
+      "good_unit": "cái",
+      "variants": [
+        {
+          "id": "id-1770995481104-5131",
+          "good_id": "a9b3",
+          "created_at": "2026-02-14T15:09:27.587992+00:00",
+          "variant_id": "Hehehe",
+          "variant_size": "XL",
+          "variant_color": "Vàng",
+          "variant_price": 1000000,
+          "variant_stock": null
+        },
+        {
+          "id": "id-1770995495093-9715",
+          "good_id": "a9b3",
+          "created_at": "2026-02-14T15:09:27.587992+00:00",
+          "variant_id": "HIhi",
+          "variant_size": "X",
+          "variant_color": "Đỏ",
+          "variant_price": 100000,
+          "variant_stock": null
+        }
+      ],
+      "warehouse": "Kho nguyên liệu"
+    },
+    {
+      "id": "b17e",
+      "good_sku": "AT001",
+      "good_name": "Áo thun cotton",
+      "good_unit": "cái",
+      "variants": [
+        {
+          "id": "id-1770995481104-5131",
+          "good_id": "a9b3",
+          "created_at": "2026-02-14T15:09:27.587992+00:00",
+          "variant_id": "Hehehe",
+          "variant_size": "XL",
+          "variant_color": "Vàng",
+          "variant_price": 1000000,
+          "variant_stock": null,
+          "quatity": 4
+        },
+        {
+          "id": "id-1770995495093-9715",
+          "good_id": "a9b3",
+          "created_at": "2026-02-14T15:09:27.587992+00:00",
+          "variant_id": "HIhi",
+          "variant_size": "X",
+          "variant_color": "Đỏ",
+          "variant_price": 100000,
+          "variant_stock": null,
+          "quatity": 5
+        }
+      ],
+      "warehouse": "Kho thành phần"
     }
   ]
 }

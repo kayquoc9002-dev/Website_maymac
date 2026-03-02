@@ -8,13 +8,15 @@ import { useState, useRef } from "react";
 import TableObject from "./DetailExportedGood/TableObject/TableObject";
 import DetailExportedGood from "./DetailExportedGood/DetailExportedGood";
 import patchQuatity from "../../../../Helpers/patchImportedQuatity";
+import { handleExport } from "../../../../Helpers/functionsSupabase";
+import {generateId} from "../../../../Helpers/generateId"
 function FormExport({ openForm, exportedRecords, setData }) {
   const [selectedObject, setSelectedObject] = useState(false);
   const [infoSelectedObject, setSelectedInfoObject] = useState({});
   const detailExportedGoods = useRef([]);
   const [selectedGood, setSelectedGood] = useState([]);
 const [loading, setLoading] = useState(false)
-  console.log(infoSelectedObject);
+  // console.log(infoSelectedObject);
 
   // console.log(detailExportedGoods.current);
 
@@ -28,9 +30,10 @@ const [loading, setLoading] = useState(false)
   const now = new Date();
 
   const onSubmit = (data) => {
-    data = { ...data, goods: detailExportedGoods.current.map(item => {return ({...item, warehouse: data.warehouse})}), status: "Xuất" };
-    postData(data, setLoading, transactionRecord);
-    patchQuatity(data.goods, data.status, stock);
+    data = { ...data, id: generateId(), goods: detailExportedGoods.current.map(item => {return ({...item, warehouse: data.warehouse})}), status: "Xuất" };
+    handleExport(data);
+    console.log(data);
+
     setData([...exportedRecords, data]);
     // console.log(data);
     setSelectedGood([]);
@@ -152,25 +155,48 @@ const [loading, setLoading] = useState(false)
                     />
                   </div>
 
+                  <label class="col-span-3 text-sm text-gray-700">
+                    Kho xuất
+                  </label>
+                  <div class="col-span-9">
+                    {/* <input
+                      readOnly
+                    //   {...register("object_type")}
+                      type="text"
+                      class="w-full border border-gray-300 rounded-sm px-2 py-1 focus:outline-none focus:border-blue-500"
+                    /> */}
+                    <select
+                      className="w-full border border-gray-300 rounded-sm px-2 py-1 focus:outline-none focus:border-blue-500 "
+                      {...register("warehouse")}
+                    >
+                      <option className="text-center text-gray-500" value="">
+                        -----Chọn Kho-----
+                      </option>
+                      <option className="text-left" value="Kho nguyên liệu">
+                        Kho nguyên liệu
+                      </option>
+                      <option className="text-left" value="Kho thành phần">
+                        Kho thành phẩm
+                      </option>
+                      <option className="text-left" value="Kho chờ gia công">
+                        Kho chờ gia công
+                      </option>
+                    </select>
+                  </div>
+
                   {/* <!-- Row 1 --> */}
                   <label class="col-span-3 text-sm text-gray-700">
                     Mục đích xuất kho
                   </label>
                   <div class="col-span-9 flex space-x-1">
-                    <div class="relative flex-none w-1/3">
+                    <div class="relative flex-none w-full">
                       <input
                         type="text"
                         // readOnly
-                        {...register("employee_id")}
+                        {...register("reason")}
                         class="w-full border border-gray-300 rounded-sm px-2 py-1 pr-12 focus:outline-none focus:border-blue-500"
                       />
                     </div>
-                    <input
-                      type="text"
-                      // readOnly
-                      {...register("employee_name")}
-                      class="flex-1 bg-gray-200 border border-gray-300 rounded-sm px-2 py-1"
-                    />
                     {/* <input
                       {...register("reason")}
                       type="text"
@@ -192,7 +218,7 @@ const [loading, setLoading] = useState(false)
                             ? infoSelectedObject.object_id
                             : ""
                         }
-                        {...register("object_id", { required: true })}
+                        {...register("object_id")}
                         class={
                           "w-full border border-gray-300 rounded-sm px-2 py-1 pr-12 focus:outline-none focus:border-blue-500 " +
                           (errors.supplier_id ? " border-red-500" : "")
@@ -229,8 +255,8 @@ const [loading, setLoading] = useState(false)
                           ? infoSelectedObject.object_name
                           : ""
                       }
-                      {...register("object_name", { required: true })}
-                      //   value={order.supplier ? order.supplier.name : ""}
+                      {...register("object_name")}
+                      // , { required: true }
                       class={
                         "flex-1 border border-gray-300 rounded-sm px-2 py-1 focus:outline-none focus:border-blue-500 bg-gray-200 " +
                         (errors.supplier_name ? " border-red-500" : "")
@@ -257,8 +283,8 @@ const [loading, setLoading] = useState(false)
                     <input
                       readOnly
                       value={
-                          infoSelectedObject.object_
-                            ? infoSelectedObject.object_id
+                          infoSelectedObject.object_kind
+                            ? infoSelectedObject.object_kind
                             : ""
                         }
                       {...register("object_type")}

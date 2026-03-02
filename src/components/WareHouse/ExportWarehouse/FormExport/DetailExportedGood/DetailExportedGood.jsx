@@ -2,56 +2,106 @@ import React from "react";
 import { MdLibraryAdd } from "react-icons/md";
 import { useState } from "react";
 import TableGood from "./TableGood/TableGood";
-import TableObject from "./TableObject/TableObject";
 import RowDetailExportedGood from "./RowDetailExportedGood/RowDetailExportedGood";
 function DetailExportedGood({selectedGood, setSelectedGood, detailExportedGoods }) {
+
   const [selected, setSelected] = useState(false);
-  const [quatity, setQuatity] = useState(0);
+  const [data, setData] = useState([]);
 
+  console.log(data);
 
-  const updateSelectedGood = (data) => {
-    const listSelectedId = selectedGood.filter((item) => {
-      return item.id;
-    });
-    const flag = data.filter((item) => {
-      if (!listSelectedId.includes(item.id)) {
-        return item;
-      }
-    });
-
-    detailExportedGoods.current = [...selectedGood, ...flag].map((item) => {
-      return { ...item, quatity: 0 };
-    });
-    // console.log(detailBookedGoods);
-    setSelectedGood(
-      [...selectedGood, ...flag].map((item) => {
-        return { ...item, quatity: 0 };
-      }),
-    );
-    openTableGood();
+  const updateSelectedGood = (good) => {
+    detailExportedGoods.current = [...detailExportedGoods.current, good];
+    setData([...data, ...good]);
   };
 
+  
   const openTableGood = () => {
-    console.log("Đã");
     setSelected(!selected);
   };
 
-  const handleDeleteItem = (good) => {
-    const flag = selectedGood.filter((item) => item.id != good.id);
-    setSelectedGood(flag);
+  const handleDeleteItem = (id) => {
+    // const flag = selectedGood.filter((item) => item.id != good.id);
+    // setSelectedGood(flag);
+    setData(data.filter(item => item.id != id))
   };
 
-  const handleChangeQuatity = (id, count) => {
-    const flag = selectedGood.map((item) => {
-      if (item.id != id) {
+  const handleChangeQuatity = (batchItemId, count) => {
+    console.log(batchItemId, count);
+    const flag = data.map(item => {
+      if(item.id == batchItemId){
+        return {...item, quantity: count};
+      } else{
         return item;
-      } else {
-        return { ...item, quatity: count };
       }
-    });
-    setSelectedGood(flag);
+    })
+    // const flag = data.map((item) => {
+    //   if (item.id == goodId) {
+    //     item.variants = item.variants.map((detail) => {
+    //       if (detail.id != variantId) {
+    //         return detail;
+    //       } else {
+    //         return { ...detail, quantity: count };
+    //       }
+    //     });
+    //   }
+    //   return item;
+    // });
+    console.log(flag);
+    setData(flag);
+    // setSelectedGood(flag);
     detailExportedGoods.current = flag;
   };
+
+
+
+  // const [selected, setSelected] = useState(false);
+  // const [quatity, setQuatity] = useState(0);
+
+
+  // const updateSelectedGood = (data) => {
+  //   const listSelectedId = selectedGood.filter((item) => {
+  //     return item.id;
+  //   });
+  //   const flag = data.filter((item) => {
+  //     if (!listSelectedId.includes(item.id)) {
+  //       return item;
+  //     }
+  //   });
+
+  //   detailExportedGoods.current = [...selectedGood, ...flag].map((item) => {
+  //     return { ...item, quatity: 0 };
+  //   });
+  //   // console.log(detailBookedGoods);
+  //   setSelectedGood(
+  //     [...selectedGood, ...flag].map((item) => {
+  //       return { ...item, quatity: 0 };
+  //     }),
+  //   );
+  //   openTableGood();
+  // };
+
+  // const openTableGood = () => {
+  //   console.log("Đã");
+  //   setSelected(!selected);
+  // };
+
+  // const handleDeleteItem = (good) => {
+  //   const flag = selectedGood.filter((item) => item.id != good.id);
+  //   setSelectedGood(flag);
+  // };
+
+  // const handleChangeQuatity = (id, count) => {
+  //   const flag = selectedGood.map((item) => {
+  //     if (item.id != id) {
+  //       return item;
+  //     } else {
+  //       return { ...item, quatity: count };
+  //     }
+  //   });
+  //   setSelectedGood(flag);
+  //   detailExportedGoods.current = flag;
+  // };
 
   return (
     <>
@@ -85,38 +135,42 @@ function DetailExportedGood({selectedGood, setSelectedGood, detailExportedGoods 
               <th class="border border-gray-300 p-1 px-12 whitespace-nowrap">
                 Mã SKU
               </th>
+              <th class="border border-gray-300 p-1 px-28 whitespace-nowrap">
+                Số lô
+              </th>
               <th class="border border-gray-300 p-1 px-12 whitespace-nowrap">
                 Tên hàng hóa
               </th>
               <th class="border border-gray-300 p-1 px-12 whitespace-nowrap">
-                Số lô
+                Kích thước
               </th>
               <th class="border border-gray-300 p-1 px-12 whitespace-nowrap">
-                Kho
-              </th>
-              <th class="border border-gray-300 p-1 px-12 whitespace-nowrap">
-                Đơn vị tính
+                Màu sắc
               </th>
               <th class="border border-gray-300 p-1 px-12 whitespace-nowrap">
                 Số lượng
               </th>
               <th class="border border-gray-300 p-1 px-12 whitespace-nowrap">
-                Đơn giá
+                Đơn vị tính
               </th>
               <th class="border border-gray-300 p-1 px-12 whitespace-nowrap">
                 Ghi chú
+              </th>
+              <th class="border border-gray-300 p-2 whitespace-nowrap">
               </th>
             </tr>
           </thead>
           <tbody>
             {/* <!-- Row 1 --> */}
-            {selectedGood.map((item) => (
+            {data.map((item) => (
               <RowDetailExportedGood
-                infoGood={item}
+                infoGoodVariant={item}
                 handleDeleteItem={handleDeleteItem}
                 handleChangeQuatity={handleChangeQuatity}
               />
             ))}
+
+            
           </tbody>
         </table>
       </div>

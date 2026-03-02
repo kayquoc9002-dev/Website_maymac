@@ -33,20 +33,26 @@ function TableVariant({goodVariants}) {
               <th class="border-t border-b border-r border-gray-300 h-9 w-[50px] mx-auto text-center "  onClick={() => {addRow()}}>
                 <MdLibraryAdd class="w-6 h-6 text-gray-900 hover:text-gray-600 inline-block"/>
               </th>
-              <th class="border-t border-b border-r border-gray-300 py-3 w-70 text-center">
+              <th class="border-t border-b border-r border-gray-300 py-3 w-50 text-center">
                 Mã biến thể
               </th>
-              <th class="border-t border-b border-r border-gray-300 py-3 w-70 text-center">
+              <th class="border-t border-b border-r border-gray-300 py-3 w-40 text-center">
                 Kích thước
               </th>
-              <th class="border-t border-b border-r border-gray-300 py-3 w-70 text-center">
+              <th class="border-t border-b border-r border-gray-300 py-3 w-40 text-center">
                 Màu sắc
               </th>
-              <th class="border-t border-b border-r border-gray-300 py-3 w-70 text-center">
+              <th class="border-t border-b border-r border-gray-300 py-3 w-50 text-center">
                 Giá mua
+              </th>
+              <th class="border-t border-b border-r border-gray-300 py-3 w-50 text-center">
+                Giá bán
               </th>
               <th class="border-t border-b border-r border-gray-300 py-3 w-40 text-center">
                 Tồn kho
+              </th>
+              <th class="border-t border-b border-r border-gray-300 py-3 w-70 text-center">
+                Ảnh minh họa
               </th>
               <th class="border-t border-b border-gray-300 py-3 w-[50px]"></th>
             </tr>
@@ -54,8 +60,8 @@ function TableVariant({goodVariants}) {
 
           {/* <!-- Table Body --> */}
           <tbody class="text-sm h-[200px] overflow-y-auto">
-            {variants.map((item) => (
-              <RowVariant key={item.id} id={item.id} goodVariants={goodVariants} deleteRow={deleteRow}/>
+            {variants.map((item, index) => (
+              <RowVariant key={item.id} index={index} id={item.id} goodVariants={goodVariants} deleteRow={deleteRow}/>
             ))}
             {/* <!-- Empty Filler Row to match height in image --> */}
             

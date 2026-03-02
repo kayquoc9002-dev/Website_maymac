@@ -1,172 +1,192 @@
 // import OrderRow from "./OrderTable/OrderRow";
-import { useCartStore } from "../../../cartStore.js";
+import { useCartStore } from "../../../Helpers/cartStore.js";
 import Header from "../Header/Header.jsx";
+import Sidebar from "../../Catalog/Sidebar/Sidebar.jsx";
 function Account() {
-  const { cartItems } = useCartStore(); 
-//   const data = cartItems.Orders;
-    function handleLogout(){
-        localStorage.clear();
-        window.location.href = '/';
-    }
+  const { cartItems } = useCartStore();
+  //   const data = cartItems.Orders;
+  function handleLogout() {
+    localStorage.clear();
+    window.location.href = "/";
+  }
   return (
     <>
-      <Header />
-      <div class="bg-gray-50 min-h-screen ">
-        <div class="bg-[#f5f5f5] min-h-screen font-sans text-gray-800 ">
-          {/* <!-- Main Container --> */}
-          <div class="max-w-7xl mx-auto pt-5 pb-10 px-4 grid grid-cols-1 md:grid-cols-12 gap-6">
-            {/* <!-- Left Sidebar --> */}
-            <div class="hidden md:block md:col-span-2">
-              {/* <!-- User Profile --> */}
-              <div class="flex items-center gap-3 mb-8 border-b border-gray-200 pb-4">
-                <div class="w-12 h-12 rounded-full overflow-hidden border border-gray-200">
-                  <img
-                    src="https://picsum.photos/id/1025/200/200"
-                    alt="Avatar"
-                    class="w-full h-full object-cover"
-                  />
-                </div>
-                <div class="flex flex-col">
-                  <span class="font-semibold text-sm truncate w-24">
-                    duyquc743
+      <div className="bg-gray-50 min-h-screen">
+        <div className="flex w-screen">
+          {/* --- SIDEBAR CHÍNH (Global) --- */}
+          <Sidebar />
+
+          <div className="flex-1 w-[100px] flex flex-col h-screen bg-gray-50 font-sans text-sm overflow-hidden">
+            {/* --- TOP HEADER (Trắng, h-14) --- */}
+            <header className="flex items-center justify-between bg-white px-4 py-2 border-b border-gray-200 h-14 shrink-0">
+              <h1 className="text-xl font-bold text-gray-800 tracking-tight">
+                Hệ thống mua hàng
+              </h1>
+              <div className="flex items-center gap-4">
+                <div className="hidden lg:flex items-center border border-gray-300 rounded px-2 py-1 bg-gray-50 uppercase font-semibold text-[11px]">
+                  <span className="text-gray-600 mr-2">
+                    CÔNG TY TNHH TM DV PHÚ
                   </span>
-                  <a
-                    href="#"
-                    class="text-gray-500 text-xs flex items-center gap-1 hover:text-orange-500"
+                  <svg
+                    className="w-3 h-3 text-gray-500"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
                   >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="12"
-                      height="12"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
+                </div>
+                <div className="flex items-center gap-2 cursor-pointer border-l pl-4">
+                  <div className="relative">
+                    <img
+                      src="https://picsum.photos/id/1025/200/200"
+                      alt="Avatar"
+                      className="w-8 h-8 rounded-full border border-gray-300 object-cover"
+                    />
+                    <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold px-1 rounded-full">
+                      2
+                    </span>
+                  </div>
+                  <span className="font-medium text-gray-700">duyquc743</span>
+                </div>
+              </div>
+            </header>
+
+            {/* --- MAIN CONTENT AREA (Nền Gray-300) --- */}
+            <div className="p-2 flex-1 flex flex-col overflow-hidden bg-gray-300">
+              {/* --- TOOLBAR HỆ THỐNG (Navy Blue) --- */}
+              {/* <div className="bg-[#283593] text-white flex items-center px-2 py-1.5 gap-2 shrink-0 shadow-md mb-2 rounded-sm">
+                <button className="flex items-center gap-1 px-3 py-1 bg-white/10 hover:bg-white/20 rounded transition text-xs font-bold uppercase">
+                  <span className="text-lg">+</span> Tạo đơn mua mới
+                </button>
+                <div className="w-px h-4 bg-white/20 mx-1"></div>
+                <button className="flex items-center gap-1 px-3 py-1 hover:bg-white/10 rounded transition text-xs font-bold uppercase">
+                  📥 Xuất báo cáo
+                </button>
+              </div> */}
+
+              <div className="flex-1 flex gap-2 overflow-hidden">
+                {/* LEFT SIDEBAR (Thông tin tài khoản) */}
+                <div className="hidden md:flex w-64 bg-white border border-gray-300 flex-col shrink-0 shadow-sm rounded-sm overflow-hidden">
+                  <div className="p-4 border-b border-gray-100 bg-gray-50">
+                    <div className="flex items-center gap-3">
+                      <img
+                        src="https://picsum.photos/id/1025/200/200"
+                        alt="Avatar"
+                        className="w-10 h-10 rounded-full border border-gray-200"
+                      />
+                      <div className="flex flex-col overflow-hidden">
+                        <span className="font-bold text-sm truncate">
+                          duyquc743
+                        </span>
+                        <span className="text-[10px] text-orange-500 font-bold uppercase">
+                          Thành viên kim cương
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <nav className="flex-1 py-2 overflow-y-auto">
+                    <ul className="space-y-1 px-2 text-[13px] font-medium">
+                      <li className="flex items-center gap-3 p-2 text-gray-600 hover:bg-gray-100 rounded cursor-pointer transition">
+                        <span className="w-5">🔔</span> Thông Báo
+                      </li>
+                      <li className="flex items-center gap-3 p-2 text-gray-600 hover:bg-gray-100 rounded cursor-pointer transition">
+                        <span className="w-5">👤</span> Hồ Sơ Của Tôi
+                      </li>
+                      <li className="flex items-center gap-3 p-2 text-blue-700 bg-blue-50 border-r-4 border-blue-700 font-bold">
+                        <span className="w-5">📋</span> Đơn Mua
+                      </li>
+                    </ul>
+                  </nav>
+
+                  <div className="p-4 border-t border-gray-100">
+                    <button
+                      className="w-full py-2 border border-red-200 text-red-500 rounded hover:bg-red-50 transition text-xs font-bold uppercase"
+                      onClick={handleLogout}
                     >
-                      <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
-                    </svg>
-                    Sửa Hồ Sơ
-                  </a>
+                      Đăng xuất
+                    </button>
+                  </div>
                 </div>
-              </div>
 
-              {/* <!-- Navigation Menu --> */}
-              <ul class="space-y-4 text-sm">
-                <li class="flex items-center gap-3 text-gray-700 hover:text-orange-500 cursor-pointer">
-                  <svg
-                    class="w-5 h-5 text-blue-500"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
-                    />
-                  </svg>
-                  <span>Thông Báo</span>
-                </li>
-                <li class="flex items-center gap-3 text-gray-700 hover:text-orange-500 cursor-pointer">
-                  <svg
-                    class="w-5 h-5 text-blue-600"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                    />
-                  </svg>
-                  <span>Tài Khoản Của Tôi</span>
-                </li>
-                <li class="flex items-center gap-3 text-orange-500 font-medium cursor-pointer">
-                  <svg
-                    class="w-5 h-5"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
-                    />
-                  </svg>
-                  <span>Đơn Mua</span>
-                </li>
-                <li className=" hover:text-orange-500 cursor-pointer" onClick={() => {handleLogout()}}>
-                    Đăng xuất
-                </li>
-              </ul>
-            </div>
+                {/* RIGHT PANEL: NƠI CHỨA ĐƠN HÀNG (Tất cả gộp vào đây) */}
+                <div className="flex-1 bg-white border border-gray-300 shadow-sm flex flex-col rounded-sm overflow-hidden">
+                  {/* 1. TABS TRẠNG THÁI (Nằm bên trong panel trắng) */}
+                  <div className="border-b border-gray-200 shrink-0">
+                    <div className="flex overflow-x-auto custom-scrollbar bg-white">
+                      <div className="px-5 py-3 text-blue-700 font-bold border-b-2 border-blue-700 whitespace-nowrap text-[13px]">
+                        Tất cả đơn
+                      </div>
+                      {[
+                        "Chờ xác nhận",
+                        "Chờ lấy hàng",
+                        "Đang giao",
+                        "Hoàn thành",
+                        "Đã hủy",
+                        "Trả hàng",
+                      ].map((tab) => (
+                        <div
+                          key={tab}
+                          className="px-5 py-3 text-gray-500 hover:text-blue-600 font-medium whitespace-nowrap cursor-pointer text-[13px] transition-colors"
+                        >
+                          {tab}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
 
-            {/* <!-- Right Content --> */}
-            <div class="col-span-1 md:col-span-10">
-              {/* <!-- Tabs --> */}
-              <div class="bg-white shadow-sm rounded-t-sm overflow-x-auto">
-                <div class="flex min-w-max border-b border-gray-200">
-                  <div class="px-6 py-4 text-orange-500 border-b-2 border-orange-500 cursor-pointer font-medium text-sm whitespace-nowrap">
-                    Tất cả
+                  {/* 2. SEARCH BAR (Tích hợp bên dưới tabs) */}
+                  <div className="p-3 bg-gray-50 border-b border-gray-200 shrink-0">
+                    <div className="relative group">
+                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <svg
+                          className="h-4 w-4 text-gray-400 group-focus-within:text-blue-500 transition-colors"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                          />
+                        </svg>
+                      </div>
+                      <input
+                        type="text"
+                        className="block w-full pl-10 pr-3 py-2 bg-white border border-gray-300 rounded-sm text-[13px] placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 transition-all shadow-sm"
+                        placeholder="Tìm theo ID đơn hàng, tên Shop hoặc tên sản phẩm..."
+                      />
+                    </div>
                   </div>
-                  <div class="px-6 py-4 text-gray-800 hover:text-orange-500 cursor-pointer text-sm whitespace-nowrap">
-                    Chờ thanh toán
-                  </div>
-                  <div class="px-6 py-4 text-gray-800 hover:text-orange-500 cursor-pointer text-sm whitespace-nowrap">
-                    Vận chuyển
-                  </div>
-                  <div class="px-6 py-4 text-gray-800 hover:text-orange-500 cursor-pointer text-sm whitespace-nowrap">
-                    Chờ giao hàng
-                  </div>
-                  <div class="px-6 py-4 text-gray-800 hover:text-orange-500 cursor-pointer text-sm whitespace-nowrap">
-                    Hoàn thành
-                  </div>
-                  <div class="px-6 py-4 text-gray-800 hover:text-orange-500 cursor-pointer text-sm whitespace-nowrap">
-                    Đã hủy
-                  </div>
-                  <div class="px-6 py-4 text-gray-800 hover:text-orange-500 cursor-pointer text-sm whitespace-nowrap">
-                    Trả hàng/Hoàn tiền
+
+                  {/* 3. ORDER LIST CONTENT (Phần danh sách có scroll) */}
+                  <div className="flex-1 overflow-y-auto p-4 custom-scrollbar bg-gray-50/50">
+                    {/* Order Card Placeholder */}
+                    <div className="flex flex-col items-center justify-center h-full text-gray-400 space-y-3">
+                      <div className="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center text-3xl opacity-50">
+                        📦
+                      </div>
+                      <div className="text-center">
+                        <p className="font-bold text-gray-500 text-sm">
+                          Chưa có dữ liệu đơn hàng
+                        </p>
+                        <p className="text-xs">
+                          Hãy thử thay đổi bộ lọc hoặc tìm kiếm theo từ khóa
+                          khác
+                        </p>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-
-              {/* <!-- Search Bar --> */}
-              <div class="mt-3 relative">
-                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <svg
-                    class="h-5 w-5 text-gray-400"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                    />
-                  </svg>
-                </div>
-                <input
-                  type="text"
-                  class="block w-full pl-10 pr-3 py-3 bg-[#eaeaea] border-none rounded-sm text-sm placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-300"
-                  placeholder="Bạn có thể tìm kiếm theo tên Shop, ID đơn hàng hoặc Tên Sản phẩm"
-                />
-              </div>
-
-              {/* <!-- Order Card --> */}
-              
             </div>
           </div>
         </div>

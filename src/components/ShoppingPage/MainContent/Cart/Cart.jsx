@@ -1,6 +1,6 @@
 // import CartItem from "./CartItem/CartItem";
 import OrderTable from "./OrderTable/OrderTable";
-import { useCartStore } from "../../../../cartStore";
+import { useCartStore } from "../../../../Helpers/cartStore";
 function Cart() {
   const { cartItems } = useCartStore();
   // const [data, setData] = useState([]);

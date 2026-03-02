@@ -2,17 +2,22 @@ import { TbListSearch } from "react-icons/tb";
 import { useState, useRef } from "react";
 import { useForm } from "react-hook-form";
 import DetailImportedGood from "./DetailImportedGood/DetailImportedGood";
+import TableSupplier from "../../../PurchasedOrder/BookedOrder/FormInfoBookedOrder/TableSupplier/TableSupplier";
 import postData from "../../../../Helpers/postData";
 import { transactionRecord, stock } from "../../../../Helpers/urlAPI";
-import patchImportedQuatity from '../../../../Helpers/patchImportedQuatity';
+import patchImportedQuatity from "../../../../Helpers/patchImportedQuatity";
+import generateShipmentCode from "../../../../Helpers/generateShipmentCode";
+import { importGood } from "../../../../Helpers/functionsSupabase";
 function FormImport({ openForm, importedRecords, setData }) {
+  const [selectedSupplier, setselectedSupplier] = useState(false);
+  const [infoSelectedSupplier, setSelectedInfoSupplier] = useState({});
   const detailImportedGoods = useRef([]);
   const [selectedGood, setSelectedGood] = useState([]);
+  const [resetKey, setResetKey] = useState(0);
   const now = new Date();
   const [date] = useState(now.toLocaleDateString());
   const [time] = useState(now.toLocaleTimeString());
-const [loading, setLoading] = useState(false);
-
+  const [loading, setLoading] = useState(false);
 
   // console.log(detailImportedGoods.current);
 
@@ -24,16 +29,45 @@ const [loading, setLoading] = useState(false);
     formState: { errors },
   } = useForm();
 
+  const openFormSupplier = () => {
+    setselectedSupplier(!selectedSupplier);
+  };
+
   const onSubmit = (data) => {
-    data = { ...data, goods: detailImportedGoods.current.map(item => {return {...item, warehouse: data.warehouse_name}}), status: "Nhập" };
-    postData(data, setLoading, transactionRecord );
-    patchImportedQuatity(data.goods, stock);
+    data = {
+      ...data,
+      goods: detailImportedGoods.current.map((item) => {
+        return { ...item, warehouse: data.warehouse_name };
+      }),
+      status: "Nhập",
+    };
+    console.log(data);
+    importGood(data);
     setData([...importedRecords, data]);
+    setResetKey(() => resetKey + 1);
     setSelectedGood([]);
     reset();
   };
   return (
     <>
+      {selectedSupplier && (
+        <div className="fixed inset-0 z-20 flex justify-center items-center">
+          <div
+            className={`absolute inset-0 bg-black transition-opacity duration-300   ${
+              selectedSupplier
+                ? "opacity-60 pointer-events-auto"
+                : "opacity-0 pointer-events-none"
+            }`}
+          >
+            // {/* Overlay */}
+          </div>
+          <TableSupplier
+            openFormSupplier={openFormSupplier}
+            setSelectedInfoSupplier={setSelectedInfoSupplier}
+            // edittedData={edittedData} setData={setData}
+          />
+        </div>
+      )}
       <div class="rounded w-full max-w-[1200px] bg-white shadow-xl border border-gray-400 flex flex-col z-10 max-h-[90vh]">
         {/* <!-- Window Header --> */}
         <div class="rounded-t flex justify-between items-center px-5 py-3 bg-gray-100 border-b border-gray-200 sticky top-0 mb-2">
@@ -86,6 +120,41 @@ const [loading, setLoading] = useState(false);
                 </h3>
 
                 <div class="grid grid-cols-12 gap-y-2 items-center">
+                  <label class="col-span-3 text-sm text-gray-700">
+                    Mã lô hàng
+                  </label>
+                  <div class="col-span-9">
+                    <input
+                      {...register("batch_code")}
+                      type="text"
+                      value={generateShipmentCode()}
+                      readOnly
+                      class="w-full border border-gray-300 rounded-sm px-2 py-1 focus:outline-none focus:border-blue-500"
+                    />
+                  </div>
+                  <label class="col-span-3 text-sm text-gray-700">Nhà cung cấp</label>
+                  <div class="col-span-9 flex space-x-1">
+                    <div className="relative flex-none w-1/3" onClick={openFormSupplier}>
+                      <TbListSearch className=" w-5 h-5 absolute top-1/2 -translate-y-1/2 right-2 z-5" />
+                      <input
+                        type="text"
+                        {...register("supplier_id")}
+                        // placeholder="000168119-1t1002"
+                        value={infoSelectedSupplier.supplier_id}
+                        readonly
+                        class="w-full rounded border border-gray-300 px-2 py-1  focus:outline-none focus:border-blue-500 text-sm"
+                      />
+                    </div>
+                    <input
+                      type="text"
+                      {...register("supplier_name")}
+                      // placeholder="Anh Sang"
+                      value={infoSelectedSupplier.supplier_name}
+                      readonly
+                      class="rounded border border-gray-300 px-2 py-1 w-2/3 focus:outline-none focus:border-blue-500 text-sm"
+                    />
+                  </div>
+
                   {/* <!-- Row 4 --> */}
                   <label class="col-span-3 text-sm text-gray-700">
                     NV nhập hàng
@@ -132,17 +201,22 @@ const [loading, setLoading] = useState(false);
                     Kho nhập
                   </label>
                   <div class="col-span-9">
-                    {/* <input
-                      readOnly
-                    //   {...register("object_type")}
-                      type="text"
-                      class="w-full border border-gray-300 rounded-sm px-2 py-1 focus:outline-none focus:border-blue-500"
-                    /> */}
-                    <select className="w-full border border-gray-300 rounded-sm px-2 py-1 focus:outline-none focus:border-blue-500 " {...register("warehouse_name")}>
-                        <option className="text-center text-gray-500" value="">-----Chọn Kho-----</option>
-                        <option className="text-left" value="Kho nguyên liệu">Kho nguyên liệu</option>
-                        <option className="text-left" value="Kho thành phần">Kho thành phẩm</option>
-                        <option className="text-left" value="Kho chờ gia công">Kho chờ gia công</option>
+                    <select
+                      className="w-full border border-gray-300 rounded-sm px-2 py-1 focus:outline-none focus:border-blue-500 "
+                      {...register("warehouse_name")}
+                    >
+                      <option className="text-center text-gray-500" value="">
+                        -----Chọn Kho-----
+                      </option>
+                      <option className="text-left" value="Kho nguyên liệu">
+                        Kho nguyên liệu
+                      </option>
+                      <option className="text-left" value="Kho thành phần">
+                        Kho thành phẩm
+                      </option>
+                      <option className="text-left" value="Kho chờ gia công">
+                        Kho chờ gia công
+                      </option>
                     </select>
                   </div>
 
@@ -348,6 +422,7 @@ const [loading, setLoading] = useState(false);
               {/* <!-- Table --> */}
 
               <DetailImportedGood
+                key={resetKey}
                 selectedGood={selectedGood}
                 setSelectedGood={setSelectedGood}
                 detailImportedGoods={detailImportedGoods}

@@ -2,14 +2,16 @@ import React from 'react'
 import RowInfoGood from './RowInfoGood/RowInfoGood'
 import SideBar from '../Sidebar/Sidebar'
 import { goodService } from '../../../Helpers/functionsSupabase'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 // import fetchData from '../../../Helpers/fetchData'
 import { useNavigate } from 'react-router-dom'
 import Toolbar from '../Toolbar/Toolbar'
+import DetailGood from './DetailGood/DetailGood'
 function CatalogGood() {
     const [data, setData] = useState([]);
     const [selectedId, setSelectedId] = useState([]);
     const [edittedData, setEdittedData] = useState({});
+    const [selected, setSelected] = useState(false);
     const navigate = useNavigate();
     const openForm = () => {
       navigate('/catalog/good/form', { state: { goodId: selectedId[0]} });
@@ -29,13 +31,16 @@ function CatalogGood() {
     getData();
   },[]);
 
+
+
   const handleSelect = (id) => {
     const flag = (selectedId.includes(id)
       ? selectedId.filter((item) => item != id)
       : [...selectedId, id]);
     setSelectedId(flag);
-    // setEdittedId(edittedId == id ? "" : id)
   };
+
+  
 
   const handleDelete = async () => {
       //Chỗ này để chạy tạm thời
@@ -58,9 +63,30 @@ function CatalogGood() {
     navigate('/catalog/good/form')
   }
   
+  const openDetail = () => {
+    setSelected(!selected);
+  }
 
   return (
     <>
+    {selected && (
+        <div className="fixed inset-0 z-20 flex justify-center items-center">
+          <div
+            className={`absolute inset-0 bg-black transition-opacity duration-300   ${
+              selected
+                ? "opacity-60 pointer-events-auto"
+                : "opacity-0 pointer-events-none"
+            }`}
+          >
+            // {/* Overlay */}
+          </div>
+          <DetailGood
+            openDetail={openDetail}
+            selectedId={selectedId}
+            // updateSelectedGood={updateSelectedGood}
+          />
+        </div>
+      )}
     <div class=" bg-gray-50 min-h-screen">
         <div class="flex w-screen">
           {/* <!-- Sidebar --> */}
@@ -187,7 +213,7 @@ function CatalogGood() {
 
             <div class="p-2 flex-1 flex flex-col overflow-hidden bg-gray-300">
               {/* <!-- Toolbar --> */}
-              <Toolbar openForm={openForm} selectedId={selectedId} handleEdit={handleEdit} handleDelete={handleDelete} />
+              <Toolbar openForm={openForm} openDetail={openDetail} selectedId={selectedId} handleEdit={handleEdit} handleDelete={handleDelete} />
               {/* <div class="bg-[#283593] text-white flex items-center px-2 py-1 gap-1 overflow-x-auto shrink-0">
                 <button class="flex items-center gap-1 px-3 py-1.5 hover:bg-white/10 rounded transition" onClick={openForm}>
                   <svg
@@ -420,7 +446,7 @@ function CatalogGood() {
                     {/* <!-- Row 1 (Selected) --> */}
                     {/* <!-- Row 2 --> */}
                     {data.map((item) => (
-                      <RowInfoGood key={item.id} infoGood={item} />
+                      <RowInfoGood key={item.id} infoGood={item} handleSelect={handleSelect} selectedId={selectedId}/>
                     ))}
                   </tbody>
                 </table>

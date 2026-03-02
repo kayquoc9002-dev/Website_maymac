@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { MdDeleteForever } from "react-icons/md";
 
-function RowDetailImportedGood({ infoGood, handleDeleteItem, handleChangeQuatity }) {
-  const [totalPrice, setTotalPrice] = useState(0);
+function RowDetailImportedGood({ infoGood, detailVariant, handleDeleteItem, handleChangeQuatity }) {
+  // const [totalPrice, setTotalPrice] = useState(0);
   
 
  //Hàm xử lý khi submit form 
@@ -25,10 +25,10 @@ function RowDetailImportedGood({ infoGood, handleDeleteItem, handleChangeQuatity
     if (e.target.value < 0) {
       e.target.value = 0;
     } else {
-      setTotalPrice(e.target.value * infoGood.good_price);
+      // setTotalPrice(e.target.value * infoGood.good_price);
     }
     e.target.value = parseInt(e.target.value);
-    handleChangeQuatity(infoGood.id, parseInt(e.target.value));
+    handleChangeQuatity(infoGood.id, detailVariant.id, parseInt(e.target.value));
     // detailBookedGoods.current = selectedGood.map(item => {
     //   if(item.id != infoGood.id){
     //     return item;
@@ -54,7 +54,7 @@ function RowDetailImportedGood({ infoGood, handleDeleteItem, handleChangeQuatity
             <input
               type="text"
               readOnly
-              defaultValue={infoGood.good_sku}
+              value={infoGood.good_sku}
               class="w-full h-full px-1 outline-none"
             />
           </div>
@@ -64,33 +64,23 @@ function RowDetailImportedGood({ infoGood, handleDeleteItem, handleChangeQuatity
             <input
               type="text"
               readOnly
-              defaultValue={infoGood.good_name}
+              value={infoGood.good_name}
               class="w-full h-full px-1 outline-none"
             />
           </div>
         </td>
         <td class="border border-gray-300 p-0">
-          <div class="flex h-8">{infoGood.good_sku}</div>
+          <div class="flex h-8">{detailVariant.variant_size}</div>
         </td>
 
         <td class="border border-gray-300 p-0">
-          <div class="flex h-8">{infoGood.good_sku}</div>
+          <div class="flex h-8">{detailVariant.variant_color}</div>
         </td>
         <td class="border border-gray-300 p-0">
           <div class="flex h-8">
             <input
-              type="text"
-              readOnly
-              value={infoGood.good_unit}
-              class="w-full h-full px-1 outline-none"
-            />
-          </div>
-        </td>
-        <td class="border border-gray-300 p-0">
-          <div class="flex h-8">
-            <input
-              defaultValue={0}
               type="number"
+              defaultValue={0}
               class="w-full h-full px-1 outline-none"
               onChange={handleChangeValue}
             />
@@ -99,10 +89,11 @@ function RowDetailImportedGood({ infoGood, handleDeleteItem, handleChangeQuatity
         <td class="border border-gray-300 p-0">
           <div class="flex h-8">
             <input
+              value={infoGood.good_unit}
               type="text"
               readOnly
-              value={formatCurrency(infoGood.good_price)}
               class="w-full h-full px-1 outline-none"
+              
             />
           </div>
         </td>
@@ -110,6 +101,7 @@ function RowDetailImportedGood({ infoGood, handleDeleteItem, handleChangeQuatity
           <div class="flex h-8">
             <input
               type="text"
+              readOnly
               class="w-full h-full px-1 outline-none"
             />
           </div>

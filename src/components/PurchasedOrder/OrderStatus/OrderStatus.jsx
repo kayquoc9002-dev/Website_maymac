@@ -3,6 +3,7 @@ import Sidebar from "../../Catalog/Sidebar/Sidebar";
 import Toolbar from "../../Catalog/Toolbar/Toolbar";
 import RowInfoOrderStatus from "./RowInfoOrderStatus/RowInfoOrderStatus.jsx";
 import { useState } from "react";
+import Navigator from "./Navigator.jsx";
 function OrderStatus() {
   const [selected, setSelected] = useState(false);
 
@@ -153,19 +154,9 @@ function OrderStatus() {
 
             <div class="p-2 flex-1 flex flex-col overflow-hidden bg-gray-300">
               {/* <!-- Tabs --> */}
-              <div class="flex border-b border-gray-300 bg-white">
-                <button class="px-4 py-2 text-blue-700 font-bold border-t-2 border-blue-700 bg-white focus:outline-none">
-                  Báo hàng gửi đi
-                </button>
-                <button class="px-4 py-2 text-gray-600 hover:text-blue-600 flex items-center focus:outline-none">
-                  Báo hàng nhận về
-                  <span class="ml-2 bg-orange-500 text-white text-[10px] px-1.5 rounded">
-                    2
-                  </span>
-                </button>
-              </div>
+              <Navigator />
               {/* <!-- Toolbar --> */}
-              <Toolbar openForm={openForm} />
+              {/* <Toolbar openForm={openForm} /> */}
 
               {/* openForm={openForm} edittedId={edittedId} handleEdit={handleEdit} handleDelete={handleDelete} */}
 
@@ -283,12 +274,7 @@ function OrderStatus() {
                     </tr>
                   </thead>
                   <tbody class="bg-white text-gray-800">
-                    {/* <!-- Row 1 (Selected) --> */}
-                    <RowInfoOrderStatus />
-                    {/* <!-- Row 2 --> */}
-                    {/* {data.map((item) => (
-                      <RowInfoCustomer handleSelect={handleSelect} inforCustomer={item} selectedId={selectedId} edittedId={edittedId}/>
-                    ))} */}
+                    
                   </tbody>
                 </table>
               </div>

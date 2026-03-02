@@ -67,7 +67,7 @@
 //             </tr>
 //           </thead>
 //           <tbody className="divide-y divide-gray-100">
-//             {data.map((item) => (
+//             {/* {data.map((item) => (
 //               <OrderRow
 //                 keyFabric={detail.id}
 //                 id={item.key}
@@ -77,7 +77,7 @@
 //                 price={item.UnitPrice}
 //                 handleDelete={handleDelete}
 //               />
-//             ))}
+//             ))} */}
 //           </tbody>
 //         </table>
 //       </div>

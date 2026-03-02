@@ -1,18 +1,25 @@
-import React, { useState, useEffect } from 'react'
-import Sidebar from '../../Catalog/Sidebar/Sidebar'
+import React, { useState, useEffect } from "react";
+import Sidebar from "../../Catalog/Sidebar/Sidebar";
 import Header from "../../PartsOfPage/Header";
-import Toolbar from '../../Catalog/Toolbar/Toolbar'
-import fetchData from '../../../Helpers/fetchData';
-import { transactionRecord } from '../../../Helpers/urlAPI';
-import Row from './Row/Row';
+import Toolbar from "../../Catalog/Toolbar/Toolbar";
+import fetchData from "../../../Helpers/fetchData";
+import { transactionRecord } from "../../../Helpers/urlAPI";
+import Row from "./Row/Row";
+import { transactionService } from "../../../Helpers/functionsSupabase";
 
 function TransactionHistory() {
   const [data, setData] = useState([]);
 
   useEffect(() => {
     const getData = async () => {
-      const result = await fetchData(transactionRecord);
-      setData(result);
+      try {
+        // const result = await goodService.getVariant(selectedGoodId);
+        const result = await transactionService.getAll();
+        console.log(result);
+        setData(result);
+      } catch (error) {
+        console.log("Lỗi rồi!", error);
+      }
     };
     getData();
   }, []);
@@ -34,7 +41,7 @@ function TransactionHistory() {
               {/* <div class="bg-[#283593] h-10 text-white flex items-center px-2 py-1 gap-1 overflow-x-auto shrink-0">
               </div> */}
 
-              <Toolbar />
+              {/* <Toolbar /> */}
 
               {/* openForm={openForm} edittedId={edittedId} handleEdit={handleEdit} handleDelete={handleDelete} */}
 
@@ -50,38 +57,41 @@ function TransactionHistory() {
                           class="rounded border-gray-400"
                         />
                       </th>
-                      <th class="w-24 border border-gray-300 px-12 py-2 text-center font-bold text-gray-700 whitespace-nowrap">
+                      <th class="w-24 border border-gray-300 px-6 py-2 text-center font-bold text-gray-700 whitespace-nowrap">
                         Hình thức
-                      </th>
-                      <th class="w-24 border border-gray-300 px-12 py-2 text-center font-bold text-gray-700 whitespace-nowrap">
-                        Ngày ghi
-                      </th>
-                      <th class="w-50 border border-gray-300 px-6 py-2 text-center font-bold text-gray-700 whitespace-nowrap">
-                        Số phiếu
-                      </th>
-                      <th class="w-24 border border-gray-300 px-12 py-2 text-center font-bold text-gray-700 whitespace-nowrap">
-                        Giờ ghi
                       </th>
                       <th class="w-24 border border-gray-300 px-12 py-2 text-center font-bold text-gray-700 whitespace-nowrap">
                         Kho
                       </th>
+                      <th class="w-50 border border-gray-300 px-20 py-2 text-center font-bold text-gray-700 whitespace-nowrap">
+                        Số phiếu
+                      </th>                                     
                       <th class="w-50 border border-gray-300 px-12 py-2 text-center font-bold text-gray-700 whitespace-nowrap">
-                        Mã nhân viên
+                        Mã SKU
                       </th>
-                      <th class="w-50 border border-gray-300 px-12 py-2 text-center font-bold text-gray-700 whitespace-nowrap">
-                        Nhân viên
+                      <th class="w-50 border border-gray-300 px-20 py-2 text-center font-bold text-gray-700 whitespace-nowrap">
+                        Tên hàng hóa
                       </th>
-                      <th class="w-50 border border-gray-300 px-12 py-2 text-center font-bold text-gray-700 whitespace-nowrap">
-                        Mã đối tượng
+                      <th class="w-50 border border-gray-300 px-6 py-2 text-center font-bold text-gray-700 whitespace-nowrap">
+                        Kích thước
                       </th>
-                      <th class="w-50 border border-gray-300 px-12 py-2 text-center font-bold text-gray-700 whitespace-nowrap">
-                        Đối tượng
+                      <th class="w-50 border border-gray-300 px-6 py-2 text-center font-bold text-gray-700 whitespace-nowrap">
+                        Màu sắc
                       </th>
-                      <th class="w-50 border border-gray-300 px-12 py-2 text-center font-bold text-gray-700 whitespace-nowrap">
-                        Loại đối tượng
+                      <th class="w-50 border border-gray-300 px-6 py-2 text-center font-bold text-gray-700 whitespace-nowrap">
+                        Số lượng
                       </th>
-                      <th class="w-50 border border-gray-300 px-12 py-2 text-center font-bold text-gray-700 whitespace-nowrap">
-                        Chi tiết hàng hóa
+                      <th class="w-50 border border-gray-300 px-4 py-2 text-center font-bold text-gray-700 whitespace-nowrap">
+                        Đơn vị
+                      </th>
+                      <th class="w-24 border border-gray-300 px-12 py-2 text-center font-bold text-gray-700 whitespace-nowrap">
+                        Mã lô hàng
+                      </th>
+                      <th class="w-24 border border-gray-300 px-6 py-2 text-center font-bold text-gray-700 whitespace-nowrap">
+                        Ngày ghi
+                      </th>
+                      <th class="w-24 border border-gray-300 px-6 py-2 text-center font-bold text-gray-700 whitespace-nowrap">
+                        Giờ ghi
                       </th>
                       <th class="border border-gray-300 px-12 py-2 text-center font-bold text-gray-700 whitespace-nowrap">
                         Ghi chú
@@ -190,7 +200,18 @@ function TransactionHistory() {
                           />
                         </div>
                       </th>
-                      
+                      <th class="border border-gray-300 p-1">
+                        <div class="flex border border-gray-300 bg-white h-7">
+                          <button class="px-1.5 border-r border-gray-300 text-gray-500 hover:bg-gray-100">
+                            *
+                          </button>
+                          <input
+                            type="text"
+                            class="w-full px-1 outline-none text-xs font-normal"
+                          />
+                        </div>
+                      </th>
+
                       <th class="border border-gray-300 p-1">
                         <select class="w-full h-7 border border-gray-300 text-xs font-normal px-1 outline-none">
                           <option>Tất cả</option>
@@ -209,13 +230,24 @@ function TransactionHistory() {
                           />
                         </div>
                       </th>
+                      <th class="border border-gray-300 p-1">
+                        <div class="flex border border-gray-300 bg-white h-7">
+                          <button class="px-1.5 border-r border-gray-300 text-gray-500 hover:bg-gray-100">
+                            *
+                          </button>
+                          <input
+                            type="text"
+                            class="w-full px-1 outline-none text-xs font-normal"
+                          />
+                        </div>
+                      </th>
                     </tr>
                   </thead>
                   <tbody class="bg-white text-gray-800">
                     {/* <!-- Row 1 (Selected) --> */}
 
                     {data.map((item) => (
-                      <Row detail={item}/>
+                      <Row detail={item} />
                     ))}
 
                     {/* <!-- Row 2 --> */}
@@ -338,4 +370,4 @@ function TransactionHistory() {
   );
 }
 
-export default TransactionHistory
+export default TransactionHistory;

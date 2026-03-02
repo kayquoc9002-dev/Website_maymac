@@ -1,5 +1,5 @@
 import InforUser from "./InforUser/InforUser";
-import { useCartStore } from '../../../../cartStore'
+import { useCartStore } from '../../../../Helpers/cartStore'
 
 function Bill() {
   const { cartItems } = useCartStore();

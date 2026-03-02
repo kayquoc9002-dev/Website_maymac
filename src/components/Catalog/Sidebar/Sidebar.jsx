@@ -1,7 +1,10 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { TbBuildingWarehouse } from "react-icons/tb";
+import { LuNotebookText } from "react-icons/lu";
 import ImportShipment from "../../PurchasedOrder/ImportShipment/ImportShipment";
+
 function Sidebar() {
   const navigate = useNavigate();
   const [selected, setSelected] = useState("");
@@ -20,7 +23,7 @@ function Sidebar() {
   
   return (
     <>
-      <aside class="w-52 flex-shrink-0 bg-[#0f1c3f] text-gray-300 flex flex-col transition-all duration-300">
+      <aside class="w-48 flex-shrink-0 bg-[#0f1c3f] text-gray-300 flex flex-col transition-all duration-300">
         {/* <!-- Logo Area --> */}
         <div class="h-12 flex items-center justify-center bg-[#091026] text-white font-bold text-lg shadow-md">
           <span class="text-white">Doanh nhân</span>
@@ -30,7 +33,7 @@ function Sidebar() {
         {/* <!-- Menu Items --> */}
         <nav class="flex-1 overflow-y-auto py-2 custom-scrollbar">
           <ul class="space-y-0.5">
-            <li class="px-4 py-2 hover:bg-[#1e2d55] cursor-pointer flex items-center gap-3">
+            <button class={"w-full px-4 py-2 hover:bg-[#1e2d55] cursor-pointer flex items-center gap-3" + (selected == "tongquan" ? "border-l-4 border-blue-500 bg-[#1e2d55]" : "" )} onClick={() => {openItem("/overview")}}>
               <svg
                 class="w-5 h-5"
                 fill="none"
@@ -51,7 +54,7 @@ function Sidebar() {
                 ></path>
               </svg>
               <span>Tổng quan</span>
-            </li>
+            </button>
             <li class="px-4 py-2 hover:bg-[#1e2d55] cursor-pointer flex items-center gap-3">
               <svg
                 class="w-5 h-5"
@@ -68,25 +71,9 @@ function Sidebar() {
               </svg>
               <span>Báo cáo</span>
             </li>
-            <li class="px-4 py-2 hover:bg-[#1e2d55] cursor-pointer flex items-center gap-3">
+            <button class={"w-full px-4 py-2 hover:bg-[#1e2d55] cursor-pointer flex items-center gap-3" + (selected == "banhang" ? "border-l-4 border-blue-500 bg-[#1e2d55]" : "" )} onClick={() => {openItem("/sellpage")}}>
               <svg
                 class="w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
-                ></path>
-              </svg>
-              <span>Đơn hàng</span>
-            </li>
-            <button class= {"w-full px-4 py-2 hover:bg-[#1e2d55] cursor-pointer flex items-center gap-3 " + (selected == "muahang" ? "border-l-4 border-blue-500 bg-[#1e2d55]" : "" )} onClick={() => {openPart("muahang")}}>
-              <svg
-                class="w-6 h-6"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -98,17 +85,24 @@ function Sidebar() {
                   d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
                 ></path>
               </svg>
+              <span>Bán hàng</span>
+            </button>
+            <button class= {"w-full px-4 py-2 hover:bg-[#1e2d55] cursor-pointer flex items-center gap-3 " + (selected == "muahang" ? "border-l-4 border-blue-500 bg-[#1e2d55]" : "" )} onClick={() => {openPart("muahang")}}>
+              <LuNotebookText className="w-6 h-6"/>
               <div class="flex justify-between w-full items-center">
                 <span>Mua hàng</span>
-                <span class="bg-orange-500 text-white text-[10px] px-1.5 rounded-sm">
+                {/* <span class="bg-orange-500 text-white text-[10px] px-1.5 rounded-sm">
                   2
-                </span>
+                </span> */}
               </div>
             </button>
             {selected == "muahang" && (
               <div>
               <button class="w-full px-4 pl-13 py-2 hover:bg-[#1e2d55] cursor-pointer flex items-center gap-3 cursor-pointer" onClick={() => {openItem('/orderstatus')}}>
               Theo dõi hàng
+            </button>
+            <button class="w-full px-4 pl-13 py-2 hover:bg-[#1e2d55] cursor-pointer flex items-center gap-3" onClick={() => {openItem('/purchasedrequest')}}>
+              Báo hàng mua
             </button>
             <button class="w-full px-4 pl-13 py-2 hover:bg-[#1e2d55] cursor-pointer flex items-center gap-3" onClick={() => {openItem('/bookedorder')}}>
               Đặt hàng mua
@@ -119,19 +113,7 @@ function Sidebar() {
             </div>
             )}
             <button class= {"w-full px-4 py-2 hover:bg-[#1e2d55] cursor-pointer flex items-center gap-3 " + (selected == "kho" ? "border-l-4 border-blue-500 bg-[#1e2d55]" : "" )} onClick={() => {openPart("kho")}}>
-              <svg
-                class="w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
-                ></path>
-              </svg>
+              <TbBuildingWarehouse className="w-5 h-5"/>
               <span>Kho</span>
             </button>
             {selected == "kho" && (
@@ -150,7 +132,7 @@ function Sidebar() {
             </button>
             </div>
             )}
-            <li class="px-4 py-2 hover:bg-[#1e2d55] cursor-pointer flex items-center gap-3">
+            {/* <li class="px-4 py-2 hover:bg-[#1e2d55] cursor-pointer flex items-center gap-3">
               <svg
                 class="w-5 h-5"
                 fill="none"
@@ -165,8 +147,8 @@ function Sidebar() {
                 ></path>
               </svg>
               <span>Quỹ tiền</span>
-            </li>
-            <li class="px-4 py-2 hover:bg-[#1e2d55] cursor-pointer flex items-center gap-3">
+            </li> */}
+            <button class={"w-full px-4 py-2 hover:bg-[#1e2d55] cursor-pointer flex items-center gap-3" + (selected == "thuchi" ? "border-l-4 border-blue-500 bg-[#1e2d55]" : "" )} onClick={() => {openItem("/cashbook")}}>
               <svg
                 class="w-5 h-5"
                 fill="none"
@@ -180,9 +162,10 @@ function Sidebar() {
                   d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"
                 ></path>
               </svg>
-              <span>Chi phí</span>
-            </li>
-            
+              <span>Thu chi</span>
+            </button>
+
+
             <button class={"w-full px-4 py-2 hover:bg-[#1e2d55] cursor-pointer flex items-center gap-3 " + (selected == "danhmuc" ? "border-l-4 border-blue-500 bg-[#1e2d55]" : "" )} onClick={() => {openPart("danhmuc")}}>
               <svg
                 class="w-5 h-5"
@@ -215,7 +198,7 @@ function Sidebar() {
             </button>
             </div>
             )}
-            <li class="px-4 py-2 hover:bg-[#1e2d55] cursor-pointer flex items-center gap-3">
+            <button class={"w-full px-4 py-2 hover:bg-[#1e2d55] cursor-pointer flex items-center gap-3"  + (selected == "quytrinh" ? "border-l-4 border-blue-500 bg-[#1e2d55]" : "" )} onClick={() => {openItem("/workflow")}}>
               <svg
                 class="w-5 h-5"
                 fill="none"
@@ -229,8 +212,8 @@ function Sidebar() {
                   d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"
                 ></path>
               </svg>
-              <span>Ứng dụng</span>
-            </li>
+              <span>Quy trình</span>
+            </button>
             <li class="px-4 py-2 hover:bg-[#1e2d55] cursor-pointer flex items-center gap-3">
               <svg
                 class="w-5 h-5"

@@ -7,12 +7,15 @@ import { useState, useEffect } from "react";
 import { receivedNote } from "../../../Helpers/urlAPI.js";
 import fetchData from "../../../Helpers/fetchData.js";
 import Header from "../../PartsOfPage/Header.jsx";
+import { useStore } from "../../../Helpers/cartStore.js";
 function ImportShipment() {
   const [selected, setSelected] = useState(false);
   const [selectedId, setSelectedId] = useState([]);
   const [edittedData, setEdittedData] = useState({});
   const [data, setData] = useState([]);
+  const {clearOption} = useStore();
   const openForm = () => {
+      clearOption();
     setSelected(!selected);
   };
   useEffect(() => {

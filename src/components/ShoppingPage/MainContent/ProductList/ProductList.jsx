@@ -2,7 +2,7 @@ import { X } from "lucide-react";
 import Product from "./Product/Product";
 import { useEffect, useState, useRef } from "react";
 import TableProduct from "./TableProduct/TableProduct";
-import { useCartStore } from "../../../../cartStore";
+import { useCartStore } from "../../../../Helpers/cartStore";
 import mockData from "../../../../../public/database/productListMock.json";
 
 function ProductList() {
@@ -12,10 +12,13 @@ function ProductList() {
   // const [index, setIndex] = useState(null);
   const indexRef = useRef(0);
 
-
+  
+  // clearCart();
   // console.log(indexRef.current);
+
   let i = indexRef.current - 1;
   console.log(data);
+  
   // console.log(data[indexRef-1]);
 
   //Fetch data from BackendAPI
