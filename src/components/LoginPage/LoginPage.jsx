@@ -120,7 +120,7 @@ function LoginPage() {
       const userRole = localStorage.getItem("userRole");
       //Chuyển hướng dựa trên role
       if (userRole === "admin") {
-        navigate("/admin");
+        navigate("/homepage");
       } else if (userRole === "staff") {
         navigate("/orders");
       } else {
