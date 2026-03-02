@@ -71,7 +71,7 @@ function Sidebar() {
               </svg>
               <span>Báo cáo</span>
             </li>
-            <button class={"w-full px-4 py-2 hover:bg-[#1e2d55] cursor-pointer flex items-center gap-3" + (selected == "banhang" ? "border-l-4 border-blue-500 bg-[#1e2d55]" : "" )} onClick={() => {openItem("/sellpage")}}>
+            <button class={"w-full px-4 py-2 hover:bg-[#1e2d55] cursor-pointer flex items-center gap-3" + (selected == "banhang" ? "border-l-4 border-blue-500 bg-[#1e2d55]" : "" )} onClick={() => {openItem("/homepage")}}>
               <svg
                 class="w-5 h-5"
                 fill="none"
